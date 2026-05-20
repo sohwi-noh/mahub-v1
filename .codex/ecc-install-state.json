@@ -1,0 +1,1791 @@
+{
+  "schemaVersion": "ecc.install.v1",
+  "installedAt": "2026-05-20T08:12:12.574Z",
+  "target": {
+    "id": "codex-home",
+    "target": "codex",
+    "kind": "home",
+    "root": "/Users/so2/workspace-so2/mahub-goal/.codex",
+    "installStatePath": "/Users/so2/workspace-so2/mahub-goal/.codex/ecc-install-state.json"
+  },
+  "request": {
+    "profile": "minimal",
+    "modules": [],
+    "includeComponents": [
+      "lang:java",
+      "framework:nextjs"
+    ],
+    "excludeComponents": [],
+    "legacyLanguages": [],
+    "legacyMode": false
+  },
+  "resolution": {
+    "selectedModules": [
+      "agents-core",
+      "platform-configs",
+      "workflow-quality"
+    ],
+    "skippedModules": [
+      "rules-core",
+      "commands-core",
+      "framework-language"
+    ]
+  },
+  "source": {
+    "repoVersion": "2.0.0-rc.1",
+    "repoCommit": "33ed494adfb4b980d538568518e167d430124467",
+    "manifestVersion": 1
+  },
+  "operations": [
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/plugins/marketplace.json",
+      "sourceRelativePath": ".agents/plugins/marketplace.json",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/plugins/marketplace.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/agent-introspection-debugging/SKILL.md",
+      "sourceRelativePath": ".agents/skills/agent-introspection-debugging/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/agent-introspection-debugging/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/agent-introspection-debugging/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/agent-introspection-debugging/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/agent-introspection-debugging/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/agent-sort/SKILL.md",
+      "sourceRelativePath": ".agents/skills/agent-sort/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/agent-sort/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/agent-sort/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/agent-sort/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/agent-sort/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/api-design/SKILL.md",
+      "sourceRelativePath": ".agents/skills/api-design/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/api-design/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/api-design/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/api-design/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/api-design/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/article-writing/SKILL.md",
+      "sourceRelativePath": ".agents/skills/article-writing/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/article-writing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/article-writing/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/article-writing/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/article-writing/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/backend-patterns/SKILL.md",
+      "sourceRelativePath": ".agents/skills/backend-patterns/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/backend-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/backend-patterns/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/backend-patterns/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/backend-patterns/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/brand-voice/SKILL.md",
+      "sourceRelativePath": ".agents/skills/brand-voice/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/brand-voice/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/brand-voice/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/brand-voice/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/brand-voice/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/brand-voice/references/voice-profile-schema.md",
+      "sourceRelativePath": ".agents/skills/brand-voice/references/voice-profile-schema.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/brand-voice/references/voice-profile-schema.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/bun-runtime/SKILL.md",
+      "sourceRelativePath": ".agents/skills/bun-runtime/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/bun-runtime/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/bun-runtime/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/bun-runtime/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/bun-runtime/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/coding-standards/SKILL.md",
+      "sourceRelativePath": ".agents/skills/coding-standards/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/coding-standards/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/coding-standards/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/coding-standards/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/coding-standards/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/content-engine/SKILL.md",
+      "sourceRelativePath": ".agents/skills/content-engine/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/content-engine/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/content-engine/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/content-engine/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/content-engine/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/crosspost/SKILL.md",
+      "sourceRelativePath": ".agents/skills/crosspost/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/crosspost/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/crosspost/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/crosspost/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/crosspost/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/deep-research/SKILL.md",
+      "sourceRelativePath": ".agents/skills/deep-research/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/deep-research/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/deep-research/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/deep-research/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/deep-research/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/dmux-workflows/SKILL.md",
+      "sourceRelativePath": ".agents/skills/dmux-workflows/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/dmux-workflows/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/dmux-workflows/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/dmux-workflows/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/dmux-workflows/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/documentation-lookup/SKILL.md",
+      "sourceRelativePath": ".agents/skills/documentation-lookup/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/documentation-lookup/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/documentation-lookup/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/documentation-lookup/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/documentation-lookup/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/e2e-testing/SKILL.md",
+      "sourceRelativePath": ".agents/skills/e2e-testing/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/e2e-testing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/e2e-testing/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/e2e-testing/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/e2e-testing/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/eval-harness/SKILL.md",
+      "sourceRelativePath": ".agents/skills/eval-harness/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/eval-harness/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/eval-harness/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/eval-harness/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/eval-harness/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/everything-claude-code/SKILL.md",
+      "sourceRelativePath": ".agents/skills/everything-claude-code/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/everything-claude-code/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/everything-claude-code/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/everything-claude-code/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/everything-claude-code/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/exa-search/SKILL.md",
+      "sourceRelativePath": ".agents/skills/exa-search/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/exa-search/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/exa-search/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/exa-search/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/exa-search/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/fal-ai-media/SKILL.md",
+      "sourceRelativePath": ".agents/skills/fal-ai-media/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/fal-ai-media/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/fal-ai-media/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/fal-ai-media/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/fal-ai-media/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/frontend-patterns/SKILL.md",
+      "sourceRelativePath": ".agents/skills/frontend-patterns/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/frontend-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/frontend-patterns/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/frontend-patterns/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/frontend-patterns/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/frontend-slides/SKILL.md",
+      "sourceRelativePath": ".agents/skills/frontend-slides/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/frontend-slides/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/frontend-slides/STYLE_PRESETS.md",
+      "sourceRelativePath": ".agents/skills/frontend-slides/STYLE_PRESETS.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/frontend-slides/STYLE_PRESETS.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/frontend-slides/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/frontend-slides/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/frontend-slides/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/investor-materials/SKILL.md",
+      "sourceRelativePath": ".agents/skills/investor-materials/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/investor-materials/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/investor-materials/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/investor-materials/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/investor-materials/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/investor-outreach/SKILL.md",
+      "sourceRelativePath": ".agents/skills/investor-outreach/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/investor-outreach/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/investor-outreach/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/investor-outreach/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/investor-outreach/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/market-research/SKILL.md",
+      "sourceRelativePath": ".agents/skills/market-research/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/market-research/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/market-research/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/market-research/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/market-research/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/mcp-server-patterns/SKILL.md",
+      "sourceRelativePath": ".agents/skills/mcp-server-patterns/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/mcp-server-patterns/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/mcp-server-patterns/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/mcp-server-patterns/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/mcp-server-patterns/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/mle-workflow/SKILL.md",
+      "sourceRelativePath": ".agents/skills/mle-workflow/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/mle-workflow/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/mle-workflow/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/mle-workflow/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/mle-workflow/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/nextjs-turbopack/SKILL.md",
+      "sourceRelativePath": ".agents/skills/nextjs-turbopack/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/nextjs-turbopack/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/nextjs-turbopack/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/nextjs-turbopack/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/nextjs-turbopack/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/product-capability/SKILL.md",
+      "sourceRelativePath": ".agents/skills/product-capability/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/product-capability/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/product-capability/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/product-capability/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/product-capability/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/security-review/SKILL.md",
+      "sourceRelativePath": ".agents/skills/security-review/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/security-review/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/security-review/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/security-review/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/security-review/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/strategic-compact/SKILL.md",
+      "sourceRelativePath": ".agents/skills/strategic-compact/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/strategic-compact/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/strategic-compact/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/strategic-compact/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/strategic-compact/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/tdd-workflow/SKILL.md",
+      "sourceRelativePath": ".agents/skills/tdd-workflow/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/tdd-workflow/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/tdd-workflow/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/tdd-workflow/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/tdd-workflow/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/verification-loop/SKILL.md",
+      "sourceRelativePath": ".agents/skills/verification-loop/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/verification-loop/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/verification-loop/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/verification-loop/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/verification-loop/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/video-editing/SKILL.md",
+      "sourceRelativePath": ".agents/skills/video-editing/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/video-editing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/video-editing/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/video-editing/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/video-editing/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/x-api/SKILL.md",
+      "sourceRelativePath": ".agents/skills/x-api/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/x-api/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.agents/skills/x-api/agents/openai.yaml",
+      "sourceRelativePath": ".agents/skills/x-api/agents/openai.yaml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/.agents/skills/x-api/agents/openai.yaml",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/a11y-architect.md",
+      "sourceRelativePath": "agents/a11y-architect.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/a11y-architect.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/architect.md",
+      "sourceRelativePath": "agents/architect.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/architect.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/build-error-resolver.md",
+      "sourceRelativePath": "agents/build-error-resolver.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/build-error-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/chief-of-staff.md",
+      "sourceRelativePath": "agents/chief-of-staff.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/chief-of-staff.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/code-architect.md",
+      "sourceRelativePath": "agents/code-architect.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/code-architect.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/code-explorer.md",
+      "sourceRelativePath": "agents/code-explorer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/code-explorer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/code-reviewer.md",
+      "sourceRelativePath": "agents/code-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/code-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/code-simplifier.md",
+      "sourceRelativePath": "agents/code-simplifier.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/code-simplifier.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/comment-analyzer.md",
+      "sourceRelativePath": "agents/comment-analyzer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/comment-analyzer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/conversation-analyzer.md",
+      "sourceRelativePath": "agents/conversation-analyzer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/conversation-analyzer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/cpp-build-resolver.md",
+      "sourceRelativePath": "agents/cpp-build-resolver.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/cpp-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/cpp-reviewer.md",
+      "sourceRelativePath": "agents/cpp-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/cpp-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/csharp-reviewer.md",
+      "sourceRelativePath": "agents/csharp-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/csharp-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/dart-build-resolver.md",
+      "sourceRelativePath": "agents/dart-build-resolver.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/dart-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/database-reviewer.md",
+      "sourceRelativePath": "agents/database-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/database-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/django-build-resolver.md",
+      "sourceRelativePath": "agents/django-build-resolver.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/django-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/django-reviewer.md",
+      "sourceRelativePath": "agents/django-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/django-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/doc-updater.md",
+      "sourceRelativePath": "agents/doc-updater.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/doc-updater.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/docs-lookup.md",
+      "sourceRelativePath": "agents/docs-lookup.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/docs-lookup.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/e2e-runner.md",
+      "sourceRelativePath": "agents/e2e-runner.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/e2e-runner.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/fastapi-reviewer.md",
+      "sourceRelativePath": "agents/fastapi-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/fastapi-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/flutter-reviewer.md",
+      "sourceRelativePath": "agents/flutter-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/flutter-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/fsharp-reviewer.md",
+      "sourceRelativePath": "agents/fsharp-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/fsharp-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/gan-evaluator.md",
+      "sourceRelativePath": "agents/gan-evaluator.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/gan-evaluator.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/gan-generator.md",
+      "sourceRelativePath": "agents/gan-generator.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/gan-generator.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/gan-planner.md",
+      "sourceRelativePath": "agents/gan-planner.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/gan-planner.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/go-build-resolver.md",
+      "sourceRelativePath": "agents/go-build-resolver.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/go-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/go-reviewer.md",
+      "sourceRelativePath": "agents/go-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/go-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/harmonyos-app-resolver.md",
+      "sourceRelativePath": "agents/harmonyos-app-resolver.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/harmonyos-app-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/harness-optimizer.md",
+      "sourceRelativePath": "agents/harness-optimizer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/harness-optimizer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/healthcare-reviewer.md",
+      "sourceRelativePath": "agents/healthcare-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/healthcare-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/homelab-architect.md",
+      "sourceRelativePath": "agents/homelab-architect.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/homelab-architect.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/java-build-resolver.md",
+      "sourceRelativePath": "agents/java-build-resolver.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/java-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/java-reviewer.md",
+      "sourceRelativePath": "agents/java-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/java-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/kotlin-build-resolver.md",
+      "sourceRelativePath": "agents/kotlin-build-resolver.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/kotlin-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/kotlin-reviewer.md",
+      "sourceRelativePath": "agents/kotlin-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/kotlin-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/loop-operator.md",
+      "sourceRelativePath": "agents/loop-operator.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/loop-operator.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/mle-reviewer.md",
+      "sourceRelativePath": "agents/mle-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/mle-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/network-architect.md",
+      "sourceRelativePath": "agents/network-architect.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/network-architect.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/network-config-reviewer.md",
+      "sourceRelativePath": "agents/network-config-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/network-config-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/network-troubleshooter.md",
+      "sourceRelativePath": "agents/network-troubleshooter.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/network-troubleshooter.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/opensource-forker.md",
+      "sourceRelativePath": "agents/opensource-forker.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/opensource-forker.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/opensource-packager.md",
+      "sourceRelativePath": "agents/opensource-packager.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/opensource-packager.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/opensource-sanitizer.md",
+      "sourceRelativePath": "agents/opensource-sanitizer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/opensource-sanitizer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/performance-optimizer.md",
+      "sourceRelativePath": "agents/performance-optimizer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/performance-optimizer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/planner.md",
+      "sourceRelativePath": "agents/planner.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/planner.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/pr-test-analyzer.md",
+      "sourceRelativePath": "agents/pr-test-analyzer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/pr-test-analyzer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/python-reviewer.md",
+      "sourceRelativePath": "agents/python-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/python-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/pytorch-build-resolver.md",
+      "sourceRelativePath": "agents/pytorch-build-resolver.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/pytorch-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/refactor-cleaner.md",
+      "sourceRelativePath": "agents/refactor-cleaner.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/refactor-cleaner.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/rust-build-resolver.md",
+      "sourceRelativePath": "agents/rust-build-resolver.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/rust-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/rust-reviewer.md",
+      "sourceRelativePath": "agents/rust-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/rust-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/security-reviewer.md",
+      "sourceRelativePath": "agents/security-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/security-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/seo-specialist.md",
+      "sourceRelativePath": "agents/seo-specialist.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/seo-specialist.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/silent-failure-hunter.md",
+      "sourceRelativePath": "agents/silent-failure-hunter.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/silent-failure-hunter.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/swift-build-resolver.md",
+      "sourceRelativePath": "agents/swift-build-resolver.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/swift-build-resolver.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/swift-reviewer.md",
+      "sourceRelativePath": "agents/swift-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/swift-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/tdd-guide.md",
+      "sourceRelativePath": "agents/tdd-guide.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/tdd-guide.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/type-design-analyzer.md",
+      "sourceRelativePath": "agents/type-design-analyzer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/type-design-analyzer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/agents/typescript-reviewer.md",
+      "sourceRelativePath": "agents/typescript-reviewer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/typescript-reviewer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "agents-core",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/AGENTS.md",
+      "sourceRelativePath": "AGENTS.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/AGENTS.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.codex/AGENTS.md",
+      "sourceRelativePath": ".codex/AGENTS.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/AGENTS.md",
+      "strategy": "sync-root-children",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.codex/agents/docs-researcher.toml",
+      "sourceRelativePath": ".codex/agents/docs-researcher.toml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/docs-researcher.toml",
+      "strategy": "sync-root-children",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.codex/agents/explorer.toml",
+      "sourceRelativePath": ".codex/agents/explorer.toml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/explorer.toml",
+      "strategy": "sync-root-children",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.codex/agents/reviewer.toml",
+      "sourceRelativePath": ".codex/agents/reviewer.toml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/agents/reviewer.toml",
+      "strategy": "sync-root-children",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/.codex/config.toml",
+      "sourceRelativePath": ".codex/config.toml",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/config.toml",
+      "strategy": "sync-root-children",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/mcp-configs/mcp-servers.json",
+      "sourceRelativePath": "mcp-configs/mcp-servers.json",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/mcp-configs/mcp-servers.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/scripts/auto-update.js",
+      "sourceRelativePath": "scripts/auto-update.js",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/scripts/auto-update.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "platform-configs",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/scripts/setup-package-manager.js",
+      "sourceRelativePath": "scripts/setup-package-manager.js",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/scripts/setup-package-manager.js",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/agent-sort/SKILL.md",
+      "sourceRelativePath": "skills/agent-sort/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/agent-sort/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/agent-introspection-debugging/SKILL.md",
+      "sourceRelativePath": "skills/agent-introspection-debugging/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/agent-introspection-debugging/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/ai-regression-testing/SKILL.md",
+      "sourceRelativePath": "skills/ai-regression-testing/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/ai-regression-testing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/configure-ecc/SKILL.md",
+      "sourceRelativePath": "skills/configure-ecc/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/configure-ecc/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/code-tour/SKILL.md",
+      "sourceRelativePath": "skills/code-tour/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/code-tour/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning/SKILL.md",
+      "sourceRelativePath": "skills/continuous-learning/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning/config.json",
+      "sourceRelativePath": "skills/continuous-learning/config.json",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning/config.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning/evaluate-session.sh",
+      "sourceRelativePath": "skills/continuous-learning/evaluate-session.sh",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning/evaluate-session.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning-v2/SKILL.md",
+      "sourceRelativePath": "skills/continuous-learning-v2/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning-v2/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning-v2/agents/observer-loop.sh",
+      "sourceRelativePath": "skills/continuous-learning-v2/agents/observer-loop.sh",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning-v2/agents/observer-loop.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning-v2/agents/observer.md",
+      "sourceRelativePath": "skills/continuous-learning-v2/agents/observer.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning-v2/agents/observer.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning-v2/agents/session-guardian.sh",
+      "sourceRelativePath": "skills/continuous-learning-v2/agents/session-guardian.sh",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning-v2/agents/session-guardian.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning-v2/agents/start-observer.sh",
+      "sourceRelativePath": "skills/continuous-learning-v2/agents/start-observer.sh",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning-v2/agents/start-observer.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning-v2/config.json",
+      "sourceRelativePath": "skills/continuous-learning-v2/config.json",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning-v2/config.json",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning-v2/hooks/observe.sh",
+      "sourceRelativePath": "skills/continuous-learning-v2/hooks/observe.sh",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning-v2/hooks/observe.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning-v2/scripts/detect-project.sh",
+      "sourceRelativePath": "skills/continuous-learning-v2/scripts/detect-project.sh",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning-v2/scripts/detect-project.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning-v2/scripts/instinct-cli.py",
+      "sourceRelativePath": "skills/continuous-learning-v2/scripts/instinct-cli.py",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning-v2/scripts/instinct-cli.py",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning-v2/scripts/lib/homunculus-dir.sh",
+      "sourceRelativePath": "skills/continuous-learning-v2/scripts/lib/homunculus-dir.sh",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning-v2/scripts/lib/homunculus-dir.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning-v2/scripts/migrate-homunculus.sh",
+      "sourceRelativePath": "skills/continuous-learning-v2/scripts/migrate-homunculus.sh",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning-v2/scripts/migrate-homunculus.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/continuous-learning-v2/scripts/test_parse_instinct.py",
+      "sourceRelativePath": "skills/continuous-learning-v2/scripts/test_parse_instinct.py",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/continuous-learning-v2/scripts/test_parse_instinct.py",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/council/SKILL.md",
+      "sourceRelativePath": "skills/council/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/council/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/e2e-testing/SKILL.md",
+      "sourceRelativePath": "skills/e2e-testing/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/e2e-testing/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/error-handling/SKILL.md",
+      "sourceRelativePath": "skills/error-handling/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/error-handling/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/eval-harness/SKILL.md",
+      "sourceRelativePath": "skills/eval-harness/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/eval-harness/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/hookify-rules/SKILL.md",
+      "sourceRelativePath": "skills/hookify-rules/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/hookify-rules/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/iterative-retrieval/SKILL.md",
+      "sourceRelativePath": "skills/iterative-retrieval/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/iterative-retrieval/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/plankton-code-quality/SKILL.md",
+      "sourceRelativePath": "skills/plankton-code-quality/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/plankton-code-quality/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/production-audit/SKILL.md",
+      "sourceRelativePath": "skills/production-audit/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/production-audit/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/skill-scout/SKILL.md",
+      "sourceRelativePath": "skills/skill-scout/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/skill-scout/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/skill-stocktake/SKILL.md",
+      "sourceRelativePath": "skills/skill-stocktake/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/skill-stocktake/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/skill-stocktake/scripts/quick-diff.sh",
+      "sourceRelativePath": "skills/skill-stocktake/scripts/quick-diff.sh",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/skill-stocktake/scripts/quick-diff.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/skill-stocktake/scripts/save-results.sh",
+      "sourceRelativePath": "skills/skill-stocktake/scripts/save-results.sh",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/skill-stocktake/scripts/save-results.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/skill-stocktake/scripts/scan.sh",
+      "sourceRelativePath": "skills/skill-stocktake/scripts/scan.sh",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/skill-stocktake/scripts/scan.sh",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/strategic-compact/SKILL.md",
+      "sourceRelativePath": "skills/strategic-compact/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/strategic-compact/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/tdd-workflow/SKILL.md",
+      "sourceRelativePath": "skills/tdd-workflow/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/tdd-workflow/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/verification-loop/SKILL.md",
+      "sourceRelativePath": "skills/verification-loop/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/verification-loop/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    },
+    {
+      "kind": "copy-file",
+      "moduleId": "workflow-quality",
+      "sourcePath": "/Users/so2/workspace-so2/everything-claude-code/skills/windows-desktop-e2e/SKILL.md",
+      "sourceRelativePath": "skills/windows-desktop-e2e/SKILL.md",
+      "destinationPath": "/Users/so2/workspace-so2/mahub-goal/.codex/skills/windows-desktop-e2e/SKILL.md",
+      "strategy": "preserve-relative-path",
+      "ownership": "managed",
+      "scaffoldOnly": false
+    }
+  ]
+}

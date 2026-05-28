@@ -20,6 +20,19 @@ When creating PRs:
 4. Include test plan with TODOs
 5. Push with `-u` flag if new branch
 
+## Issue Branch and PR Safety
+
+- One Linear issue maps to one active PR.
+- The PR head branch must be that issue's own branch, for example `codex/ktd-81` for `KTD-81`.
+- Push only to the branch for the issue currently being worked on.
+- Do not push follow-up issue commits into another issue's branch.
+- The PR base branch must be the integration branch, normally `main`, unless the user explicitly approves a stacked PR.
+- Before creating or updating a PR, verify the base/head pair and diff:
+  - `git branch --show-current`
+  - `git diff --name-status origin/main...HEAD`
+  - `gh pr view --json baseRefName,headRefName,state,url` when a PR already exists
+- If a replacement PR is unavoidable, mark the older PR/Linear link as superseded and leave a Korean Linear comment explaining why.
+
 ## Linear Issue Transitions
 
 - See [linear-workflow.md](./linear-workflow.md) for Linear issue creation,

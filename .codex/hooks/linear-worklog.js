@@ -8,6 +8,10 @@ const DEFAULT_CODEX_LINEAR_ID = "39aadd4d-47b0-4cd1-abf9-7ec2187baf78";
 const ISSUE_RE = /\b[A-Z][A-Z0-9]+-\d+\b/;
 const PLAN_RE = /(work plan|plan:|작업\s*계획|계획\s*:)/i;
 const RESULT_RE = /(work result|result:|작업\s*결과|결과\s*:)/i;
+const PR_MISSING_REASON_RE =
+  /(확인\s*필요\s*사유|PR\s*미진행\s*사유|PR\s*실패\s*사유|pull request\s+(not created|failed)|pr\s+(not created|failed))/i;
+const NEEDS_REVIEW_STATUS = "확인 필요";
+const PR_LINK_RE = /https:\/\/github\.com\/[^\s)]+\/[^\s)]+\/pull\/\d+/i;
 const MODIFYING_TOOLS = new Set([
   "apply_patch",
   "Write",
@@ -151,6 +155,17 @@ async function handleStop(input, cwd, state, sessionId) {
       `Linear ${session.issueId} is delegated to Codex and files changed. Add a Korean Linear comment containing "작업 결과:" before finishing.`,
     );
   }
+
+  if (!hasPullRequestReference(issue)) {
+    const statusName = issueStatusName(issue);
+    const hasMissingReason = hasComment(issue, PR_MISSING_REASON_RE);
+
+    if (statusName !== NEEDS_REVIEW_STATUS || !hasMissingReason) {
+      block(
+        `Linear ${session.issueId} has "작업 결과:" but no PR link. Before finishing, move the issue to "${NEEDS_REVIEW_STATUS}" and add a Korean comment containing "확인 필요 사유:" or "PR 미진행 사유:".`,
+      );
+    }
+  }
 }
 
 function readStdinJson() {
@@ -232,8 +247,12 @@ async function fetchIssue(issueId, includeComments) {
         issue(id: $id) {
           identifier
           title
+          state { name type }
           assignee { id name displayName }
           delegate { id name displayName }
+          attachments(first: 50) {
+            nodes { title url }
+          }
           comments(first: 50) {
             nodes { body createdAt }
           }
@@ -243,6 +262,7 @@ async function fetchIssue(issueId, includeComments) {
         issue(id: $id) {
           identifier
           title
+          state { name type }
           assignee { id name displayName }
           delegate { id name displayName }
         }
@@ -289,6 +309,42 @@ function hasComment(issue, regex) {
       ? issue.comments.nodes
       : [];
   return comments.some((comment) => regex.test(comment.body || ""));
+}
+
+function issueStatusName(issue) {
+  if (typeof issue.status === "string") {
+    return issue.status;
+  }
+  if (issue.state && typeof issue.state.name === "string") {
+    return issue.state.name;
+  }
+  return "";
+}
+
+function hasPullRequestReference(issue) {
+  const attachments = issueAttachments(issue);
+  const attachmentHasPr = attachments.some((attachment) =>
+    PR_LINK_RE.test(`${attachment.title || ""} ${attachment.url || ""}`),
+  );
+  if (attachmentHasPr) {
+    return true;
+  }
+
+  const comments =
+    issue.comments && Array.isArray(issue.comments.nodes)
+      ? issue.comments.nodes
+      : [];
+  return comments.some((comment) => PR_LINK_RE.test(comment.body || ""));
+}
+
+function issueAttachments(issue) {
+  if (Array.isArray(issue.attachments)) {
+    return issue.attachments;
+  }
+  if (issue.attachments && Array.isArray(issue.attachments.nodes)) {
+    return issue.attachments.nodes;
+  }
+  return [];
 }
 
 function block(reason) {

@@ -34,9 +34,7 @@ Mahub 작업의 기본 범위는 Java 백엔드와 Next.js/React/TypeScript 프�
 
 Next.js 작업은 TypeScript 규칙, Web/Frontend 규칙, 화면 입력값 검증, XSS 방지, E2E 검증을 함께 적용합니다.
 
-## `.ecc/rules` 한글 요약
-
-이 요약은 현재 워크스페이스의 `.ecc/rules` 하위 파일만 근거로 정리한 내용입니다. 플러그인 전체 기능 수나 외부 마켓플레이스 설명이 아니라, 실제 로컬에 들어와 있는 규칙 기준입니다.
+## 규칙 구성
 
 ### 전체 구성
 

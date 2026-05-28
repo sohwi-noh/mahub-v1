@@ -17,6 +17,7 @@ Symphony는 이 하네스에서 Linear 이슈마다 격리된 작업공간을 �
 - 최상위에 별도 `SYMPHONY_AGENTS.md`나 `WORKFLOW.md`를 두지 않습니다.
 - Symphony 전용 실행 계약과 이슈별 작업공간 hook은 `.open-ai-symphony/custom/` 아래에 둡니다.
 - `.codex/hooks.json`과 `.codex/hooks/**`는 실행 엔트리로 들어온 작업의 정책 검사에만 사용합니다.
+- Symphony가 실행하는 Codex도 루트 `.codex/` 하네스를 사용하되, `CODEX_WORKDIR`로 이슈별 작업공간만 바꿉니다.
 - 환경변수 스키마는 `.env.example`, 실제 값은 `.env.local`에 둡니다.
 
 ## Hook 구분

@@ -1,0 +1,52 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .codex/hooks/linear-worklog.js user-prompt-submit",
+            "timeout": 10,
+            "statusMessage": "checking Linear worklog policy"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .codex/hooks/linear-worklog.js pre-tool-use",
+            "timeout": 10,
+            "statusMessage": "checking Linear worklog policy"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .codex/hooks/linear-worklog.js post-tool-use",
+            "timeout": 10,
+            "statusMessage": "recording Linear worklog state"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .codex/hooks/linear-worklog.js stop",
+            "timeout": 10,
+            "statusMessage": "checking Linear worklog result"
+          }
+        ]
+      }
+    ]
+  }
+}

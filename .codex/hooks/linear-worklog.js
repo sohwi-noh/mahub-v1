@@ -4,7 +4,6 @@ const fs = require("fs");
 const path = require("path");
 const { execFileSync } = require("child_process");
 
-const DEFAULT_CODEX_LINEAR_ID = "39aadd4d-47b0-4cd1-abf9-7ec2187baf78";
 const ISSUE_RE = /\b[A-Z][A-Z0-9]+-\d+\b/;
 const PLAN_RE = /(work plan|plan:|작업\s*계획|계획\s*:)/i;
 const RESULT_RE = /(work result|result:|작업\s*결과|결과\s*:)/i;
@@ -64,6 +63,7 @@ async function handleUserPromptSubmit(input, cwd, state, sessionId) {
 
   const issue = await fetchIssue(issueId, false);
   const agentAssigned = issue ? isCodexAssigned(issue) : false;
+  const agentIdsConfigured = codexAgentIds().size > 0;
   state.sessions = state.sessions || {};
   state.sessions[sessionId] = {
     issueId,
@@ -79,6 +79,14 @@ async function handleUserPromptSubmit(input, cwd, state, sessionId) {
         hookEventName: "UserPromptSubmit",
         additionalContext:
           `Linear ${issueId} is delegated to Codex. Before editing files, add a Korean Linear comment containing "작업 계획:". After changes, add a Korean Linear comment containing "작업 결과:".`,
+      },
+    });
+  } else if (issue && !agentIdsConfigured) {
+    writeJson({
+      hookSpecificOutput: {
+        hookEventName: "UserPromptSubmit",
+        additionalContext:
+          "CODEX_LINEAR_AGENT_IDS is not set. Codex-specific Linear worklog enforcement is disabled for this session. Set CODEX_LINEAR_AGENT_IDS in .env.local before delegating Linear issues to Codex.",
       },
     });
   }
@@ -289,18 +297,22 @@ async function fetchIssue(issueId, includeComments) {
 }
 
 function isCodexAssigned(issue) {
-  const ids = new Set(
-    (process.env.CODEX_LINEAR_AGENT_IDS || DEFAULT_CODEX_LINEAR_ID)
+  const ids = codexAgentIds();
+  if (ids.size === 0) {
+    return false;
+  }
+
+  const people = [issue.assignee, issue.delegate].filter(Boolean);
+  return people.some((person) => ids.has(person.id));
+}
+
+function codexAgentIds() {
+  return new Set(
+    (process.env.CODEX_LINEAR_AGENT_IDS || "")
       .split(",")
       .map((value) => value.trim())
       .filter(Boolean),
   );
-
-  const people = [issue.assignee, issue.delegate].filter(Boolean);
-  return people.some((person) => {
-    const name = `${person.name || ""} ${person.displayName || ""}`.toLowerCase();
-    return ids.has(person.id) || /\bcodex\b/.test(name);
-  });
 }
 
 function hasComment(issue, regex) {

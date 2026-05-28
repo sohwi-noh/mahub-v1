@@ -23,7 +23,7 @@ case "$MODE" in
   local|shared)
     ;;
   *)
-    echo "usage: .open-ai-symphony/custom/bin/run.sh [local|shared] [env-file]" >&2
+    echo "사용법: .open-ai-symphony/custom/bin/run.sh [local|shared] [env-file]" >&2
     exit 64
     ;;
 esac
@@ -33,20 +33,20 @@ load_env_file "$ROOT_DIR/.env.local"
 
 if [[ -n "$ENV_FILE" ]]; then
   if [[ ! -f "$ENV_FILE" ]]; then
-    echo "missing env file: $ENV_FILE" >&2
+    echo "env 파일을 찾을 수 없습니다: $ENV_FILE" >&2
     exit 66
   fi
   load_env_file "$ENV_FILE"
 fi
 
 if [[ ! -x "$SYMPHONY_DIR/bin/symphony" ]]; then
-  echo "missing Symphony runtime: $SYMPHONY_DIR/bin/symphony" >&2
-  echo "copy or clone openai/symphony into $ROOT_DIR/.open-ai-symphony first" >&2
+  echo "Symphony 런타임을 찾을 수 없습니다: $SYMPHONY_DIR/bin/symphony" >&2
+  echo "먼저 openai/symphony를 $ROOT_DIR/.open-ai-symphony 아래에 복사하거나 clone하세요." >&2
   exit 66
 fi
 
 if [[ -z "${LINEAR_API_KEY:-}" ]]; then
-  echo "LINEAR_API_KEY is required. Put it in .env.local or pass an env file." >&2
+  echo "LINEAR_API_KEY가 필요합니다. .env.local에 넣거나 env 파일을 전달하세요." >&2
   exit 78
 fi
 

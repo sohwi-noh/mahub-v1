@@ -1,38 +1,38 @@
-# Custom Symphony Entrypoints
+# Symphony 커스텀 엔트리포인트
 
-This folder contains the team custom Symphony entrypoints for this repository.
+이 폴더는 이 저장소에서 팀이 공유하는 Symphony 커스텀 엔트리포인트를 담습니다.
 
-The upstream runtime lives in `.open-ai-symphony/elixir`. These files define how this project runs that runtime, prepares workspaces, and handles noninteractive GitHub auth.
+upstream 런타임은 `.open-ai-symphony/elixir`에 둡니다. 이 폴더의 파일은 해당 런타임을 어떻게 실행할지, workspace를 어떻게 준비할지, 비대화형 GitHub 인증을 어떻게 처리할지 정의합니다.
 
-Codex-owned hooks stay under the repository root `.codex/` directory. This folder is only for Symphony entrypoints and workspace hooks.
+Codex 소유 훅은 저장소 루트의 `.codex/` 아래에 둡니다. 이 폴더는 Symphony 엔트리포인트와 workspace hook 전용입니다.
 
-Elixir generated artifacts under `.open-ai-symphony/elixir` such as `_build`, `deps`, `bin`, and `log` are ignored by `.open-ai-symphony/elixir/.gitignore`.
+`.open-ai-symphony/elixir` 아래의 `_build`, `deps`, `bin`, `log` 같은 Elixir 생성물은 `.open-ai-symphony/elixir/.gitignore`가 무시합니다.
 
-## Files
+## 파일
 
-- `bin/tmux.sh`: user entrypoint for local Symphony lifecycle.
-  - `start`: run Symphony in a persistent tmux session.
-  - `status`: check the tmux session.
-  - `stop`: stop the tmux session.
-  - `attach`: attach to the session.
-  - `logs`: tail `.symphony-logs/symphony-*.log`.
-- `AGENTS.md`: minimal runner contract linked into Symphony-created issue workspaces.
-- `WORKFLOW.md`: project-specific Symphony workflow.
-- `bin/run.sh`: starts `.open-ai-symphony/elixir/bin/symphony` with `custom/WORKFLOW.md`.
-- `hooks/workspace-setup.sh`: called by `custom/WORKFLOW.md` on `after_create` and `before_run`.
-- `lib/git-askpass-github-token.sh`: token helper used by the runner and workspace hook when `GH_TOKEN` or `GITHUB_TOKEN` is set.
+- `bin/tmux.sh`: 로컬 Symphony 생명주기 실행 진입점입니다.
+  - `start`: Symphony를 지속 실행 tmux session으로 시작합니다.
+  - `status`: tmux session 상태를 확인합니다.
+  - `stop`: tmux session을 중지합니다.
+  - `attach`: tmux session에 붙습니다.
+  - `logs`: `.symphony-logs/symphony-*.log`를 출력합니다.
+- `AGENTS.md`: Symphony가 만든 이슈별 workspace에 연결되는 최소 실행자 계약입니다.
+- `WORKFLOW.md`: 프로젝트별 Symphony workflow입니다.
+- `bin/run.sh`: `.open-ai-symphony/elixir/bin/symphony`를 `custom/WORKFLOW.md`와 함께 시작합니다.
+- `hooks/workspace-setup.sh`: `custom/WORKFLOW.md`의 `after_create`, `before_run` 시점에 호출됩니다.
+- `lib/git-askpass-github-token.sh`: `GH_TOKEN` 또는 `GITHUB_TOKEN`이 있을 때 runner와 workspace hook이 쓰는 token helper입니다.
 
-## GitHub Env
+## GitHub 환경변수
 
-GitHub values belong in the root `.env.local`, not in these scripts.
+GitHub 값은 이 스크립트가 아니라 루트 `.env.local`에 둡니다.
 
-- `SYMPHONY_TARGET_REPO_URL`: remote URL for workspace repositories. If empty, the project root `origin` is used.
-- `GH_TOKEN` or `GITHUB_TOKEN`: token for HTTPS Git operations.
-- `GITHUB_USERNAME`: optional HTTPS username, defaults to `x-access-token`.
-- `SYMPHONY_GITHUB_SSH_KEY`: optional SSH private key path when using SSH remotes.
-- `SYMPHONY_BRANCH_PREFIX`: branch prefix for issue workspaces, defaults to `codex/`.
+- `SYMPHONY_TARGET_REPO_URL`: workspace 저장소 remote URL입니다. 비우면 프로젝트 루트의 `origin`을 사용합니다.
+- `GH_TOKEN` 또는 `GITHUB_TOKEN`: HTTPS Git 작업용 token입니다.
+- `GITHUB_USERNAME`: 선택값입니다. 기본값은 `x-access-token`입니다.
+- `SYMPHONY_GITHUB_SSH_KEY`: SSH remote를 사용할 때의 private key 경로입니다.
+- `SYMPHONY_BRANCH_PREFIX`: 이슈 workspace branch prefix입니다. 기본값은 `codex/`입니다.
 
-## Call Flow
+## 호출 흐름
 
 ```text
 .open-ai-symphony/custom/bin/tmux.sh start

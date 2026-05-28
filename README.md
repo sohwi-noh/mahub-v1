@@ -28,4 +28,10 @@ skills/                           # ECC 스킬 원문
 .claude/commands/ecc.md           # Claude 호환 slash command 진입점
 ```
 
+## 운영 표면 역할
+
+- `.ecc/rules/**`: 팀 규칙의 원천입니다. Linear worklog, git/PR, 보안 같은 기준은 여기에 둡니다.
+- `AGENTS.md`: Codex, Symphony, agent가 읽는 작업 안내입니다. 어떤 rules를 따를지와 경로별 우선순위를 설명합니다.
+- `.codex/hooks/**`와 `.codex/hooks.json`: rules를 실제로 검사, 차단, 기록하는 실행 장치입니다. hook 안에 새 정책을 만들지 않습니다.
+
 최상위에 별도 `SYMPHONY_AGENTS.md`나 `WORKFLOW.md`를 두지 않습니다. Symphony 전용 실행 계약은 `.open-ai-symphony/custom/` 아래에 모읍니다.

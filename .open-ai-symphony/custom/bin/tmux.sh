@@ -13,14 +13,14 @@ case "$MODE" in
   local|shared)
     ;;
   *)
-    echo "usage: .open-ai-symphony/custom/bin/tmux.sh [start|status|stop|attach|logs] [local|shared] [env-file]" >&2
+    echo "사용법: .open-ai-symphony/custom/bin/tmux.sh [start|status|stop|attach|logs] [local|shared] [env-file]" >&2
     exit 64
     ;;
 esac
 
 require_tmux() {
   if ! command -v tmux >/dev/null 2>&1; then
-    echo "tmux is required for persistent Symphony local runs" >&2
+    echo "Symphony를 지속 실행하려면 tmux가 필요합니다." >&2
     exit 69
   fi
 }
@@ -33,7 +33,7 @@ case "$ACTION" in
   start)
     require_tmux
     if is_running; then
-      echo "Symphony is already running in tmux session: $SESSION"
+      echo "Symphony가 이미 tmux session에서 실행 중입니다: $SESSION"
       exit 0
     fi
 
@@ -47,20 +47,20 @@ case "$ACTION" in
     sleep 1
 
     if is_running; then
-      echo "Symphony started in tmux session: $SESSION"
-      echo "Dashboard: http://127.0.0.1:${SYMPHONY_PORT:-4101}/"
-      echo "Logs: $LOG_FILE"
+      echo "Symphony를 tmux session에서 시작했습니다: $SESSION"
+      echo "대시보드: http://127.0.0.1:${SYMPHONY_PORT:-4101}/"
+      echo "로그: $LOG_FILE"
     else
-      echo "Symphony exited during startup. Check logs: $LOG_FILE" >&2
+      echo "Symphony가 시작 중 종료됐습니다. 로그를 확인하세요: $LOG_FILE" >&2
       exit 1
     fi
     ;;
   status)
     require_tmux
     if is_running; then
-      echo "Symphony is running in tmux session: $SESSION"
+      echo "Symphony가 tmux session에서 실행 중입니다: $SESSION"
     else
-      echo "Symphony is not running in tmux session: $SESSION"
+      echo "Symphony가 tmux session에서 실행 중이 아닙니다: $SESSION"
       exit 1
     fi
     ;;
@@ -72,9 +72,9 @@ case "$ACTION" in
       if is_running; then
         tmux kill-session -t "$SESSION"
       fi
-      echo "Symphony stopped: $SESSION"
+      echo "Symphony를 중지했습니다: $SESSION"
     else
-      echo "Symphony is not running in tmux session: $SESSION"
+      echo "Symphony가 tmux session에서 실행 중이 아닙니다: $SESSION"
     fi
     ;;
   attach)
@@ -85,12 +85,12 @@ case "$ACTION" in
     if [[ -f "$LOG_FILE" ]]; then
       tail -n 80 "$LOG_FILE"
     else
-      echo "no log file yet: $LOG_FILE"
+      echo "아직 로그 파일이 없습니다: $LOG_FILE"
       exit 1
     fi
     ;;
   *)
-    echo "usage: .open-ai-symphony/custom/bin/tmux.sh [start|status|stop|attach|logs] [local|shared] [env-file]" >&2
+    echo "사용법: .open-ai-symphony/custom/bin/tmux.sh [start|status|stop|attach|logs] [local|shared] [env-file]" >&2
     exit 64
     ;;
 esac

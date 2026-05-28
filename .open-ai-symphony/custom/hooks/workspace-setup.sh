@@ -29,7 +29,7 @@ if [ -z "${GIT_CONFIG_COUNT:-}" ]; then
 fi
 
 fail() {
-  echo "ERROR: $*" >&2
+  echo "오류: $*" >&2
   exit 1
 }
 
@@ -56,7 +56,7 @@ root_remote_url() {
 target_remote_url() {
   remote="$(root_remote_url)"
   if [ -z "$remote" ]; then
-    fail "set SYMPHONY_TARGET_REPO_URL in .env.local or configure a git origin on the project root"
+    fail ".env.local에 SYMPHONY_TARGET_REPO_URL을 설정하거나 프로젝트 루트에 git origin을 설정하세요."
   fi
   printf '%s\n' "$remote"
 }
@@ -113,7 +113,7 @@ ensure_issue_branch() {
   esac
 
   if [ -n "$(git -C "$TARGET_REPO_DIR" status --porcelain)" ]; then
-    fail "$TARGET_REPO_DIR has uncommitted changes on branch ${current_branch:-<detached>}; refusing to switch to $desired_branch"
+    fail "$TARGET_REPO_DIR 저장소의 ${current_branch:-<detached>} branch에 미커밋 변경이 있어 $desired_branch branch로 전환하지 않습니다."
   fi
 
   if git -C "$TARGET_REPO_DIR" show-ref --verify --quiet "refs/heads/$desired_branch"; then
@@ -129,7 +129,7 @@ ensure_target_repo() {
   if [ -d "$TARGET_REPO_DIR/.git" ]; then
     ensure_target_repo_remote
   elif [ -e "$TARGET_REPO_DIR" ]; then
-    fail "$TARGET_REPO_DIR exists but is not a git repository"
+    fail "$TARGET_REPO_DIR 경로가 있지만 git 저장소가 아닙니다."
   else
     git -c credential.helper= clone --no-hardlinks "$ROOT" "$TARGET_REPO_DIR"
     ensure_target_repo_remote
@@ -149,8 +149,8 @@ write_workspace_contract() {
 - Required origin: $(target_remote_url)
 - Required branch prefix: $(issue_branch)
 
-Only work inside ./$TARGET_REPO_DIR for product or workflow changes.
-Do not read or write outside the Root project from this Symphony workspace.
+product 또는 workflow 변경은 ./$TARGET_REPO_DIR 안에서만 수행합니다.
+이 Symphony workspace에서는 Root project 밖을 읽거나 쓰지 않습니다.
 EOF
 }
 
@@ -172,7 +172,7 @@ case "${1:-}" in
   after-create) after_create ;;
   before-run) before_run ;;
   *)
-    echo "Usage: $0 after-create|before-run" >&2
+    echo "사용법: $0 after-create|before-run" >&2
     exit 2
     ;;
 esac

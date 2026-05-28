@@ -24,10 +24,10 @@ hooks:
     "__SYMPHONY_PROJECT_ROOT__/.open-ai-symphony/custom/hooks/workspace-setup.sh" before-run
 agent:
   max_concurrent_agents: 1
-  max_turns: 1
+  max_turns: 3
   max_retry_attempts: 1
 codex:
-  command: codex --config shell_environment_policy.inherit=all --config 'model="gpt-5.5"' --config model_reasoning_effort=medium app-server
+  command: CODEX_WORKDIR="$PWD" "__SYMPHONY_PROJECT_ROOT__/entrypoint.sh" --config shell_environment_policy.inherit=all --config 'model="gpt-5.5"' --config model_reasoning_effort=medium app-server
   approval_policy: never
   thread_sandbox: workspace-write
   turn_sandbox_policy:

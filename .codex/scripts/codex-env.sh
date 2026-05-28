@@ -19,7 +19,14 @@ load_env_file() {
 load_env_file "$repo_root/.env"
 load_env_file "$repo_root/.env.local"
 
+codex_workdir="${CODEX_WORKDIR:-$repo_root}"
+
+if [[ ! -d "$codex_workdir" ]]; then
+  echo "CODEX_WORKDIR 디렉터리를 찾을 수 없습니다: $codex_workdir" >&2
+  exit 66
+fi
+
 mkdir -p "$CODEX_HOME/state"
 
-cd "$repo_root"
-exec codex --cd "$repo_root" "$@"
+cd "$codex_workdir"
+exec codex --cd "$codex_workdir" "$@"

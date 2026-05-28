@@ -20,27 +20,20 @@ AGENTS.md는 적용 경로가 더 구체적일수록 우선합니다.
 
 ## 문서 인덱스
 
-- `README-ECC.md`: 하네스 규칙 레이어. ECC rules, skills, Java/TypeScript/Web 기준.
-- `README-SYMPHONY.md`: AI agent 오케스트레이션 레이어. Linear queue, Symphony 실행, 이슈별 작업공간 생성과 repo/branch 준비 방식.
-
-## Linear 작업 로그 훅 경계
-
-Linear 작업 로그 계약의 원천 규칙은 `.ecc/rules/common/linear-workflow.md`입니다.
-
-- `agent-worklog` 라벨이 붙은 Linear 이슈만 에이전트 작업 로그 계약 대상입니다.
-- `.codex/hooks/**`는 실행 엔트리로 들어온 대화형 작업의 선택적 누락 방지 장치입니다.
-- `.codex/hooks/**`는 `agent-worklog` 라벨이 없거나 Linear 이슈 맥락이 없으면 기본적으로 기록하지 않습니다.
-- Symphony 작업공간 훅은 `.open-ai-symphony/custom/hooks/**`에서 동작하며, `.symphony-workspaces/<이슈키>/`에서 실행되는 자율 에이전트 작업의 필수 감사 로그 장치입니다.
-- Symphony 작업은 작업 시작/결과 댓글, PR 생성 여부, `In Review` 또는 `확인 필요` 상태 전환을 강하게 점검합니다.
-- PR 요청 상태로 넘어간 이슈에는 후속 수정을 직접 추가하지 않고 연계 이슈와 새 PR로 이어갑니다.
+- `docs/guide/README.md`: 처음 읽는 순서와 문서 역할 안내.
+- `docs/operations/README-ECC.md`: ECC rules, skills, Java/TypeScript/Web 기준.
+- `docs/operations/README-SYMPHONY.md`: Symphony 실행, Linear queue, 이슈별 작업공간 운영.
+- `docs/operations/README-LINEAR.md`: Linear 작업 로그 hook 경계.
 
 ## 현재 구조
 
 ```
 AGENTS.md                         # 워크스페이스 전체 작업 지침
 README.md                         # Codex 시작점과 하네스 문서 인덱스
-README-ECC.md                     # ECC 규칙/스킬 안내
-README-SYMPHONY.md                # Symphony 운영 안내
+docs/guide/README.md              # 처음 읽는 문서 가이드
+docs/operations/README-ECC.md     # ECC 규칙/스킬 안내
+docs/operations/README-SYMPHONY.md # Symphony 운영 안내
+docs/operations/README-LINEAR.md  # Linear 작업 로그 훅 안내
 .env.example                      # 팀 공유 환경변수 스키마
 entrypoint.sh                     # Codex 실행 엔트리포인트
 .codex/                           # Codex 설정, hooks, agents, skills

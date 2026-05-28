@@ -11,7 +11,7 @@ const PR_MISSING_REASON_RE =
   /(확인\s*필요\s*사유|PR\s*미진행\s*사유|PR\s*실패\s*사유|pull request\s+(not created|failed)|pr\s+(not created|failed))/i;
 const NEEDS_REVIEW_STATUS = "확인 필요";
 const PR_LINK_RE = /https:\/\/github\.com\/[^\s)]+\/[^\s)]+\/pull\/\d+/i;
-const DEFAULT_CODEX_LINEAR_LABEL = "codex";
+const DEFAULT_AGENT_WORKLOG_LABEL = "agent-worklog";
 const MODIFYING_TOOLS = new Set([
   "apply_patch",
   "Write",
@@ -63,7 +63,7 @@ async function handleUserPromptSubmit(input, cwd, state, sessionId) {
   }
 
   const issue = await fetchIssue(issueId, false);
-  const worklogEnabled = issue ? isCodexLabeled(issue) : false;
+  const worklogEnabled = issue ? hasAgentWorklogLabel(issue) : false;
   state.sessions = state.sessions || {};
   state.sessions[sessionId] = {
     issueId,
@@ -78,7 +78,7 @@ async function handleUserPromptSubmit(input, cwd, state, sessionId) {
       hookSpecificOutput: {
         hookEventName: "UserPromptSubmit",
         additionalContext:
-          `Linear ${issueId} has the Codex work label. Before editing files, add a Korean Linear comment containing "작업 계획:". After changes, add a Korean Linear comment containing "작업 결과:".`,
+          `Linear ${issueId} has the agent-worklog label. Before editing files, add a Korean Linear comment containing "작업 계획:". After changes, add a Korean Linear comment containing "작업 결과:".`,
       },
     });
   }
@@ -116,7 +116,7 @@ async function handlePreToolUse(input, cwd, state, sessionId) {
 
   if (!hasComment(issue, PLAN_RE)) {
     block(
-      `Linear ${session.issueId} has the Codex work label. Add a Korean Linear comment containing "작업 계획:" before editing files.`,
+      `Linear ${session.issueId} has the agent-worklog label. Add a Korean Linear comment containing "작업 계획:" before editing files.`,
     );
   }
 }
@@ -152,7 +152,7 @@ async function handleStop(input, cwd, state, sessionId) {
 
   if (!hasComment(issue, RESULT_RE)) {
     block(
-      `Linear ${session.issueId} has the Codex work label and files changed. Add a Korean Linear comment containing "작업 결과:" before finishing.`,
+      `Linear ${session.issueId} has the agent-worklog label and files changed. Add a Korean Linear comment containing "작업 결과:" before finishing.`,
     );
   }
 
@@ -286,15 +286,15 @@ async function fetchIssue(issueId, includeComments) {
   return payload.data && payload.data.issue ? payload.data.issue : null;
 }
 
-function isCodexLabeled(issue) {
-  const configuredLabels = codexLinearLabels();
+function hasAgentWorklogLabel(issue) {
+  const configuredLabels = agentWorklogLabels();
   return issueLabels(issue).some((label) =>
     configuredLabels.has(normalizeLabel(label)),
   );
 }
 
-function codexLinearLabels() {
-  const raw = process.env.CODEX_LINEAR_LABELS || DEFAULT_CODEX_LINEAR_LABEL;
+function agentWorklogLabels() {
+  const raw = process.env.CODEX_LINEAR_LABELS || DEFAULT_AGENT_WORKLOG_LABEL;
   return new Set(
     raw
       .split(",")

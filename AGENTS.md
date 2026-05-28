@@ -1,178 +1,36 @@
-# Everything Claude Code (ECC) — Agent Instructions
+# ktds AX Eng. 하네스 에이전트 지침
 
-This is a **production-ready AI coding plugin** providing 60 specialized agents, 232 skills, 75 commands, and automated hook workflows for software development.
+이 파일은 저장소 전체에서 에이전트가 먼저 읽는 최상위 안내문입니다.
+세부 기준의 원천은 `.ecc/rules/**`에 두고, 이 파일은 어떤 기준을 어디에 적용할지만 짧게 안내합니다.
 
-**Version:** 2.0.0-rc.1
+## 어디에 무엇을 적나
 
-## Core Principles
+- 팀 기준은 `.ecc/rules/**`에 적습니다. 예: Linear worklog, git/PR, 보안, 테스트 기준.
+- 에이전트에게 “작업할 때 이렇게 읽고 움직여라”라고 알려줄 내용은 `AGENTS.md`에 적습니다.
+- 실제로 검사하거나 막아야 하는 로직은 `.codex/hooks/**`와 `.codex/hooks.json`에 둡니다.
+- hook에는 새 기준을 만들지 않습니다. 먼저 `.ecc/rules/**`에 기준을 적고, hook은 그 기준을 실행만 합니다.
+- Symphony 실행 진입점과 Symphony가 호출하는 workspace hook만 `.open-ai-symphony/custom/**`에 둡니다.
 
-1. **Agent-First** — Delegate to specialized agents for domain tasks
-2. **Test-Driven** — Write tests before implementation, 80%+ coverage required
-3. **Security-First** — Never compromise on security; validate all inputs
-4. **Immutability** — Always create new objects, never mutate existing ones
-5. **Plan Before Execute** — Plan complex features before writing code
+## 적용할 Rules
 
-## Project-Local ECC Rules
+- 항상 `.ecc/rules/common/`을 적용합니다.
+- Java, Maven, Gradle, Spring 계열 백엔드 작업에는 `.ecc/rules/java/`를 적용합니다.
+- Next.js, React, TypeScript, JavaScript, HTML, CSS, 프론트엔드 작업에는 `.ecc/rules/typescript/`와 `.ecc/rules/web/`를 적용합니다.
+- 언어/도메인 규칙이 공통 규칙과 충돌하면 더 구체적인 규칙을 우선합니다.
 
-Use the local ECC rules under `.ecc/rules/` as the project rule source:
-- Always apply `.ecc/rules/common/`.
-- Apply `.ecc/rules/java/` for Java, JSP, Maven, Gradle, and Spring-style backend work.
-- Apply `.ecc/rules/typescript/` and `.ecc/rules/web/` for Next.js, React, TypeScript, JavaScript, HTML, CSS, and frontend work.
-- When a language or domain rule conflicts with a common rule, prefer the more specific rule.
+## 작성 원칙
 
-## Available Agents
+- 오버엔지니어링하지 않습니다. 지금 필요한 만큼만 작게 바꿉니다.
+- 문서와 주석은 사람이 읽기 쉬운 한국어로 간결하게 씁니다.
+- 새 구조를 만들기보다 기존 위치와 규칙을 먼저 사용합니다.
+- 설명은 길게 늘리지 말고, 판단 기준과 실행 방법이 바로 보이게 씁니다.
 
-| Agent | Purpose | When to Use |
-|-------|---------|-------------|
-| planner | Implementation planning | Complex features, refactoring |
-| architect | System design and scalability | Architectural decisions |
-| tdd-guide | Test-driven development | New features, bug fixes |
-| code-reviewer | Code quality and maintainability | After writing/modifying code |
-| security-reviewer | Vulnerability detection | Before commits, sensitive code |
-| build-error-resolver | Fix build/type errors | When build fails |
-| e2e-runner | End-to-end Playwright testing | Critical user flows |
-| refactor-cleaner | Dead code cleanup | Code maintenance |
-| doc-updater | Documentation and codemaps | Updating docs |
-| cpp-reviewer | C/C++ code review | C and C++ projects |
-| cpp-build-resolver | C/C++ build errors | C and C++ build failures |
-| fsharp-reviewer | F# functional code review | F# projects |
-| docs-lookup | Documentation lookup via Context7 | API/docs questions |
-| go-reviewer | Go code review | Go projects |
-| go-build-resolver | Go build errors | Go build failures |
-| kotlin-reviewer | Kotlin code review | Kotlin/Android/KMP projects |
-| kotlin-build-resolver | Kotlin/Gradle build errors | Kotlin build failures |
-| database-reviewer | PostgreSQL/Supabase specialist | Schema design, query optimization |
-| python-reviewer | Python code review | Python projects |
-| django-reviewer | Django code review | Django apps, DRF APIs, ORM, migrations |
-| django-build-resolver | Django build, migration, and setup errors | Django startup, dependency, migration, collectstatic failures |
-| java-reviewer | Java and Spring Boot code review | Java/Spring Boot projects |
-| java-build-resolver | Java/Maven/Gradle build errors | Java build failures |
-| loop-operator | Autonomous loop execution | Run loops safely, monitor stalls, intervene |
-| harness-optimizer | Harness config tuning | Reliability, cost, throughput |
-| rust-reviewer | Rust code review | Rust projects |
-| rust-build-resolver | Rust build errors | Rust build failures |
-| pytorch-build-resolver | PyTorch runtime/CUDA/training errors | PyTorch build/training failures |
-| mle-reviewer | Production ML pipeline review | ML pipelines, evals, serving, monitoring, rollback |
-| typescript-reviewer | TypeScript/JavaScript code review | TypeScript/JavaScript projects |
+## 변경 금지
 
-## Agent Orchestration
+- 에이전트는 `.ecc/rules/**`를 임의로 바꾸지 않습니다.
+- `.ecc/rules/**` 변경은 사용자가 명시적으로 요청했을 때만 합니다.
 
-Use agents proactively without user prompt:
-- Complex feature requests → **planner**
-- Code just written/modified → **code-reviewer**
-- Bug fix or new feature → **tdd-guide**
-- Architectural decision → **architect**
-- Security-sensitive code → **security-reviewer**
-- Autonomous loops / loop monitoring → **loop-operator**
-- Harness config reliability and cost → **harness-optimizer**
+## 작업 방식
 
-Use parallel execution for independent operations — launch multiple agents simultaneously.
-
-## Security Guidelines
-
-**Before ANY commit:**
-- No hardcoded secrets (API keys, passwords, tokens)
-- All user inputs validated
-- SQL injection prevention (parameterized queries)
-- XSS prevention (sanitized HTML)
-- CSRF protection enabled
-- Authentication/authorization verified
-- Rate limiting on all endpoints
-- Error messages don't leak sensitive data
-
-**Secret management:** NEVER hardcode secrets. Use environment variables or a secret manager. Validate required secrets at startup. Rotate any exposed secrets immediately.
-
-**If security issue found:** STOP → use security-reviewer agent → fix CRITICAL issues → rotate exposed secrets → review codebase for similar issues.
-
-## Coding Style
-
-**Immutability (CRITICAL):** Always create new objects, never mutate. Return new copies with changes applied.
-
-**File organization:** Many small files over few large ones. 200-400 lines typical, 800 max. Organize by feature/domain, not by type. High cohesion, low coupling.
-
-**Error handling:** Handle errors at every level. Provide user-friendly messages in UI code. Log detailed context server-side. Never silently swallow errors.
-
-**Input validation:** Validate all user input at system boundaries. Use schema-based validation. Fail fast with clear messages. Never trust external data.
-
-**Code quality checklist:**
-- Functions small (<50 lines), files focused (<800 lines)
-- No deep nesting (>4 levels)
-- Proper error handling, no hardcoded values
-- Readable, well-named identifiers
-
-## Testing Requirements
-
-**Minimum coverage: 80%**
-
-Test types (all required):
-1. **Unit tests** — Individual functions, utilities, components
-2. **Integration tests** — API endpoints, database operations
-3. **E2E tests** — Critical user flows
-
-**TDD workflow (mandatory):**
-1. Write test first (RED) — test should FAIL
-2. Write minimal implementation (GREEN) — test should PASS
-3. Refactor (IMPROVE) — verify coverage 80%+
-
-Troubleshoot failures: check test isolation → verify mocks → fix implementation (not tests, unless tests are wrong).
-
-## Development Workflow
-
-1. **Plan** — Use planner agent, identify dependencies and risks, break into phases
-2. **TDD** — Use tdd-guide agent, write tests first, implement, refactor
-3. **Review** — Use code-reviewer agent immediately, address CRITICAL/HIGH issues
-4. **Capture knowledge in the right place**
-   - Personal debugging notes, preferences, and temporary context → auto memory
-   - Team/project knowledge (architecture decisions, API changes, runbooks) → the project's existing docs structure
-   - If the current task already produces the relevant docs or code comments, do not duplicate the same information elsewhere
-   - If there is no obvious project doc location, ask before creating a new top-level file
-5. **Commit** — Conventional commits format, comprehensive PR summaries
-
-## Workflow Surface Policy
-
-- `skills/` is the canonical workflow surface.
-- New workflow contributions should land in `skills/` first.
-- `commands/` is a legacy slash-entry compatibility surface and should only be added or updated when a shim is still required for migration or cross-harness parity.
-
-## Git Workflow
-
-**Commit format:** `<type>: <description>` — Types: feat, fix, refactor, docs, test, chore, perf, ci
-
-**PR workflow:** Analyze full commit history → draft comprehensive summary → include test plan → push with `-u` flag.
-
-## Architecture Patterns
-
-**API response format:** Consistent envelope with success indicator, data payload, error message, and pagination metadata.
-
-**Repository pattern:** Encapsulate data access behind standard interface (findAll, findById, create, update, delete). Business logic depends on abstract interface, not storage mechanism.
-
-**Skeleton projects:** Search for battle-tested templates, evaluate with parallel agents (security, extensibility, relevance), clone best match, iterate within proven structure.
-
-## Performance
-
-**Context management:** Avoid last 20% of context window for large refactoring and multi-file features. Lower-sensitivity tasks (single edits, docs, simple fixes) tolerate higher utilization.
-
-**Build troubleshooting:** Use build-error-resolver agent → analyze errors → fix incrementally → verify after each fix.
-
-## Project Structure
-
-```
-agents/          — 60 specialized subagents
-skills/          — 232 workflow skills and domain knowledge
-commands/        — 75 slash commands
-hooks/           — Trigger-based automations
-rules/           — Always-follow guidelines (common + per-language)
-scripts/         — Cross-platform Node.js utilities
-mcp-configs/     — 14 MCP server configurations
-tests/           — Test suite
-```
-
-`commands/` remains in the repo for compatibility, but the long-term direction is skills-first.
-
-## Success Metrics
-
-- All tests pass with 80%+ coverage
-- No security vulnerabilities
-- Code is readable and maintainable
-- Performance is acceptable
-- User requirements are met
+- 시크릿은 `.env.local` 또는 외부 secret store에만 두고 코드나 문서에 하드코딩하지 않습니다.
+- 새 최상위 문서를 만들기 전에는 기존 문서 위치에 넣을 수 있는지 먼저 확인합니다.

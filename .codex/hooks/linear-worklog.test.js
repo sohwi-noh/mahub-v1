@@ -11,19 +11,19 @@ const hookScript = path.join(repoRoot, ".codex", "hooks", "linear-worklog.js");
 
 const tests = [
   [
-    "blocks file edits when the Linear issue has the codex label and no plan comment",
+    "blocks file edits when the Linear issue has the agent-worklog label and no plan comment",
     () => {
       const cwd = tempCwd();
       const sessionId = "labeled-session";
       const issue = {
-        identifier: "KTD-77",
-        labels: { nodes: [{ name: "codex" }] },
+        identifier: "KTD-78",
+        labels: { nodes: [{ name: "agent-worklog" }] },
       };
 
       runHook("user-prompt-submit", {
         cwd,
         session_id: sessionId,
-        prompt: "KTD-77 작업 진행",
+        prompt: "KTD-78 작업 진행",
       }, issue);
 
       const result = runHook("pre-tool-use", {
@@ -42,12 +42,12 @@ const tests = [
     },
   ],
   [
-    "does not enforce worklog comments when the Linear issue lacks the codex label",
+    "does not enforce worklog comments when the Linear issue lacks the agent-worklog label",
     () => {
       const cwd = tempCwd();
       const sessionId = "unlabeled-session";
       const issue = {
-        identifier: "KTD-77",
+        identifier: "KTD-78",
         delegate: { id: "codex-agent-id", name: "Codex" },
         labels: { nodes: [{ name: "환경구성" }] },
       };
@@ -56,7 +56,7 @@ const tests = [
       runHook("user-prompt-submit", {
         cwd,
         session_id: sessionId,
-        prompt: "KTD-77 작업 진행",
+        prompt: "KTD-78 작업 진행",
       }, issue, env);
 
       const result = runHook("pre-tool-use", {
@@ -75,12 +75,43 @@ const tests = [
     },
   ],
   [
-    "does not treat Symphony Ready as a local Codex hook marker without the codex label",
+    "does not enforce worklog comments when the Linear issue only has the broad codex label",
+    () => {
+      const cwd = tempCwd();
+      const sessionId = "codex-only-session";
+      const issue = {
+        identifier: "KTD-78",
+        labels: { nodes: [{ name: "codex" }] },
+      };
+
+      runHook("user-prompt-submit", {
+        cwd,
+        session_id: sessionId,
+        prompt: "KTD-78 작업 진행",
+      }, issue);
+
+      const result = runHook("pre-tool-use", {
+        cwd,
+        session_id: sessionId,
+        tool_name: "apply_patch",
+        tool_input: { path: "README.md" },
+      }, {
+        ...issue,
+        state: { name: "In Progress" },
+        comments: { nodes: [] },
+      });
+
+      assert.strictEqual(result.status, 0);
+      assert.strictEqual(result.stderr, "");
+    },
+  ],
+  [
+    "does not treat Symphony Ready as an agent worklog hook marker without the agent-worklog label",
     () => {
       const cwd = tempCwd();
       const sessionId = "symphony-ready-session";
       const issue = {
-        identifier: "KTD-77",
+        identifier: "KTD-78",
         state: { name: "Symphony Ready" },
         labels: { nodes: [] },
       };
@@ -88,7 +119,7 @@ const tests = [
       runHook("user-prompt-submit", {
         cwd,
         session_id: sessionId,
-        prompt: "KTD-77 작업 진행",
+        prompt: "KTD-78 작업 진행",
       }, issue);
 
       const result = runHook("pre-tool-use", {
@@ -111,7 +142,7 @@ const tests = [
       const cwd = tempCwd();
       const sessionId = "custom-label-session";
       const issue = {
-        identifier: "KTD-77",
+        identifier: "KTD-78",
         labels: { nodes: [{ name: "ai" }] },
       };
       const env = { CODEX_LINEAR_LABELS: "ai" };
@@ -119,7 +150,7 @@ const tests = [
       runHook("user-prompt-submit", {
         cwd,
         session_id: sessionId,
-        prompt: "KTD-77 작업 진행",
+        prompt: "KTD-78 작업 진행",
       }, issue, env);
 
       const result = runHook("pre-tool-use", {
@@ -143,14 +174,14 @@ const tests = [
       const cwd = tempCwd();
       const sessionId = "stop-guard-session";
       const issue = {
-        identifier: "KTD-77",
-        labels: ["codex"],
+        identifier: "KTD-78",
+        labels: ["agent-worklog"],
       };
 
       runHook("user-prompt-submit", {
         cwd,
         session_id: sessionId,
-        prompt: "KTD-77 작업 진행",
+        prompt: "KTD-78 작업 진행",
       }, issue);
 
       runHook("post-tool-use", {

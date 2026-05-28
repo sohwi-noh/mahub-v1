@@ -4,10 +4,13 @@ const fs = require("fs");
 const path = require("path");
 const { execFileSync } = require("child_process");
 
-const DEFAULT_CODEX_LINEAR_ID = "39aadd4d-47b0-4cd1-abf9-7ec2187baf78";
 const ISSUE_RE = /\b[A-Z][A-Z0-9]+-\d+\b/;
 const PLAN_RE = /(work plan|plan:|작업\s*계획|계획\s*:)/i;
 const RESULT_RE = /(work result|result:|작업\s*결과|결과\s*:)/i;
+const PR_MISSING_REASON_RE =
+  /(확인\s*필요\s*사유|PR\s*미진행\s*사유|PR\s*실패\s*사유|pull request\s+(not created|failed)|pr\s+(not created|failed))/i;
+const NEEDS_REVIEW_STATUS = "확인 필요";
+const PR_LINK_RE = /https:\/\/github\.com\/[^\s)]+\/[^\s)]+\/pull\/\d+/i;
 const MODIFYING_TOOLS = new Set([
   "apply_patch",
   "Write",
@@ -60,6 +63,7 @@ async function handleUserPromptSubmit(input, cwd, state, sessionId) {
 
   const issue = await fetchIssue(issueId, false);
   const agentAssigned = issue ? isCodexAssigned(issue) : false;
+  const agentIdsConfigured = codexAgentIds().size > 0;
   state.sessions = state.sessions || {};
   state.sessions[sessionId] = {
     issueId,
@@ -75,6 +79,14 @@ async function handleUserPromptSubmit(input, cwd, state, sessionId) {
         hookEventName: "UserPromptSubmit",
         additionalContext:
           `Linear ${issueId} is delegated to Codex. Before editing files, add a Korean Linear comment containing "작업 계획:". After changes, add a Korean Linear comment containing "작업 결과:".`,
+      },
+    });
+  } else if (issue && !agentIdsConfigured) {
+    writeJson({
+      hookSpecificOutput: {
+        hookEventName: "UserPromptSubmit",
+        additionalContext:
+          "CODEX_LINEAR_AGENT_IDS is not set. Codex-specific Linear worklog enforcement is disabled for this session. Set CODEX_LINEAR_AGENT_IDS in .env.local before delegating Linear issues to Codex.",
       },
     });
   }
@@ -150,6 +162,17 @@ async function handleStop(input, cwd, state, sessionId) {
     block(
       `Linear ${session.issueId} is delegated to Codex and files changed. Add a Korean Linear comment containing "작업 결과:" before finishing.`,
     );
+  }
+
+  if (!hasPullRequestReference(issue)) {
+    const statusName = issueStatusName(issue);
+    const hasMissingReason = hasComment(issue, PR_MISSING_REASON_RE);
+
+    if (statusName !== NEEDS_REVIEW_STATUS || !hasMissingReason) {
+      block(
+        `Linear ${session.issueId} has "작업 결과:" but no PR link. Before finishing, move the issue to "${NEEDS_REVIEW_STATUS}" and add a Korean comment containing "확인 필요 사유:" or "PR 미진행 사유:".`,
+      );
+    }
   }
 }
 
@@ -232,8 +255,12 @@ async function fetchIssue(issueId, includeComments) {
         issue(id: $id) {
           identifier
           title
+          state { name type }
           assignee { id name displayName }
           delegate { id name displayName }
+          attachments(first: 50) {
+            nodes { title url }
+          }
           comments(first: 50) {
             nodes { body createdAt }
           }
@@ -243,6 +270,7 @@ async function fetchIssue(issueId, includeComments) {
         issue(id: $id) {
           identifier
           title
+          state { name type }
           assignee { id name displayName }
           delegate { id name displayName }
         }
@@ -269,18 +297,22 @@ async function fetchIssue(issueId, includeComments) {
 }
 
 function isCodexAssigned(issue) {
-  const ids = new Set(
-    (process.env.CODEX_LINEAR_AGENT_IDS || DEFAULT_CODEX_LINEAR_ID)
+  const ids = codexAgentIds();
+  if (ids.size === 0) {
+    return false;
+  }
+
+  const people = [issue.assignee, issue.delegate].filter(Boolean);
+  return people.some((person) => ids.has(person.id));
+}
+
+function codexAgentIds() {
+  return new Set(
+    (process.env.CODEX_LINEAR_AGENT_IDS || "")
       .split(",")
       .map((value) => value.trim())
       .filter(Boolean),
   );
-
-  const people = [issue.assignee, issue.delegate].filter(Boolean);
-  return people.some((person) => {
-    const name = `${person.name || ""} ${person.displayName || ""}`.toLowerCase();
-    return ids.has(person.id) || /\bcodex\b/.test(name);
-  });
 }
 
 function hasComment(issue, regex) {
@@ -289,6 +321,42 @@ function hasComment(issue, regex) {
       ? issue.comments.nodes
       : [];
   return comments.some((comment) => regex.test(comment.body || ""));
+}
+
+function issueStatusName(issue) {
+  if (typeof issue.status === "string") {
+    return issue.status;
+  }
+  if (issue.state && typeof issue.state.name === "string") {
+    return issue.state.name;
+  }
+  return "";
+}
+
+function hasPullRequestReference(issue) {
+  const attachments = issueAttachments(issue);
+  const attachmentHasPr = attachments.some((attachment) =>
+    PR_LINK_RE.test(`${attachment.title || ""} ${attachment.url || ""}`),
+  );
+  if (attachmentHasPr) {
+    return true;
+  }
+
+  const comments =
+    issue.comments && Array.isArray(issue.comments.nodes)
+      ? issue.comments.nodes
+      : [];
+  return comments.some((comment) => PR_LINK_RE.test(comment.body || ""));
+}
+
+function issueAttachments(issue) {
+  if (Array.isArray(issue.attachments)) {
+    return issue.attachments;
+  }
+  if (issue.attachments && Array.isArray(issue.attachments.nodes)) {
+    return issue.attachments.nodes;
+  }
+  return [];
 }
 
 function block(reason) {

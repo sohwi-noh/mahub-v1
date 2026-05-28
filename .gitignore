@@ -2,4 +2,11 @@ node_modules/
 npm-debug.log*
 /.env
 /.env.local
+/.symphony-workspaces/*
+!/.symphony-workspaces/_wiki/
+!/.symphony-workspaces/_wiki/**
+/.symphony-logs/
+/.omx/
+/symphony.env
+/symphony.shared.env
 /.codex/state/

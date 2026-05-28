@@ -34,4 +34,14 @@ skills/                           # ECC 스킬 원문
 - `AGENTS.md`: Codex, Symphony, agent가 읽는 작업 안내입니다. 어떤 rules를 따를지와 경로별 우선순위를 설명합니다.
 - `.codex/hooks/**`와 `.codex/hooks.json`: rules를 실제로 검사, 차단, 기록하는 실행 장치입니다. hook 안에 새 정책을 만들지 않습니다.
 
+## 지침 우선순위
+
+AGENTS.md는 적용 경로가 더 구체적일수록 우선합니다.
+
+- 최상단 `AGENTS.md`: 저장소 전체 기본 규칙입니다.
+- `.codex/AGENTS.md`: `.codex/` 하위 파일에만 추가로 적용됩니다.
+- `.codex/` 안에서 규칙이 충돌하면 `.codex/AGENTS.md`를 우선합니다.
+- `.open-ai-symphony/**/AGENTS.md`: `.open-ai-symphony/` 하위의 해당 Symphony 폴더 안 파일에만 추가로 적용됩니다.
+- 그 외 저장소 파일에는 최상단 `AGENTS.md`만 적용됩니다.
+
 최상위에 별도 `SYMPHONY_AGENTS.md`나 `WORKFLOW.md`를 두지 않습니다. Symphony 전용 실행 계약은 `.open-ai-symphony/custom/` 아래에 모읍니다.

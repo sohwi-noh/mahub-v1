@@ -31,6 +31,27 @@
 - `agent-worklog`: 이 이슈는 에이전트 작업 이력을 Linear에 남겨야 하며, 프로젝트 로컬 훅 강제 대상입니다.
 - `codex`: 도구나 논의 범위를 표시하는 넓은 라벨입니다. 이 라벨만으로 worklog 훅을 켜지 않습니다.
 
+## 훅 책임 경계
+
+Linear 작업 로그 훅은 실행 경로에 따라 책임을 나눕니다.
+
+`.codex/hooks/**`는 실행 엔트리로 들어온 대화형 작업에 적용합니다.
+
+- 대화형 작업의 선택적 누락 방지 장치입니다.
+- Linear 이슈에 `agent-worklog` 라벨이 있을 때만 작업 계획, 작업 결과, PR 미진행 사유 누락을 점검합니다.
+- `agent-worklog` 라벨이 없거나 Linear 이슈 맥락이 없으면 기본적으로 동작하지 않습니다.
+- 사용자의 모든 프롬프트나 수동 판단을 자동으로 Linear에 기록하지 않습니다.
+- 훅은 가볍게 유지하고, 판단 기준의 원천은 이 문서에 둡니다.
+
+Symphony 작업공간 훅은 `.open-ai-symphony/custom/hooks/**`에 둡니다.
+
+- Symphony가 `Symphony Ready` 상태 이슈를 잡아 `.symphony-workspaces/<이슈키>/` 작업공간에서 실행할 때의 필수 감사 로그 장치입니다.
+- `agent-worklog` 계약 대상 이슈는 작업 시작 댓글, 작업 결과 댓글, PR 생성 여부, 상태 전환을 강하게 점검합니다.
+- 작업 결과가 있는데 PR을 만들지 못하면 실패 사유를 댓글로 남기고 `확인 필요` 상태로 넘기는 것을 강제합니다.
+- PR 요청 상태로 넘어간 이슈에는 후속 수정을 직접 추가하지 않고 연계 이슈로 이어갑니다.
+
+공통 원칙은 `.ecc/rules/common/linear-workflow.md`에 두고, 각 훅 구현에는 해당 실행 컨텍스트에서 강제 가능한 최소 동작만 둡니다.
+
 ## 상태와 PR 인계
 
 - `Symphony Ready`는 Symphony queue 상태이며, worklog 훅 marker가 아닙니다.

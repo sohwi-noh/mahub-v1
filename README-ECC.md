@@ -1,80 +1,69 @@
 # ECC 운영 안내
 
-ECC는 이 하네스에서 규칙과 스킬 레이어를 담당합니다. Codex는 최상위 `AGENTS.md`와 `.codex/AGENTS.md`를 통해 `.ecc/rules/`를 프로젝트 규칙 원천으로 사용합니다.
+ECC는 이 하네스에서 규칙과 스킬 레이어를 담당합니다.
+
+이 문서는 위치 인덱스입니다. Java, TypeScript, Web 세부 기준은 README에 복사하지 않고 `.ecc/rules/**` 아래의 실제 rule 파일을 기준으로 봅니다.
 
 ## 스킬 사용 기준
 
-- `skills/`에는 ECC 스킬 원문 232개가 들어 있습니다.
-- 이 폴더는 현재 Codex 세션에 자동 로드된 스킬 목록이 아니라, 프로젝트 로컬 참조 자료입니다.
-- 특정 스킬이 필요하면 `skills/<skill-name>/SKILL.md`를 읽고 필요한 부분만 적용합니다.
-- Codex 자동 로드가 필요하면 선택한 스킬만 `~/.codex/skills` 쪽으로 설치하거나 등록할지 검토합니다.
-- `skills/` 전체를 `.codex/skills`나 `~/.codex/skills`로 대량 이동/복사하지 않습니다.
+- `.codex/skills/`: 이 프로젝트 Codex 세션에서 실제로 자동 로드되는 project-local skill surface입니다.
+- `.codex/.agents/skills/`: ECC가 들고 온 원본 skill/reference surface입니다. 자동 로드 대상으로 보지 않습니다.
+- 특정 스킬이 필요하면 먼저 `.codex/skills/<skill-name>/SKILL.md`를 확인합니다.
+- `.codex/skills/`에 없는 스킬을 참고해야 할 때만 `.codex/.agents/skills/<skill-name>/SKILL.md`를 봅니다.
+- Codex 자동 로드가 필요하면 선택한 스킬만 `.codex/skills/`에 추가합니다.
+- 개인 PC 기준 경로인 `~/.codex/skills/`는 개발망 배포 기준 문서에서 사용하지 않습니다.
+- `.codex/.agents/skills/` 전체를 `.codex/skills/`로 대량 이동/복사하지 않습니다.
 
-## Mahub 대상 작업 가이드
+## Rules 인덱스
 
-Mahub 작업의 기본 범위는 Java 백엔드와 Next.js/React/TypeScript 프론트엔드입니다. DB 작업은 이슈가 영속성 변경을 포함할 때만 함께 보고, Go, Python, Django, FastAPI 같은 다른 언어/프레임워크 스킬은 현재 기본 작업 범위에서 제외합니다.
+### 공통
 
-적용 규칙은 Java 작업에 `.ecc/rules/java/`, Next.js/React/TypeScript 작업에 `.ecc/rules/typescript/`와 `.ecc/rules/web/`를 우선 사용합니다.
+- `.ecc/rules/common/agents.md`
+- `.ecc/rules/common/development-workflow.md`: Mahub 기본 작업 범위와 공통 개발 흐름.
+- `.ecc/rules/common/coding-style.md`
+- `.ecc/rules/common/testing.md`
+- `.ecc/rules/common/code-review.md`
+- `.ecc/rules/common/security.md`
+- `.ecc/rules/common/git-workflow.md`
+- `.ecc/rules/common/linear-workflow.md`
+- `.ecc/rules/common/hooks.md`
+- `.ecc/rules/common/patterns.md`
+- `.ecc/rules/common/performance.md`
 
-현재 로컬에서 실제 확인되는 slash command shim은 `.claude/commands/ecc.md` 하나입니다. 아래 커맨드는 ECC 문서/스킬에서 안내하는 작업 진입 표현이며, 현재 세션에서 직접 slash command로 동작하지 않으면 같은 의도를 자연어로 요청합니다.
+### Java
 
-| 하고 싶은 것 | 권장 요청 | 우선 참조 스킬 | 사용할 에이전트 |
-| --- | --- | --- | --- |
-| 새 기능 계획하기 | `/ecc:plan "인증 추가"` | `plan-orchestrate` | `planner` |
-| 시스템 아키텍처 설계 | `/ecc:plan "인증 구조 설계" + architect 관점` | `plan-orchestrate`, `springboot-patterns`, `jpa-patterns` | `planner`, `architect` |
-| Java 기능을 테스트 먼저 작성하며 구현 | `/tdd "인증 추가"` | `tdd-workflow`, `springboot-tdd`, `java-coding-standards` | `tdd-guide`, `java-reviewer` |
-| Next.js 화면/폼 변경 검토 | `/code-review "Next.js 화면 변경 검토"` | `frontend-patterns`, `security-review`, `e2e-testing` | `typescript-reviewer`, `security-reviewer` |
-| 방금 작성한 코드 리뷰 | `/code-review` | `java-coding-standards`, `security-review` | `java-reviewer`, `code-reviewer` |
-| Java/Maven/Gradle 빌드 실패 수정 | `/build-fix` | `springboot-verification`, `verification-loop` | `java-build-resolver`, `build-error-resolver` |
-| E2E 테스트 실행 | `/e2e` | `e2e-testing` | `e2e-runner` |
-| 보안 취약점 찾기 | `/security-scan` | `springboot-security`, `security-review` | `security-reviewer`, `java-reviewer` |
-| 사용하지 않는 코드 제거 | `/refactor-clean` | `verification-loop`, `java-coding-standards` | `refactor-cleaner`, `java-reviewer` |
-| 문서 업데이트 | `/update-docs` | `coding-standards` | `doc-updater` |
-| DB 스키마/쿼리 리뷰 | `/code-review "DB 변경 검토"` | `jpa-patterns`, `database-migrations`, `postgres-patterns`, `mysql-patterns` | `database-reviewer`, `java-reviewer` |
+Java, Maven, Gradle, Spring 계열 작업은 아래 규칙을 봅니다.
 
-Next.js 작업은 TypeScript 규칙, Web/Frontend 규칙, 화면 입력값 검증, XSS 방지, E2E 검증을 함께 적용합니다.
+- `.ecc/rules/java/coding-style.md`
+- `.ecc/rules/java/patterns.md`
+- `.ecc/rules/java/testing.md`
+- `.ecc/rules/java/security.md`
+- `.ecc/rules/java/hooks.md`
 
-## 규칙 구성
+### TypeScript / JavaScript
 
-### 전체 구성
+TypeScript, JavaScript, React, Next.js 작업은 아래 규칙을 봅니다.
 
-- `common/`: 언어와 무관한 공통 작업 규칙 11개
-- `java/`: Java 파일, Maven, Gradle 작업에 적용되는 Java 전용 규칙 5개
-- `typescript/`: TypeScript/JavaScript 작업에 적용되는 규칙 5개
-- `web/`: Web/Frontend/Next.js 계열 작업에 적용되는 규칙 7개
-- 총 28개 규칙 파일로 구성되어 있습니다.
+- `.ecc/rules/typescript/coding-style.md`
+- `.ecc/rules/typescript/patterns.md`
+- `.ecc/rules/typescript/testing.md`
+- `.ecc/rules/typescript/security.md`
+- `.ecc/rules/typescript/hooks.md`
 
-### 공통 규칙
+### Web / Frontend
 
-- `agents.md`: 작업 유형별 에이전트 사용 기준입니다. 계획은 `planner`, 설계는 `architect`, TDD는 `tdd-guide`, 코드 리뷰는 `code-reviewer`, 보안 검토는 `security-reviewer`, 빌드 오류는 `build-error-resolver`를 우선 사용하도록 정의합니다. 이 규칙 파일 기준 사용 가능 에이전트는 11개입니다.
-- `development-workflow.md`: 구현 전 조사와 재사용 검토를 먼저 하고, 계획 작성, TDD, 코드 리뷰, 커밋/푸시, 리뷰 전 확인 순서로 진행하는 흐름입니다.
-- `coding-style.md`: 불변성을 최우선으로 두고, KISS/DRY/YAGNI 원칙을 따릅니다. 함수는 작게, 파일은 응집도 있게 유지하며, 오류 처리와 입력 검증을 명시적으로 수행합니다.
-- `testing.md`: 최소 80% 테스트 커버리지를 목표로 하고, RED-GREEN-IMPROVE 흐름의 TDD를 권장합니다. 테스트는 Arrange-Act-Assert 구조와 설명적인 이름을 사용합니다.
-- `code-review.md`: 코드 작성/수정 후, 공유 브랜치 커밋 전, 보안 민감 코드 변경 시 리뷰를 필수로 봅니다. CRITICAL은 병합 차단, HIGH는 병합 전 수정 권고로 분류합니다.
-- `security.md`: 커밋 전 하드코딩된 시크릿, 입력 검증, SQL Injection, XSS, CSRF, 인증/인가, Rate Limit, 민감정보 노출 여부를 확인합니다.
-- `git-workflow.md`: 커밋 메시지는 `<type>: <description>` 형식을 사용하고, PR은 전체 커밋 히스토리와 base 브랜치 대비 diff를 기준으로 작성합니다.
-- `linear-workflow.md`: Linear 이슈 발행 게이트, `agent-worklog` 라벨 계약, PR 연계 상태 전환, PR 이후 후속 이슈 발행 기준을 정의합니다.
-- `hooks.md`: `PreToolUse`, `PostToolUse`, `Stop` 훅의 용도를 설명합니다. 자동 승인 권한은 신뢰 가능한 계획에만 조심스럽게 사용하고, 위험한 skip 권한은 사용하지 않도록 합니다.
-- `patterns.md`: 새 기능 구현 전 검증된 스켈레톤 프로젝트를 찾고, Repository Pattern과 일관된 API 응답 포맷을 사용하도록 안내합니다.
-- `performance.md`: 작업 난이도에 따라 모델을 고르고, 큰 리팩터링이나 복잡한 디버깅은 컨텍스트 여유를 확보한 상태에서 진행하도록 합니다.
+HTML, CSS, UI, 접근성, 성능, E2E가 걸린 프론트엔드 작업은 TypeScript 규칙과 함께 아래 규칙을 봅니다.
 
-### Java 전용 규칙
+- `.ecc/rules/web/coding-style.md`
+- `.ecc/rules/web/design-quality.md`
+- `.ecc/rules/web/patterns.md`
+- `.ecc/rules/web/testing.md`
+- `.ecc/rules/web/security.md`
+- `.ecc/rules/web/performance.md`
+- `.ecc/rules/web/hooks.md`
 
-- `java/coding-style.md`: `google-java-format` 또는 Checkstyle을 사용하고, 파일당 하나의 public top-level type을 둡니다. 값 타입에는 `record`, 필드에는 기본적으로 `final`, 공개 API에는 방어적 복사를 권장합니다.
-- `java/patterns.md`: 데이터 접근은 Repository 인터페이스로 감싸고, 비즈니스 로직은 Service Layer에 둡니다. 의존성 주입은 필드 주입이 아니라 생성자 주입을 사용합니다.
-- `java/testing.md`: JUnit 5, AssertJ, Mockito, Testcontainers를 기준 도구로 둡니다. `src/main/java` 구조를 `src/test/java`에서 미러링하고, JaCoCo 기준 80% 이상 커버리지를 목표로 합니다.
-- `java/security.md`: 시크릿은 환경 변수나 Secret Manager를 사용하고, SQL은 항상 파라미터 바인딩으로 작성합니다. 인증/인가와 비밀번호 저장은 검증된 라이브러리와 bcrypt 또는 Argon2를 사용합니다.
-- `java/hooks.md`: Java 파일과 Maven/Gradle 설정 변경 후 `google-java-format`, Checkstyle, `./mvnw compile` 또는 `./gradlew compileJava` 같은 후속 검사를 연결하는 기준입니다.
+## Command shim
 
-### TypeScript/Web 전용 규칙
+현재 로컬에서 확인되는 Claude 호환 slash command shim은 `.claude/commands/ecc.md`입니다.
 
-- `typescript/`: TypeScript/JavaScript 코딩 스타일, 패턴, 테스트, 보안, 훅 기준입니다.
-- `web/`: Web/Frontend/Next.js 계열의 코딩 스타일, 디자인 품질, 패턴, 성능, 테스트, 보안, 훅 기준입니다.
-
-### 현재 로컬 기준으로 확인되는 것
-
-- `.ecc/rules` 안에서 직접 확인되는 규칙 파일은 28개입니다.
-- `common/agents.md` 기준 사용 가능 에이전트는 11개입니다.
-- `skills/` 안에는 `SKILL.md`를 가진 스킬 원문 232개가 있습니다.
-- Java 규칙 파일에는 `springboot-security`, `quarkus-security`, `security-review`, `java-coding-standards`, `jpa-patterns`, `springboot-tdd`, `quarkus-tdd`, `springboot-patterns`, `quarkus-patterns` 스킬 참조가 있습니다.
-- `.ecc/rules`만으로는 플러그인 전체 에이전트/스킬/커맨드 수량을 검증하지 않습니다. 전체 수량은 별도 manifest나 설치 결과를 기준으로 확인해야 합니다.
+ECC 문서나 스킬에 적힌 slash command가 현재 세션에서 직접 동작하지 않으면, 같은 의도를 자연어로 요청합니다.

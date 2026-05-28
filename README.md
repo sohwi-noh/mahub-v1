@@ -1,38 +1,12 @@
-# ktds AX Eng. 하네스
+# ktds-sdd
 
-`mahub-goal` 워크스페이스에서 Codex, Symphony, ECC, Linear 작업 로그를 팀 단위로 운영하기 위한 로컬/공유 하네스입니다.
+Codex, Symphony, ECC, Linear 작업 로그를 팀 단위로 운영하기 위한 공유 하네스입니다.
 
-## 문서 인덱스
+## 운영 기준
 
-- `README-ECC.md`: ECC 규칙, 스킬 원문, Mahub Java + Next.js 작업 기준.
-- `README-SYMPHONY.md`: Symphony 실행 구조, Linear 연동, Codex runner/workspace 계약.
-- `.open-ai-symphony/custom/README.md`: 실제 Symphony custom entrypoint와 hook 파일 설명.
-
-## 현재 구조
-
-```text
-AGENTS.md                         # 워크스페이스 전체 작업 지침
-README.md                         # 하네스 문서 인덱스
-README-ECC.md                     # ECC 규칙/스킬 안내
-README-SYMPHONY.md                # Symphony 운영 안내
-.env.example                      # 팀 공유 환경변수 스키마
-.codex/AGENTS.md                  # Codex에서 ECC를 쓰기 위한 보충 지침
-.codex/config.toml                # Codex 로컬 설정
-.codex/agents/*.toml              # Codex 하위 에이전트 역할 설정
-.codex/hooks.json                 # Codex 프로젝트 로컬 훅 연결
-.codex/hooks/                     # Linear worklog 등 Codex 훅 스크립트
-.codex/.agents/                   # ECC 자동 적용/설치 메타데이터 surface
-.ecc/rules/                       # ECC 공통/언어별 규칙
-.open-ai-symphony/custom/         # 팀 공유 Symphony 엔트리포인트와 workspace hook
-skills/                           # ECC 스킬 원문
-.claude/commands/ecc.md           # Claude 호환 slash command 진입점
-```
-
-## 운영 표면 역할
-
-- `.ecc/rules/**`: 팀 규칙의 원천입니다. Linear worklog, git/PR, 보안 같은 기준은 여기에 둡니다.
-- `AGENTS.md`: Codex, Symphony, agent가 읽는 작업 안내입니다. 어떤 rules를 따를지와 경로별 우선순위를 설명합니다.
-- `.codex/hooks/**`와 `.codex/hooks.json`: rules를 실제로 검사, 차단, 기록하는 실행 장치입니다. hook 안에 새 정책을 만들지 않습니다.
+- 팀 기준은 `.ecc/rules/**`에 둡니다.
+- 에이전트 작업 안내는 `AGENTS.md`에 둡니다.
+- Codex 실행은 이 README를, ECC와 Symphony 세부 기준은 아래 문서 인덱스를 봅니다.
 
 ## 지침 우선순위
 
@@ -44,4 +18,42 @@ AGENTS.md는 적용 경로가 더 구체적일수록 우선합니다.
 - `.open-ai-symphony/**/AGENTS.md`: `.open-ai-symphony/` 하위의 해당 Symphony 폴더 안 파일에만 추가로 적용됩니다.
 - 그 외 저장소 파일에는 최상단 `AGENTS.md`만 적용됩니다.
 
-최상위에 별도 `SYMPHONY_AGENTS.md`나 `WORKFLOW.md`를 두지 않습니다. Symphony 전용 실행 계약은 `.open-ai-symphony/custom/` 아래에 모읍니다.
+## 문서 인덱스
+
+- `README-ECC.md`: 하네스 규칙 레이어. ECC rules, skills, Java/TypeScript/Web 기준.
+- `README-SYMPHONY.md`: AI agent 오케스트레이션 레이어. Linear queue, Symphony 실행, 이슈별 작업공간 생성과 repo/branch 준비 방식.
+
+## Linear 작업 로그 훅 경계
+
+Linear 작업 로그 계약의 원천 규칙은 `.ecc/rules/common/linear-workflow.md`입니다.
+
+- `agent-worklog` 라벨이 붙은 Linear 이슈만 에이전트 작업 로그 계약 대상입니다.
+- `.codex/hooks/**`는 실행 엔트리로 들어온 대화형 작업의 선택적 누락 방지 장치입니다.
+- `.codex/hooks/**`는 `agent-worklog` 라벨이 없거나 Linear 이슈 맥락이 없으면 기본적으로 기록하지 않습니다.
+- Symphony 작업공간 훅은 `.open-ai-symphony/custom/hooks/**`에서 동작하며, `.symphony-workspaces/<이슈키>/`에서 실행되는 자율 에이전트 작업의 필수 감사 로그 장치입니다.
+- Symphony 작업은 작업 시작/결과 댓글, PR 생성 여부, `In Review` 또는 `확인 필요` 상태 전환을 강하게 점검합니다.
+- PR 요청 상태로 넘어간 이슈에는 후속 수정을 직접 추가하지 않고 연계 이슈와 새 PR로 이어갑니다.
+
+## 현재 구조
+
+```
+AGENTS.md                         # 워크스페이스 전체 작업 지침
+README.md                         # Codex 시작점과 하네스 문서 인덱스
+README-ECC.md                     # ECC 규칙/스킬 안내
+README-SYMPHONY.md                # Symphony 운영 안내
+.env.example                      # 팀 공유 환경변수 스키마
+entrypoint.sh                     # Codex 실행 엔트리포인트
+.codex/                           # Codex 설정, hooks, agents, skills
+.ecc/rules/                       # ECC 공통/언어별 규칙
+.open-ai-symphony/custom/         # 팀 공유 Symphony 실행 구조와 이슈별 작업공간 hook
+```
+
+## Codex 시작
+
+최상단 `entrypoint.sh`로 시작합니다.
+
+```bash
+./entrypoint.sh
+```
+
+이 스크립트는 repo root를 작업 위치로 고정하고, `.env`, `.env.local`을 읽은 뒤, `CODEX_HOME`을 이 저장소의 `.codex/`로 설정합니다.

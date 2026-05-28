@@ -1,15 +1,11 @@
-# ktds AX Eng. 하네스 에이전트 지침
+# ktds-sdd 하네스 에이전트 지침
 
 이 파일은 저장소 전체에서 에이전트가 먼저 읽는 최상위 안내문입니다.
 세부 기준의 원천은 `.ecc/rules/**`에 두고, 이 파일은 어떤 기준을 어디에 적용할지만 짧게 안내합니다.
 
-## 어디에 무엇을 적나
+## 문서 조회 기준
 
-- 팀 기준은 `.ecc/rules/**`에 적습니다. 예: Linear worklog, git/PR, 보안, 테스트 기준.
-- 에이전트에게 “작업할 때 이렇게 읽고 움직여라”라고 알려줄 내용은 `AGENTS.md`에 적습니다.
-- 실제로 검사하거나 막아야 하는 로직은 `.codex/hooks/**`와 `.codex/hooks.json`에 둡니다.
-- hook에는 새 기준을 만들지 않습니다. 먼저 `.ecc/rules/**`에 기준을 적고, hook은 그 기준을 실행만 합니다.
-- Symphony 실행 진입점과 Symphony가 호출하는 workspace hook만 `.open-ai-symphony/custom/**`에 둡니다.
+- 파일 위치나 문서 역할이 헷갈리면 `README.md`의 문서 인덱스를 먼저 봅니다.
 
 ## 적용할 Rules
 

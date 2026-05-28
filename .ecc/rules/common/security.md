@@ -19,6 +19,12 @@ Before ANY commit:
 - Validate that required secrets are present at startup
 - Rotate any secrets that may have been exposed
 
+## Environment Files
+
+- Keep `.env.example` and `.env.local` in the same section order, key order, and line count.
+- Put variable descriptions as inline comments, for example `KEY=value # description`, so matching keys stay on matching lines.
+- Store real secret values only in `.env.local`; keep `.env.example` as schema/example values only.
+
 ## Security Response Protocol
 
 If security issue found:

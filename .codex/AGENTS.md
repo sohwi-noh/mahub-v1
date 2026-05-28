@@ -84,19 +84,22 @@ Sample role configs in this repo:
 
 | Feature | Claude Code | Codex CLI |
 |---------|------------|-----------|
-| Hooks | 8+ event types | Not yet supported |
+| Hooks | 8+ event types | Project-local hooks via `.codex/hooks.json` |
 | Context file | CLAUDE.md + AGENTS.md | AGENTS.md only |
 | Skills | Skills loaded via plugin | `.agents/skills/` directory |
 | Commands | `/slash` commands | Instruction-based |
 | Agents | Subagent Task tool | Multi-agent via `/agent` and `[agents.<name>]` roles |
-| Security | Hook-based enforcement | Instruction + sandbox |
+| Security | Hook-based enforcement | Instruction + sandbox + project-local hooks |
 | MCP | Full support | Supported via `config.toml` and `codex mcp add` |
 
-## Security Without Hooks
+## Security And Project-Local Hooks
 
-Since Codex lacks hooks, security enforcement is instruction-based:
+Codex uses instruction-based enforcement, sandboxing, and this repository's
+project-local hooks:
 1. Always validate inputs at system boundaries
 2. Never hardcode secrets — use environment variables
 3. Run `npm audit` / `pip audit` before committing
 4. Review `git diff` before every push
 5. Use `sandbox_mode = "workspace-write"` in config
+6. Treat `.codex/hooks.json` and `.codex/hooks/**` as execution devices for
+   rules whose source of truth lives under `.ecc/rules/common/**`

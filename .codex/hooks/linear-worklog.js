@@ -11,6 +11,7 @@ const PR_MISSING_REASON_RE =
   /(확인\s*필요\s*사유|PR\s*미진행\s*사유|PR\s*실패\s*사유|pull request\s+(not created|failed)|pr\s+(not created|failed))/i;
 const NEEDS_REVIEW_STATUS = "확인 필요";
 const PR_LINK_RE = /https:\/\/github\.com\/[^\s)]+\/[^\s)]+\/pull\/\d+/i;
+const DEFAULT_CODEX_LINEAR_LABEL = "codex";
 const MODIFYING_TOOLS = new Set([
   "apply_patch",
   "Write",
@@ -62,31 +63,22 @@ async function handleUserPromptSubmit(input, cwd, state, sessionId) {
   }
 
   const issue = await fetchIssue(issueId, false);
-  const agentAssigned = issue ? isCodexAssigned(issue) : false;
-  const agentIdsConfigured = codexAgentIds().size > 0;
+  const worklogEnabled = issue ? isCodexLabeled(issue) : false;
   state.sessions = state.sessions || {};
   state.sessions[sessionId] = {
     issueId,
-    agentAssigned,
+    worklogEnabled,
     changed: false,
     startedAt: new Date().toISOString(),
   };
   writeState(cwd, state);
 
-  if (agentAssigned) {
+  if (worklogEnabled) {
     writeJson({
       hookSpecificOutput: {
         hookEventName: "UserPromptSubmit",
         additionalContext:
-          `Linear ${issueId} is delegated to Codex. Before editing files, add a Korean Linear comment containing "작업 계획:". After changes, add a Korean Linear comment containing "작업 결과:".`,
-      },
-    });
-  } else if (issue && !agentIdsConfigured) {
-    writeJson({
-      hookSpecificOutput: {
-        hookEventName: "UserPromptSubmit",
-        additionalContext:
-          "CODEX_LINEAR_AGENT_IDS is not set. Codex-specific Linear worklog enforcement is disabled for this session. Set CODEX_LINEAR_AGENT_IDS in .env.local before delegating Linear issues to Codex.",
+          `Linear ${issueId} has the Codex work label. Before editing files, add a Korean Linear comment containing "작업 계획:". After changes, add a Korean Linear comment containing "작업 결과:".`,
       },
     });
   }
@@ -106,7 +98,7 @@ async function handlePreToolUse(input, cwd, state, sessionId) {
   }
 
   const session = activeSession(state, sessionId);
-  if (!session || !session.agentAssigned || !session.issueId) {
+  if (!session || !session.worklogEnabled || !session.issueId) {
     return;
   }
 
@@ -124,7 +116,7 @@ async function handlePreToolUse(input, cwd, state, sessionId) {
 
   if (!hasComment(issue, PLAN_RE)) {
     block(
-      `Linear ${session.issueId} is delegated to Codex. Add a Korean Linear comment containing "작업 계획:" before editing files.`,
+      `Linear ${session.issueId} has the Codex work label. Add a Korean Linear comment containing "작업 계획:" before editing files.`,
     );
   }
 }
@@ -135,7 +127,7 @@ function handlePostToolUse(input, cwd, state, sessionId) {
   }
 
   const session = activeSession(state, sessionId);
-  if (!session || !session.agentAssigned) {
+  if (!session || !session.worklogEnabled) {
     return;
   }
 
@@ -146,7 +138,7 @@ function handlePostToolUse(input, cwd, state, sessionId) {
 
 async function handleStop(input, cwd, state, sessionId) {
   const session = activeSession(state, sessionId);
-  if (!session || !session.agentAssigned || !session.issueId || !session.changed) {
+  if (!session || !session.worklogEnabled || !session.issueId || !session.changed) {
     return;
   }
 
@@ -160,7 +152,7 @@ async function handleStop(input, cwd, state, sessionId) {
 
   if (!hasComment(issue, RESULT_RE)) {
     block(
-      `Linear ${session.issueId} is delegated to Codex and files changed. Add a Korean Linear comment containing "작업 결과:" before finishing.`,
+      `Linear ${session.issueId} has the Codex work label and files changed. Add a Korean Linear comment containing "작업 결과:" before finishing.`,
     );
   }
 
@@ -256,8 +248,7 @@ async function fetchIssue(issueId, includeComments) {
           identifier
           title
           state { name type }
-          assignee { id name displayName }
-          delegate { id name displayName }
+          labels { nodes { name } }
           attachments(first: 50) {
             nodes { title url }
           }
@@ -271,8 +262,7 @@ async function fetchIssue(issueId, includeComments) {
           identifier
           title
           state { name type }
-          assignee { id name displayName }
-          delegate { id name displayName }
+          labels { nodes { name } }
         }
       }`;
 
@@ -296,23 +286,47 @@ async function fetchIssue(issueId, includeComments) {
   return payload.data && payload.data.issue ? payload.data.issue : null;
 }
 
-function isCodexAssigned(issue) {
-  const ids = codexAgentIds();
-  if (ids.size === 0) {
-    return false;
-  }
-
-  const people = [issue.assignee, issue.delegate].filter(Boolean);
-  return people.some((person) => ids.has(person.id));
+function isCodexLabeled(issue) {
+  const configuredLabels = codexLinearLabels();
+  return issueLabels(issue).some((label) =>
+    configuredLabels.has(normalizeLabel(label)),
+  );
 }
 
-function codexAgentIds() {
+function codexLinearLabels() {
+  const raw = process.env.CODEX_LINEAR_LABELS || DEFAULT_CODEX_LINEAR_LABEL;
   return new Set(
-    (process.env.CODEX_LINEAR_AGENT_IDS || "")
+    raw
       .split(",")
       .map((value) => value.trim())
+      .map(normalizeLabel)
       .filter(Boolean),
   );
+}
+
+function issueLabels(issue) {
+  const labels = issue && issue.labels;
+  if (Array.isArray(labels)) {
+    return labels.map(labelName).filter(Boolean);
+  }
+  if (labels && Array.isArray(labels.nodes)) {
+    return labels.nodes.map(labelName).filter(Boolean);
+  }
+  return [];
+}
+
+function labelName(label) {
+  if (typeof label === "string") {
+    return label;
+  }
+  if (label && typeof label.name === "string") {
+    return label.name;
+  }
+  return "";
+}
+
+function normalizeLabel(value) {
+  return String(value || "").trim().toLowerCase();
 }
 
 function hasComment(issue, regex) {

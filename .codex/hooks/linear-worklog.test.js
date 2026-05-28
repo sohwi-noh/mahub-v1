@@ -75,6 +75,37 @@ const tests = [
     },
   ],
   [
+    "does not treat Symphony Ready as a local Codex hook marker without the codex label",
+    () => {
+      const cwd = tempCwd();
+      const sessionId = "symphony-ready-session";
+      const issue = {
+        identifier: "KTD-77",
+        state: { name: "Symphony Ready" },
+        labels: { nodes: [] },
+      };
+
+      runHook("user-prompt-submit", {
+        cwd,
+        session_id: sessionId,
+        prompt: "KTD-77 작업 진행",
+      }, issue);
+
+      const result = runHook("pre-tool-use", {
+        cwd,
+        session_id: sessionId,
+        tool_name: "apply_patch",
+        tool_input: { path: "README.md" },
+      }, {
+        ...issue,
+        comments: { nodes: [] },
+      });
+
+      assert.strictEqual(result.status, 0);
+      assert.strictEqual(result.stderr, "");
+    },
+  ],
+  [
     "supports overriding the active Linear label list with CODEX_LINEAR_LABELS",
     () => {
       const cwd = tempCwd();
@@ -104,6 +135,43 @@ const tests = [
 
       assert.strictEqual(result.status, 2);
       assert.match(result.stderr, /작업 계획/);
+    },
+  ],
+  [
+    "keeps the Stop guard for labeled worklog issues without a PR handoff",
+    () => {
+      const cwd = tempCwd();
+      const sessionId = "stop-guard-session";
+      const issue = {
+        identifier: "KTD-77",
+        labels: ["codex"],
+      };
+
+      runHook("user-prompt-submit", {
+        cwd,
+        session_id: sessionId,
+        prompt: "KTD-77 작업 진행",
+      }, issue);
+
+      runHook("post-tool-use", {
+        cwd,
+        session_id: sessionId,
+        tool_name: "apply_patch",
+        tool_input: { path: "README.md" },
+      }, issue);
+
+      const result = runHook("stop", {
+        cwd,
+        session_id: sessionId,
+      }, {
+        ...issue,
+        state: { name: "In Progress" },
+        comments: { nodes: [{ body: "작업 결과: 구현 완료" }] },
+        attachments: { nodes: [] },
+      });
+
+      assert.strictEqual(result.status, 2);
+      assert.match(result.stderr, /PR 미진행 사유/);
     },
   ],
 ];

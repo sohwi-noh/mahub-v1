@@ -20,5 +20,12 @@ When creating PRs:
 4. Include test plan with TODOs
 5. Push with `-u` flag if new branch
 
+## Linear Issue Transitions
+
+- Once a Linear issue has moved to PR review, do not add follow-up changes to the same issue. Create a related Linear issue, a new branch, and a new PR instead.
+- In this workflow, `In Review` means PR requested.
+- If the work result is acceptable but no PR was created, add a Korean comment explaining the PR-missing or PR-failure reason and move the issue to `확인 필요`.
+- Only move an issue to `Done` after the PR has been merged or the requested PR outcome has otherwise been confirmed.
+
 > For the full development process (planning, TDD, code review) before git operations,
 > see [development-workflow.md](./development-workflow.md).

@@ -1,0 +1,57 @@
+# The shared Symphony runtime source/config can be tracked, but local
+# Elixir build/runtime artifacts should stay out of git.
+
+# The directory Mix will write compiled artifacts to.
+/_build/
+
+# If you run "mix test --cover", coverage assets end up here.
+/cover/
+
+# The directory Mix downloads your dependencies sources to.
+/deps/
+
+# Where third-party dependencies like ExDoc output generated docs.
+/doc/
+
+# Temporary files, for example, from tests.
+/tmp/
+
+# Runtime reference tests are not shared with this project bundle.
+/test/
+
+# Generated browser assets.
+/priv/static/assets/
+
+# Local runtime binaries and logs.
+/bin/
+/log/
+/logs/
+
+# If the VM crashes, it generates a dump, ignore it too.
+erl_crash.dump
+
+# Elixir language server and tooling.
+/.elixir_ls/
+/.fetch/
+
+# Editor / OS temporary files.
+.DS_Store
+*.swp
+*.swo
+*~
+
+# IDE folders.
+.idea/
+.vscode/
+
+# Local environment and auth artifacts.
+.env
+.env.*
+.secrets
+.credentials
+status.txt
+.codex/original-user-prompt.txt
+
+# Archive/package artifacts.
+*.ez
+symphony_elixir-*.tar

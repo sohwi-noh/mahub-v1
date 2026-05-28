@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 ACTION="${1:-status}"
 MODE="${2:-local}"
 ENV_FILE="${3:-}"
-SESSION="${SYMPHONY_TMUX_SESSION:-mahub-goal-symphony-$MODE}"
+SESSION="${SYMPHONY_TMUX_SESSION:-ktds-sdd-symphony-$MODE}"
 LOG_DIR="$ROOT_DIR/.symphony-logs"
 LOG_FILE="$LOG_DIR/symphony-$MODE.log"
 

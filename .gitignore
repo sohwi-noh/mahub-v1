@@ -1,12 +1,30 @@
+# Node.js 의존성 및 npm 실행 로그.
 node_modules/
 npm-debug.log*
+
+# 개인별 실행 환경값과 secret은 공유하지 않습니다.
 /.env
 /.env.local
+
+# Symphony 이슈별 작업공간은 런타임 산출물입니다.
+# 단, _wiki는 팀 운영 지식으로 공유할 수 있도록 추적 대상에 남깁니다.
 /.symphony-workspaces/*
 !/.symphony-workspaces/_wiki/
 !/.symphony-workspaces/_wiki/**
+
+# Symphony 실행 로그와 로컬 환경 파일은 개인 실행 상태입니다.
 /.symphony-logs/
 /.omx/
 /symphony.env
 /symphony.shared.env
+
+# vendored Symphony runtime은 source/spec/license만 공유하고, upstream repo CI와 데모 미디어는 제외합니다.
+/.open-ai-symphony/.github/
+
+# .codex 디렉터리 자체는 하네스라 공유하지만, 개인 인증/세션/로그 상태는 제외합니다.
+/.codex/ecc-install-state.json
 /.codex/state/
+/.codex/auth.json
+/.codex/history.jsonl
+/.codex/log/
+/.codex/sessions/

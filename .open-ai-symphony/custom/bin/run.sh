@@ -26,15 +26,17 @@ escape_sed_replacement() {
 }
 
 render_workflow_file() {
-  local project_root workspace_root
+  local project_root workspace_root target_repo_dir
 
   mkdir -p "$RUNTIME_DIR"
   project_root="$(escape_sed_replacement "$ROOT_DIR")"
   workspace_root="$(escape_sed_replacement "$SYMPHONY_WORKSPACE_ROOT")"
+  target_repo_dir="$(escape_sed_replacement "$SYMPHONY_TARGET_REPO_DIR")"
 
   sed \
     -e "s|__SYMPHONY_PROJECT_ROOT__|$project_root|g" \
     -e "s|__SYMPHONY_WORKSPACE_ROOT__|$workspace_root|g" \
+    -e "s|__SYMPHONY_TARGET_REPO_DIR__|$target_repo_dir|g" \
     "$WORKFLOW_TEMPLATE" > "$WORKFLOW_FILE"
 }
 
@@ -77,7 +79,7 @@ fi
 
 export SYMPHONY_WORKSPACE_ROOT="${SYMPHONY_WORKSPACE_ROOT:-$ROOT_DIR/.symphony-workspaces}"
 export SYMPHONY_PROJECT_ROOT="$ROOT_DIR"
-export SYMPHONY_TARGET_REPO_DIR="${SYMPHONY_TARGET_REPO_DIR:-mahub-goal}"
+export SYMPHONY_TARGET_REPO_DIR="${SYMPHONY_TARGET_REPO_DIR:-target-repo}"
 export GIT_TERMINAL_PROMPT="${GIT_TERMINAL_PROMPT:-0}"
 if [[ -z "${GH_TOKEN:-}" && -n "${GITHUB_TOKEN:-}" ]]; then
   export GH_TOKEN="$GITHUB_TOKEN"

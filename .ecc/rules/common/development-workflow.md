@@ -4,6 +4,14 @@
 
 The Feature Implementation Workflow describes the development pipeline: research, planning, TDD, code review, and then committing to git.
 
+## Mahub 기본 작업 범위
+
+- 기본 작업 범위는 Java 백엔드와 Next.js/React/TypeScript 프론트엔드입니다.
+- Java, Maven, Gradle, Spring 계열 작업에는 `../java/` 규칙을 함께 적용합니다.
+- Next.js, React, TypeScript, JavaScript, HTML, CSS 작업에는 `../typescript/`와 `../web/` 규칙을 함께 적용합니다.
+- DB 작업은 이슈가 영속성 변경을 포함할 때만 함께 봅니다.
+- Go, Python, Django, FastAPI 같은 다른 언어/프레임워크는 이슈에서 명시한 경우에만 기본 범위에 포함합니다.
+
 ## Feature Implementation Workflow
 
 0. **Research & Reuse** _(mandatory before any new implementation)_

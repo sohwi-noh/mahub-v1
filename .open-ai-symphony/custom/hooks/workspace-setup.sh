@@ -2,7 +2,7 @@
 set -eu
 
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
-TARGET_REPO_DIR="${SYMPHONY_TARGET_REPO_DIR:-mahub-goal}"
+TARGET_REPO_DIR="${SYMPHONY_TARGET_REPO_DIR:-target-repo}"
 BRANCH_PREFIX="${SYMPHONY_BRANCH_PREFIX:-codex/}"
 
 export GIT_TERMINAL_PROMPT="${GIT_TERMINAL_PROMPT:-0}"

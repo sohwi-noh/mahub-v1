@@ -18,7 +18,7 @@ Codex 소유 훅은 저장소 루트의 `.codex/` 아래에 둡니다. 이 폴�
   - `logs`: `.symphony-logs/symphony-*.log`를 출력합니다.
 - `AGENTS.md`: Symphony가 만든 이슈별 workspace에 연결되는 최소 실행자 계약입니다.
 - `WORKFLOW.md`: 프로젝트별 Symphony workflow입니다.
-- `bin/run.sh`: `.open-ai-symphony/elixir/bin/symphony`를 `custom/WORKFLOW.md`와 함께 시작합니다.
+- `bin/run.sh`: `custom/WORKFLOW.md` template를 checkout별 실제 경로로 렌더링한 뒤 `.open-ai-symphony/elixir/bin/symphony`를 시작합니다.
 - `hooks/workspace-setup.sh`: `custom/WORKFLOW.md`의 `after_create`, `before_run` 시점에 호출됩니다.
 - `lib/git-askpass-github-token.sh`: `GH_TOKEN` 또는 `GITHUB_TOKEN`이 있을 때 runner와 workspace hook이 쓰는 token helper입니다.
 
@@ -37,7 +37,8 @@ GitHub 값은 이 스크립트가 아니라 루트 `.env.local`에 둡니다.
 ```text
 .open-ai-symphony/custom/bin/tmux.sh start
   -> .open-ai-symphony/custom/bin/run.sh
-    -> .open-ai-symphony/elixir/bin/symphony .open-ai-symphony/custom/WORKFLOW.md
+    -> .symphony-logs/WORKFLOW.<mode>.generated.md
+      -> .open-ai-symphony/elixir/bin/symphony
       -> .open-ai-symphony/custom/hooks/workspace-setup.sh after-create|before-run
         -> .open-ai-symphony/custom/lib/git-askpass-github-token.sh
 ```

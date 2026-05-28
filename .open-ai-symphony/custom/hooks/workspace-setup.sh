@@ -94,11 +94,11 @@ repo_default_branch() {
   fi
 }
 
-ensure_target_repo_remote() {
+ensure_target_repo_remote_matches() {
   actual_remote="$(git -C "$TARGET_REPO_DIR" remote get-url origin 2>/dev/null || true)"
   desired_remote="$(target_remote_url)"
   if [ "$actual_remote" != "$desired_remote" ]; then
-    git -C "$TARGET_REPO_DIR" remote set-url origin "$desired_remote"
+    fail "$TARGET_REPO_DIR origin이 기대값과 다릅니다. actual=$actual_remote expected=$desired_remote. 새 workspace에서 다시 실행하세요."
   fi
 }
 
@@ -127,12 +127,11 @@ ensure_issue_branch() {
 
 ensure_target_repo() {
   if [ -d "$TARGET_REPO_DIR/.git" ]; then
-    ensure_target_repo_remote
+    ensure_target_repo_remote_matches
   elif [ -e "$TARGET_REPO_DIR" ]; then
     fail "$TARGET_REPO_DIR 경로가 있지만 git 저장소가 아닙니다."
   else
-    git -c credential.helper= clone --no-hardlinks "$ROOT" "$TARGET_REPO_DIR"
-    ensure_target_repo_remote
+    git -c credential.helper= clone "$(target_remote_url)" "$TARGET_REPO_DIR"
   fi
 
   git -C "$TARGET_REPO_DIR" config credential.helper ""

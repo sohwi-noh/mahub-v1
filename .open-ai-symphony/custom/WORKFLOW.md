@@ -16,12 +16,12 @@ tracker:
 polling:
   interval_ms: 15000
 workspace:
-  root: /Users/so2/workspace-so2/mahub-goal/.symphony-workspaces
+  root: "__SYMPHONY_WORKSPACE_ROOT__"
 hooks:
   after_create: |
-    /Users/so2/workspace-so2/mahub-goal/.open-ai-symphony/custom/hooks/workspace-setup.sh after-create
+    "__SYMPHONY_PROJECT_ROOT__/.open-ai-symphony/custom/hooks/workspace-setup.sh" after-create
   before_run: |
-    /Users/so2/workspace-so2/mahub-goal/.open-ai-symphony/custom/hooks/workspace-setup.sh before-run
+    "__SYMPHONY_PROJECT_ROOT__/.open-ai-symphony/custom/hooks/workspace-setup.sh" before-run
 agent:
   max_concurrent_agents: 1
   max_turns: 1
@@ -34,7 +34,7 @@ codex:
     type: workspaceWrite
     networkAccess: true
     writableRoots:
-      - /Users/so2/workspace-so2/mahub-goal/.symphony-workspaces
+      - "__SYMPHONY_WORKSPACE_ROOT__"
 ---
 
 당신은 Linear 이슈 `{{ issue.identifier }}`를 처리하는 mahub-goal 전용 단일 Codex 실행자입니다.
@@ -45,7 +45,7 @@ Issue: `{{ issue.identifier }}` / `{{ issue.title }}` / `{{ issue.state }}` / `{
 
 ## 운영 계약
 
-- 이 Symphony는 `/Users/so2/workspace-so2/mahub-goal`만 기준으로 동작한다.
+- 이 Symphony는 `__SYMPHONY_PROJECT_ROOT__`만 기준으로 동작한다.
 - 다른 프로젝트의 Symphony 설정이나 workspace를 참조하지 않는다.
 - Symphony 실행 중에는 `WORKFLOW.md`, `SYMPHONY_WORKSPACE.md`, workspace `AGENTS.md`를 실행 계약으로 우선한다.
 - 이슈별 작업 대상 repo는 workspace hook이 만든 `SYMPHONY_WORKSPACE.md`의 `Target repo dir`와 `Required origin`을 기준으로 한다.

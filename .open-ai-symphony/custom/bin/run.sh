@@ -5,7 +5,9 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 MODE="${1:-local}"
 ENV_FILE="${2:-}"
 SYMPHONY_DIR="$ROOT_DIR/.open-ai-symphony/elixir"
-WORKFLOW_FILE="$ROOT_DIR/.open-ai-symphony/custom/WORKFLOW.md"
+WORKFLOW_TEMPLATE="$ROOT_DIR/.open-ai-symphony/custom/WORKFLOW.md"
+RUNTIME_DIR="$ROOT_DIR/.symphony-logs"
+WORKFLOW_FILE="$RUNTIME_DIR/WORKFLOW.$MODE.generated.md"
 GUARDRAIL_FLAG="--i-understand-that-this-will-be-running-without-the-usual-guardrails"
 
 load_env_file() {
@@ -17,6 +19,23 @@ load_env_file() {
     source "$file"
     set +a
   fi
+}
+
+escape_sed_replacement() {
+  printf '%s' "$1" | sed 's/[\/&|\\]/\\&/g'
+}
+
+render_workflow_file() {
+  local project_root workspace_root
+
+  mkdir -p "$RUNTIME_DIR"
+  project_root="$(escape_sed_replacement "$ROOT_DIR")"
+  workspace_root="$(escape_sed_replacement "$SYMPHONY_WORKSPACE_ROOT")"
+
+  sed \
+    -e "s|__SYMPHONY_PROJECT_ROOT__|$project_root|g" \
+    -e "s|__SYMPHONY_WORKSPACE_ROOT__|$workspace_root|g" \
+    "$WORKFLOW_TEMPLATE" > "$WORKFLOW_FILE"
 }
 
 case "$MODE" in
@@ -57,6 +76,7 @@ else
 fi
 
 export SYMPHONY_WORKSPACE_ROOT="${SYMPHONY_WORKSPACE_ROOT:-$ROOT_DIR/.symphony-workspaces}"
+export SYMPHONY_PROJECT_ROOT="$ROOT_DIR"
 export SYMPHONY_TARGET_REPO_DIR="${SYMPHONY_TARGET_REPO_DIR:-mahub-goal}"
 export GIT_TERMINAL_PROMPT="${GIT_TERMINAL_PROMPT:-0}"
 if [[ -z "${GH_TOKEN:-}" && -n "${GITHUB_TOKEN:-}" ]]; then
@@ -81,6 +101,7 @@ if [[ -z "${GIT_CONFIG_COUNT:-}" ]]; then
   export GIT_CONFIG_VALUE_0=
 fi
 SYMPHONY_PORT="${SYMPHONY_PORT:-4101}"
+render_workflow_file
 
 cd "$SYMPHONY_DIR"
 exec mise exec -- ./bin/symphony "$WORKFLOW_FILE" --port "$SYMPHONY_PORT" "$GUARDRAIL_FLAG"

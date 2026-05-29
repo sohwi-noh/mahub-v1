@@ -16,7 +16,6 @@ defmodule SymphonyElixirWeb.DashboardLive do
       |> assign(:payload, load_payload())
       |> assign(:linear_issue_filter, :in_progress)
       |> assign(:linear_selected_project_key, nil)
-      |> assign(:workflow_lane_filter, :all)
       |> assign(:linear_project_source, empty_linear_project_source())
       |> assign(:linear_projects, empty_linear_projects(:in_progress))
       |> assign(:now, DateTime.utc_now())
@@ -74,13 +73,7 @@ defmodule SymphonyElixirWeb.DashboardLive do
     {:noreply,
      socket
      |> assign(:linear_selected_project_key, project_key)
-     |> assign(:workflow_lane_filter, :all)
      |> refresh_linear_projects()}
-  end
-
-  @impl true
-  def handle_event("select_workflow_lane", %{"lane" => lane}, socket) do
-    {:noreply, assign(socket, :workflow_lane_filter, workflow_lane_key(lane))}
   end
 
   @impl true
@@ -170,7 +163,7 @@ defmodule SymphonyElixirWeb.DashboardLive do
             <article class="status-guide-item">
               <h3 class="status-guide-title">Linear 상태</h3>
               <p class="status-guide-copy">
-                프로젝트별 To-do, 진행 중, 완료 개수는 Linear API 기준입니다. 상태 카드를 누르면 최초 조회 결과에서 해당 상태의 이슈만 필터링합니다.
+                프로젝트별 확인필요, 진행 중, 완료 개수는 Linear API 기준입니다. 상태 카드를 누르면 최초 조회 결과에서 해당 상태의 이슈만 필터링합니다.
               </p>
             </article>
 
@@ -277,7 +270,7 @@ defmodule SymphonyElixirWeb.DashboardLive do
                         <div>
                           <h4 class="active-workflow-title"><%= project.visible_title %></h4>
                           <p class="active-workflow-caption">
-                            선택한 프로젝트의 Linear 이슈를 상태, 주관 라벨, 이슈 tier에 맞는 stage 판단 기준으로 보여줍니다.
+                            선택한 프로젝트의 Linear 이슈를 상태와 stage 판단 기준으로 보여줍니다.
                           </p>
                         </div>
                         <span class="active-workflow-count numeric"><%= format_int(length(project.visible_issues)) %>개</span>
@@ -286,31 +279,8 @@ defmodule SymphonyElixirWeb.DashboardLive do
                       <%= if project.visible_issues == [] do %>
                         <p class="empty-state">현재 Linear 기준 <%= project.visible_status_label %> 이슈가 없습니다.</p>
                       <% else %>
-                        <% workflow_lanes = workflow_lane_tabs(project) %>
-                        <% active_lane = selected_workflow_lane(workflow_lanes, @workflow_lane_filter) %>
-
-                        <div class="workflow-lane-tabs" role="tablist" aria-label="작업 주관 라벨">
-                          <button
-                            :for={lane <- workflow_lanes}
-                            type="button"
-                            role="tab"
-                            aria-selected={if lane.key == active_lane.key, do: "true", else: "false"}
-                            class={workflow_lane_tab_class(lane.key, active_lane.key)}
-                            phx-click="select_workflow_lane"
-                            phx-value-lane={workflow_lane_value(lane.key)}
-                          >
-                            <span class="workflow-lane-tab-icon" aria-hidden="true"></span>
-                            <span class="workflow-lane-tab-label"><%= lane.label %></span>
-                            <span class="workflow-lane-tab-count numeric">(<%= format_int(lane.count) %>개)</span>
-                          </button>
-                        </div>
-
-                        <section class={workflow_lane_panel_class(active_lane.key)} role="tabpanel">
-                          <%= if active_lane.issues == [] do %>
-                            <p class="workflow-lane-empty">이 탭에 표시할 이슈가 없습니다.</p>
-                          <% else %>
-                            <.workflow_issue_table issues={active_lane.issues} />
-                          <% end %>
+                        <section class="workflow-issue-panel">
+                          <.workflow_issue_table issues={project.visible_issues} />
                         </section>
                       <% end %>
                     </div>
@@ -733,7 +703,7 @@ defmodule SymphonyElixirWeb.DashboardLive do
   defp linear_status_group(:done), do: :done
   defp linear_status_group(_status), do: :in_progress
 
-  defp linear_status_label(:todo), do: "To-do"
+  defp linear_status_label(:todo), do: "확인필요"
   defp linear_status_label(:in_progress), do: "진행 중"
   defp linear_status_label(:done), do: "완료"
   defp linear_status_label(_status_group), do: "진행 중"
@@ -753,62 +723,6 @@ defmodule SymphonyElixirWeb.DashboardLive do
       base
     end
   end
-
-  defp workflow_lane_key("all"), do: :all
-  defp workflow_lane_key("harness"), do: :harness
-  defp workflow_lane_key("product"), do: :product
-  defp workflow_lane_key("demo"), do: :demo
-  defp workflow_lane_key("other"), do: :other
-  defp workflow_lane_key(:all), do: :all
-  defp workflow_lane_key(:harness), do: :harness
-  defp workflow_lane_key(:product), do: :product
-  defp workflow_lane_key(:demo), do: :demo
-  defp workflow_lane_key(:other), do: :other
-  defp workflow_lane_key(_lane), do: :all
-
-  defp workflow_lane_value(lane_key), do: lane_key |> workflow_lane_key() |> Atom.to_string()
-
-  defp workflow_lane_tabs(%{visible_issues: visible_issues, issue_lanes: issue_lanes}) do
-    visible_issues = visible_issues || []
-    issue_lanes = issue_lanes || []
-
-    [
-      %{key: :all, label: "전체", count: length(visible_issues), issues: visible_issues}
-      | issue_lanes
-    ]
-  end
-
-  defp selected_workflow_lane(lanes, selected_key) when is_list(lanes) do
-    normalized_key = workflow_lane_key(selected_key)
-
-    Enum.find(lanes, &(&1.key == normalized_key)) ||
-      Enum.find(lanes, &(&1.key == :all)) ||
-      List.first(lanes) ||
-      %{key: :all, label: "전체", count: 0, issues: []}
-  end
-
-  defp workflow_lane_tab_class(lane_key, selected_key) do
-    base =
-      case workflow_lane_key(lane_key) do
-        :all -> "workflow-lane-tab workflow-lane-tab-all"
-        :harness -> "workflow-lane-tab workflow-lane-tab-harness"
-        :product -> "workflow-lane-tab workflow-lane-tab-product"
-        :demo -> "workflow-lane-tab workflow-lane-tab-demo"
-        :other -> "workflow-lane-tab workflow-lane-tab-other"
-      end
-
-    if workflow_lane_key(lane_key) == workflow_lane_key(selected_key) do
-      base <> " workflow-lane-tab-selected"
-    else
-      base
-    end
-  end
-
-  defp workflow_lane_panel_class(:all), do: "workflow-lane-panel workflow-lane-panel-all"
-  defp workflow_lane_panel_class(:harness), do: "workflow-lane-panel workflow-lane-panel-harness"
-  defp workflow_lane_panel_class(:product), do: "workflow-lane-panel workflow-lane-panel-product"
-  defp workflow_lane_panel_class(:demo), do: "workflow-lane-panel workflow-lane-panel-demo"
-  defp workflow_lane_panel_class(_lane), do: "workflow-lane-panel workflow-lane-panel-other"
 
   defp workflow_stage_class(%{status: :complete}), do: "workflow-stage-dot workflow-stage-complete"
   defp workflow_stage_class(%{status: :blocked}), do: "workflow-stage-dot workflow-stage-blocked"

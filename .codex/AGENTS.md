@@ -29,7 +29,9 @@ Codex에서 자동 호출되어도 되는 project-local skill surface는
 
 ## MCP Servers
 
-project-local `.codex/config.toml`을 ECC의 기본 Codex baseline으로 봅니다. 현재 ECC baseline은 Context7, Exa, Linear, Memory, Playwright, Sequential Thinking만 켭니다. 더 무거운 MCP는 실제 작업에 필요할 때만 `~/.codex/config.toml`에 둡니다. GitHub MCP는 project-local baseline에 넣지 않습니다. 하네스 Git 작업은 connector credential이 아니라 `HARNESS_TARGET_REPO_URL`과 `HARNESS_GITHUB_TOKEN`을 사용합니다.
+project-local `.codex/config.toml`을 ECC의 기본 Codex baseline으로 봅니다. 현재 ECC baseline은 GitHub, Context7, Exa, Linear, Memory, Playwright, Sequential Thinking을 켭니다. Linear 이슈 관리와 기본 GitHub PR/branch 운영은 MCP를 사용합니다. 더 무거운 MCP는 실제 작업에 필요할 때만 `~/.codex/config.toml`에 둡니다.
+
+실제 배포할 서비스의 배포/CI/CD 인증 토큰은 하네스 운영 MCP와 분리합니다. 서비스 repo는 여러 개가 될 수 있으므로 하네스 루트에 단일 service repo/token을 고정하지 않습니다. 서비스별 env 파일이나 배포 환경에서 `<SERVICE_NAME>_GITHUB_TOKEN`, `<SERVICE_NAME>_DEPLOY_TOKEN` 같은 이름으로 분리합니다.
 
 ECC's canonical Codex section name is `[mcp_servers.context7]`. The launcher package remains `@upstash/context7-mcp`; only the TOML section name is normalized for consistency with `codex mcp list` and the reference config.
 
@@ -38,7 +40,7 @@ ECC's canonical Codex section name is `[mcp_servers.context7]`. The launcher pac
 The sync script (`scripts/sync-ecc-to-codex.sh`) uses a Node-based TOML parser to safely merge ECC MCP servers into `~/.codex/config.toml`:
 
 - **Add-only by default** — missing ECC servers are appended; existing servers are never modified or removed.
-- **관리 대상 6개 서버** — Playwright, Context7, Exa, Linear, Memory, Sequential Thinking.
+- **관리 대상 7개 서버** — GitHub, Playwright, Context7, Exa, Linear, Memory, Sequential Thinking.
 - **Canonical naming** — ECC manages Context7 as `[mcp_servers.context7]`; legacy `[mcp_servers.context7-mcp]` entries are treated as aliases during updates.
 - **Package-manager aware** — uses the project's configured package manager (npm/pnpm/yarn/bun) instead of hardcoding `pnpm`.
 - **Drift warnings** — if an existing server's config differs from the ECC recommendation, the script logs a warning.

@@ -29,7 +29,7 @@ Codex에서 자동 호출되어도 되는 project-local skill surface는
 
 ## MCP Servers
 
-Treat the project-local `.codex/config.toml` as the default Codex baseline for ECC. The current ECC baseline enables GitHub, Context7, Exa, Memory, Playwright, and Sequential Thinking; add heavier extras in `~/.codex/config.toml` only when a task actually needs them.
+project-local `.codex/config.toml`을 ECC의 기본 Codex baseline으로 봅니다. 현재 ECC baseline은 Context7, Exa, Linear, Memory, Playwright, Sequential Thinking만 켭니다. 더 무거운 MCP는 실제 작업에 필요할 때만 `~/.codex/config.toml`에 둡니다. GitHub MCP는 project-local baseline에 넣지 않습니다. Symphony Git 작업은 connector credential이 아니라 SSH env 설정을 사용합니다.
 
 ECC's canonical Codex section name is `[mcp_servers.context7]`. The launcher package remains `@upstash/context7-mcp`; only the TOML section name is normalized for consistency with `codex mcp list` and the reference config.
 
@@ -38,7 +38,7 @@ ECC's canonical Codex section name is `[mcp_servers.context7]`. The launcher pac
 The sync script (`scripts/sync-ecc-to-codex.sh`) uses a Node-based TOML parser to safely merge ECC MCP servers into `~/.codex/config.toml`:
 
 - **Add-only by default** — missing ECC servers are appended; existing servers are never modified or removed.
-- **7 managed servers** — Supabase, Playwright, Context7, Exa, GitHub, Memory, Sequential Thinking.
+- **관리 대상 6개 서버** — Playwright, Context7, Exa, Linear, Memory, Sequential Thinking.
 - **Canonical naming** — ECC manages Context7 as `[mcp_servers.context7]`; legacy `[mcp_servers.context7-mcp]` entries are treated as aliases during updates.
 - **Package-manager aware** — uses the project's configured package manager (npm/pnpm/yarn/bun) instead of hardcoding `pnpm`.
 - **Drift warnings** — if an existing server's config differs from the ECC recommendation, the script logs a warning.

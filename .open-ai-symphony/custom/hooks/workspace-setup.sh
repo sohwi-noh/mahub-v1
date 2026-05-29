@@ -5,33 +5,47 @@ ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 TARGET_REPO_DIR="${SYMPHONY_TARGET_REPO_DIR:-target-repo}"
 BRANCH_PREFIX="${SYMPHONY_BRANCH_PREFIX:-codex/}"
 
-export GIT_TERMINAL_PROMPT="${GIT_TERMINAL_PROMPT:-0}"
-if [ -z "${GH_TOKEN:-}" ] && [ -n "${GITHUB_TOKEN:-}" ]; then
-  export GH_TOKEN="$GITHUB_TOKEN"
-fi
-if [ -z "${GITHUB_TOKEN:-}" ] && [ -n "${GH_TOKEN:-}" ]; then
-  export GITHUB_TOKEN="$GH_TOKEN"
-fi
-if [ -n "${GH_TOKEN:-}" ]; then
-  export GIT_ASKPASS="$ROOT/.open-ai-symphony/custom/lib/git-askpass-github-token.sh"
-else
-  export GIT_ASKPASS="${GIT_ASKPASS:-/usr/bin/false}"
-fi
-if [ -n "${SYMPHONY_GITHUB_SSH_KEY:-}" ]; then
-  export GIT_SSH_COMMAND="ssh -i $SYMPHONY_GITHUB_SSH_KEY -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
-fi
-export SSH_ASKPASS="${SSH_ASKPASS:-/usr/bin/false}"
-export GCM_INTERACTIVE="${GCM_INTERACTIVE:-never}"
-if [ -z "${GIT_CONFIG_COUNT:-}" ]; then
-  export GIT_CONFIG_COUNT=1
-  export GIT_CONFIG_KEY_0=credential.helper
-  export GIT_CONFIG_VALUE_0=
-fi
-
 fail() {
   echo "오류: $*" >&2
   exit 1
 }
+
+is_github_ssh_url() {
+  case "$1" in
+    git@github.com:*|ssh://git@github.com/*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+require_github_ssh_transport() {
+  if [ -z "${SYMPHONY_TARGET_REPO_URL:-}" ]; then
+    fail "SYMPHONY_TARGET_REPO_URL이 필요합니다. GitHub SSH URL을 .env.local에 설정하세요."
+  fi
+
+  if ! is_github_ssh_url "$SYMPHONY_TARGET_REPO_URL"; then
+    fail "SYMPHONY_TARGET_REPO_URL은 GitHub SSH URL이어야 합니다: git@github.com:OWNER/REPO.git"
+  fi
+
+  if [ -z "${SYMPHONY_GITHUB_SSH_KEY:-}" ]; then
+    fail "SYMPHONY_GITHUB_SSH_KEY가 필요합니다. GitHub SSH private key 경로를 .env.local에 설정하세요."
+  fi
+
+  if [ ! -f "$SYMPHONY_GITHUB_SSH_KEY" ]; then
+    fail "SYMPHONY_GITHUB_SSH_KEY 파일을 찾을 수 없습니다: $SYMPHONY_GITHUB_SSH_KEY"
+  fi
+
+  export GIT_TERMINAL_PROMPT=0
+  export GIT_ASKPASS=/usr/bin/false
+  export SSH_ASKPASS=/usr/bin/false
+  export GCM_INTERACTIVE=never
+  export GIT_SSH_COMMAND="ssh -i $SYMPHONY_GITHUB_SSH_KEY -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+
+  export GIT_CONFIG_COUNT=1
+  export GIT_CONFIG_KEY_0=credential.helper
+  export GIT_CONFIG_VALUE_0=
+}
+
+require_github_ssh_transport
 
 issue_identifier() {
   basename "$(pwd -P)"
@@ -45,20 +59,8 @@ issue_branch() {
   printf '%s%s\n' "$BRANCH_PREFIX" "$(issue_slug)"
 }
 
-root_remote_url() {
-  if [ -n "${SYMPHONY_TARGET_REPO_URL:-}" ]; then
-    printf '%s\n' "$SYMPHONY_TARGET_REPO_URL"
-  else
-    git -C "$ROOT" remote get-url origin 2>/dev/null || true
-  fi
-}
-
 target_remote_url() {
-  remote="$(root_remote_url)"
-  if [ -z "$remote" ]; then
-    fail ".env.local에 SYMPHONY_TARGET_REPO_URL을 설정하거나 프로젝트 루트에 git origin을 설정하세요."
-  fi
-  printf '%s\n' "$remote"
+  printf '%s\n' "$SYMPHONY_TARGET_REPO_URL"
 }
 
 link_if_missing() {
@@ -90,7 +92,7 @@ repo_default_branch() {
   if [ -n "$default_branch" ] && [ "$default_branch" != "$default_ref" ]; then
     printf '%s\n' "$default_branch"
   else
-    git -C "$ROOT" branch --show-current 2>/dev/null || printf '%s\n' main
+    printf '%s\n' main
   fi
 }
 

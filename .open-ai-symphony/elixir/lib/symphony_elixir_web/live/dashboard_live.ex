@@ -136,9 +136,9 @@ defmodule SymphonyElixirWeb.DashboardLive do
 
           <article class="metric-card">
             <p class="metric-label">전체 토큰</p>
-            <p class="metric-value numeric"><%= format_int(@payload.codex_totals.total_tokens) %></p>
+            <p class="metric-value numeric"><%= format_token_count(@payload.codex_totals, :total_tokens) %></p>
             <p class="metric-detail numeric">
-              입력 <%= format_int(@payload.codex_totals.input_tokens) %> / 출력 <%= format_int(@payload.codex_totals.output_tokens) %>
+              입력 <%= format_token_count(@payload.codex_totals, :input_tokens) %> / 출력 <%= format_token_count(@payload.codex_totals, :output_tokens) %>
             </p>
           </article>
 
@@ -423,8 +423,8 @@ defmodule SymphonyElixirWeb.DashboardLive do
                 </td>
                 <td>
                   <div class="token-stack numeric">
-                    <span>합계: <%= format_int(entry.tokens.total_tokens) %></span>
-                    <span class="muted">입력 <%= format_int(entry.tokens.input_tokens) %> / 출력 <%= format_int(entry.tokens.output_tokens) %></span>
+                    <span>합계: <%= format_token_count(entry.tokens, :total_tokens) %></span>
+                    <span class="muted">입력 <%= format_token_count(entry.tokens, :input_tokens) %> / 출력 <%= format_token_count(entry.tokens, :output_tokens) %></span>
                   </div>
                 </td>
               </tr>
@@ -615,6 +615,16 @@ defmodule SymphonyElixirWeb.DashboardLive do
   end
 
   defp format_int(_value), do: "없음"
+
+  defp format_token_count(%{} = tokens, key) do
+    if Map.get(tokens, :usage_available, false) do
+      tokens |> Map.get(key) |> format_int()
+    else
+      "미수집"
+    end
+  end
+
+  defp format_token_count(_tokens, _key), do: "미수집"
 
   defp error_display_message(%{code: "snapshot_timeout"}), do: "스냅샷 응답 시간이 초과되었습니다."
   defp error_display_message(%{code: "snapshot_unavailable"}), do: "스냅샷을 사용할 수 없습니다."

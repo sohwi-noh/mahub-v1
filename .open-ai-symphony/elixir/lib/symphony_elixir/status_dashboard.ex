@@ -336,9 +336,9 @@ defmodule SymphonyElixir.StatusDashboard do
         rate_limits = Map.get(snapshot, :rate_limits)
         project_link_lines = format_project_link_lines()
         project_refresh_line = format_project_refresh_line(Map.get(snapshot, :polling))
-        codex_input_tokens = Map.get(codex_totals, :input_tokens, 0)
-        codex_output_tokens = Map.get(codex_totals, :output_tokens, 0)
-        codex_total_tokens = Map.get(codex_totals, :total_tokens, 0)
+        codex_input_tokens = format_token_count(codex_totals, :input_tokens)
+        codex_output_tokens = format_token_count(codex_totals, :output_tokens)
+        codex_total_tokens = format_token_count(codex_totals, :total_tokens)
         codex_seconds_running = Map.get(codex_totals, :seconds_running, 0)
         agent_count = length(running)
         max_agents = Config.settings!().agent.max_concurrent_agents
@@ -357,11 +357,11 @@ defmodule SymphonyElixir.StatusDashboard do
            colorize("│ Runtime: ", @ansi_bold) <>
              colorize(format_runtime_seconds(codex_seconds_running), @ansi_magenta),
            colorize("│ Tokens: ", @ansi_bold) <>
-             colorize("in #{format_count(codex_input_tokens)}", @ansi_yellow) <>
+             colorize("in #{codex_input_tokens}", @ansi_yellow) <>
              colorize(" | ", @ansi_gray) <>
-             colorize("out #{format_count(codex_output_tokens)}", @ansi_yellow) <>
+             colorize("out #{codex_output_tokens}", @ansi_yellow) <>
              colorize(" | ", @ansi_gray) <>
-             colorize("total #{format_count(codex_total_tokens)}", @ansi_yellow),
+             colorize("total #{codex_total_tokens}", @ansi_yellow),
            colorize("│ Rate Limits: ", @ansi_bold) <> format_rate_limits(rate_limits),
            project_link_lines,
            project_refresh_line,
@@ -582,14 +582,16 @@ defmodule SymphonyElixir.StatusDashboard do
     state_display = format_cell(to_string(state), @running_stage_width)
     session = running_entry.session_id |> compact_session_id() |> format_cell(@running_session_width)
     pid = format_cell(running_entry.codex_app_server_pid || "n/a", @running_pid_width)
-    total_tokens = running_entry.codex_total_tokens || 0
     runtime_seconds = running_entry.runtime_seconds || 0
     turn_count = Map.get(running_entry, :turn_count, 0)
     age = format_cell(format_runtime_and_turns(runtime_seconds, turn_count), @running_age_width)
     event = running_entry.last_codex_event || "none"
     event_label = format_cell(summarize_message(running_entry.last_codex_message), running_event_width)
 
-    tokens = format_count(total_tokens) |> format_cell(@running_tokens_width, :right)
+    tokens =
+      running_entry
+      |> format_running_token_count()
+      |> format_cell(@running_tokens_width, :right)
 
     status_color =
       case event do
@@ -724,6 +726,26 @@ defmodule SymphonyElixir.StatusDashboard do
   end
 
   defp format_count(value), do: to_string(value)
+
+  defp format_token_count(%{} = tokens, key) do
+    if Map.get(tokens, :usage_available, false) do
+      tokens |> Map.get(key) |> format_count()
+    else
+      "미수집"
+    end
+  end
+
+  defp format_token_count(_tokens, _key), do: "미수집"
+
+  defp format_running_token_count(running_entry) when is_map(running_entry) do
+    if Map.get(running_entry, :codex_token_usage_available, false) do
+      running_entry
+      |> Map.get(:codex_total_tokens)
+      |> format_count()
+    else
+      "미수집"
+    end
+  end
 
   defp running_table_header_row(running_event_width) do
     header =

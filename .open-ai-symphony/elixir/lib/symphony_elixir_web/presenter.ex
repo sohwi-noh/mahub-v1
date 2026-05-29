@@ -321,7 +321,8 @@ defmodule SymphonyElixirWeb.Presenter do
       tokens: %{
         input_tokens: entry.codex_input_tokens,
         output_tokens: entry.codex_output_tokens,
-        total_tokens: entry.codex_total_tokens
+        total_tokens: entry.codex_total_tokens,
+        usage_available: Map.get(entry, :codex_token_usage_available, false)
       }
     }
   end
@@ -352,7 +353,8 @@ defmodule SymphonyElixirWeb.Presenter do
       tokens: %{
         input_tokens: running.codex_input_tokens,
         output_tokens: running.codex_output_tokens,
-        total_tokens: running.codex_total_tokens
+        total_tokens: running.codex_total_tokens,
+        usage_available: Map.get(running, :codex_token_usage_available, false)
       }
     }
   end

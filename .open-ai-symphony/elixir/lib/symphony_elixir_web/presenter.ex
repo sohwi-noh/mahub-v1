@@ -276,7 +276,7 @@ defmodule SymphonyElixirWeb.Presenter do
 
     [
       %{key: :harness, label: "하네스", description: "하네스/운영 계약 작업"},
-      %{key: :mahub, label: "MA Hub", description: "MA Hub 제품 영역 작업"},
+      %{key: :product, label: "제품", description: "제품 영역 작업"},
       %{key: :demo, label: "시연", description: "Linear-to-PR 재현 검증"},
       %{key: :other, label: "기타", description: "주관 라벨이 없거나 다른 영역"}
     ]
@@ -291,7 +291,8 @@ defmodule SymphonyElixirWeb.Presenter do
 
     cond do
       "harness" in normalized_labels -> :harness
-      "mahub" in normalized_labels -> :mahub
+      "product" in normalized_labels -> :product
+      "제품" in normalized_labels -> :product
       "시연" in normalized_labels -> :demo
       true -> :other
     end

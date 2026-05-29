@@ -10,14 +10,6 @@
       },
       "description": "Jira issue tracking — search, create, update, comment, transition issues"
     },
-    "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "YOUR_GITHUB_PAT_HERE"
-      },
-      "description": "GitHub operations - PRs, issues, repos"
-    },
     "firecrawl": {
       "command": "npx",
       "args": ["-y", "firecrawl-mcp"],
@@ -92,7 +84,7 @@
       "env": {
         "EXA_API_KEY": "YOUR_EXA_API_KEY_HERE"
       },
-      "description": "Web search, research, and data ingestion via Exa API — prefer task-scoped use for broader research after GitHub search and primary docs"
+      "description": "Web search, research, and data ingestion via Exa API — prefer task-scoped use for broader research after primary docs and local repo search"
     },
     "context7": {
       "command": "npx",
@@ -175,7 +167,7 @@
   "_comments": {
     "usage": "Copy the servers you need to your ~/.claude.json mcpServers section",
     "env_vars": "Replace YOUR_*_HERE placeholders with actual values",
-    "disabling": "Use ECC_DISABLED_MCPS=github,context7,... to disable bundled ECC MCPs during install/sync, or use disabledMcpServers in project config for per-project overrides",
+    "disabling": "Use ECC_DISABLED_MCPS=context7,... to disable bundled ECC MCPs during install/sync, or use disabledMcpServers in project config for per-project overrides",
     "context_warning": "Keep under 10 MCPs enabled to preserve context window"
   }
 }

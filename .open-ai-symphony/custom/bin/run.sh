@@ -40,6 +40,47 @@ render_workflow_file() {
     "$WORKFLOW_TEMPLATE" > "$WORKFLOW_FILE"
 }
 
+require_harness_git_transport() {
+  if [[ -z "${HARNESS_TARGET_REPO_URL:-}" ]]; then
+    echo "HARNESS_TARGET_REPO_URL이 필요합니다. GitHub HTTPS URL을 .env.local에 설정하세요." >&2
+    exit 78
+  fi
+
+  case "$HARNESS_TARGET_REPO_URL" in
+    https://github.com/*)
+      ;;
+    *)
+      echo "HARNESS_TARGET_REPO_URL은 GitHub HTTPS URL이어야 합니다: https://github.com/OWNER/REPO.git" >&2
+      exit 78
+      ;;
+  esac
+
+  if [[ "$HARNESS_TARGET_REPO_URL" == *"@"* ]]; then
+    echo "HARNESS_TARGET_REPO_URL에 토큰을 넣지 마세요. 토큰은 HARNESS_GITHUB_TOKEN에 둡니다." >&2
+    exit 78
+  fi
+
+  if [[ -z "${HARNESS_GITHUB_TOKEN:-}" ]]; then
+    echo "HARNESS_GITHUB_TOKEN이 필요합니다. GitHub 토큰을 .env.local에 설정하세요." >&2
+    exit 78
+  fi
+
+  if [[ ! -x "$ROOT_DIR/.open-ai-symphony/custom/lib/git-askpass-harness-token.sh" ]]; then
+    echo "Git askpass helper를 실행할 수 없습니다: $ROOT_DIR/.open-ai-symphony/custom/lib/git-askpass-harness-token.sh" >&2
+    exit 78
+  fi
+
+  export GIT_TERMINAL_PROMPT=0
+  export GIT_ASKPASS="$ROOT_DIR/.open-ai-symphony/custom/lib/git-askpass-harness-token.sh"
+  export SSH_ASKPASS=/usr/bin/false
+  export GCM_INTERACTIVE=never
+  unset GIT_SSH_COMMAND
+
+  export GIT_CONFIG_COUNT=1
+  export GIT_CONFIG_KEY_0=credential.helper
+  export GIT_CONFIG_VALUE_0=
+}
+
 case "$MODE" in
   local|shared)
     ;;
@@ -80,28 +121,7 @@ fi
 export SYMPHONY_WORKSPACE_ROOT="${SYMPHONY_WORKSPACE_ROOT:-$ROOT_DIR/.symphony-workspaces}"
 export SYMPHONY_PROJECT_ROOT="$ROOT_DIR"
 export SYMPHONY_TARGET_REPO_DIR="${SYMPHONY_TARGET_REPO_DIR:-target-repo}"
-export GIT_TERMINAL_PROMPT="${GIT_TERMINAL_PROMPT:-0}"
-if [[ -z "${GH_TOKEN:-}" && -n "${GITHUB_TOKEN:-}" ]]; then
-  export GH_TOKEN="$GITHUB_TOKEN"
-fi
-if [[ -z "${GITHUB_TOKEN:-}" && -n "${GH_TOKEN:-}" ]]; then
-  export GITHUB_TOKEN="$GH_TOKEN"
-fi
-if [[ -n "${GH_TOKEN:-}" ]]; then
-  export GIT_ASKPASS="$ROOT_DIR/.open-ai-symphony/custom/lib/git-askpass-github-token.sh"
-else
-  export GIT_ASKPASS="${GIT_ASKPASS:-/usr/bin/false}"
-fi
-if [[ -n "${SYMPHONY_GITHUB_SSH_KEY:-}" ]]; then
-  export GIT_SSH_COMMAND="ssh -i $SYMPHONY_GITHUB_SSH_KEY -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
-fi
-export SSH_ASKPASS="${SSH_ASKPASS:-/usr/bin/false}"
-export GCM_INTERACTIVE="${GCM_INTERACTIVE:-never}"
-if [[ -z "${GIT_CONFIG_COUNT:-}" ]]; then
-  export GIT_CONFIG_COUNT=1
-  export GIT_CONFIG_KEY_0=credential.helper
-  export GIT_CONFIG_VALUE_0=
-fi
+require_harness_git_transport
 SYMPHONY_PORT="${SYMPHONY_PORT:-4101}"
 render_workflow_file
 

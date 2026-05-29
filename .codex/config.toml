@@ -38,11 +38,6 @@ persistent_instructions = "Follow project AGENTS.md guidelines. Use available MC
 # MCP servers
 # Keep the default project set lean. API-backed servers inherit credentials from
 # the launching environment or can be supplied by a user-level ~/.codex/config.toml.
-[mcp_servers.github]
-command = "npx"
-args = ["-y", "@modelcontextprotocol/server-github"]
-startup_timeout_sec = 30
-
 [mcp_servers.context7]
 command = "npx"
 # Canonical Codex section name is `context7`; the package itself remains

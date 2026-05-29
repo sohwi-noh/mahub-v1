@@ -22,8 +22,11 @@ AGENTS.md는 적용 경로가 더 구체적일수록 우선합니다.
 
 - `docs/guide/README.md`: 처음 읽는 순서와 문서 역할 안내.
 - `docs/operations/README-ECC.md`: ECC rules, skills, Java/TypeScript/Web 기준.
+- `docs/skills/`: 자동 로드 스킬 표와 참고 스킬 표.
 - `docs/operations/README-SYMPHONY.md`: Symphony 실행, Linear queue, 이슈별 작업공간 운영.
 - `docs/operations/README-LINEAR.md`: Linear 작업 로그 hook 경계.
+- `docs/linear-templates/default-issue.md`: 기본 Linear 이슈 템플릿.
+- `docs/linear-templates/pr-rework-issue.md`: PR 기각/재작업 이슈 템플릿.
 
 ## 현재 구조
 
@@ -31,7 +34,9 @@ AGENTS.md는 적용 경로가 더 구체적일수록 우선합니다.
 AGENTS.md                         # 워크스페이스 전체 작업 지침
 README.md                         # Codex 시작점과 하네스 문서 인덱스
 docs/guide/README.md              # 처음 읽는 문서 가이드
+docs/linear-templates/            # Linear 이슈 발행 템플릿
 docs/operations/README-ECC.md     # ECC 규칙/스킬 안내
+docs/skills/                       # 스킬 표 스냅샷
 docs/operations/README-SYMPHONY.md # Symphony 운영 안내
 docs/operations/README-LINEAR.md  # Linear 작업 로그 훅 안내
 .env.example                      # 팀 공유 환경변수 스키마

@@ -8,3 +8,5 @@ Linear 작업 로그 계약의 원천 규칙은 `.ecc/rules/common/linear-workfl
 - Symphony 작업공간 훅은 `.open-ai-symphony/custom/hooks/**`에서 동작하며, `.symphony-workspaces/<이슈키>/`에서 실행되는 자율 에이전트 작업의 필수 감사 로그 장치입니다.
 - Symphony 작업은 작업 시작/결과 댓글, PR 생성 여부, `In Review` 또는 `확인 필요` 상태 전환을 강하게 점검합니다.
 - PR 요청 상태로 넘어간 이슈에는 후속 수정을 직접 추가하지 않고 연계 이슈와 새 PR로 이어갑니다.
+- 일반 작업 이슈를 새로 발행할 때는 `docs/linear-templates/default-issue.md`를 기준으로 씁니다.
+- PR 기각/재작업 이슈를 새로 발행할 때는 `docs/linear-templates/pr-rework-issue.md`를 기준으로 씁니다.

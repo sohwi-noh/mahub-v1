@@ -27,6 +27,7 @@ npm-debug.log*
 /.codex/.tmp/
 /.codex/tmp/
 /.codex/cache/
+/.codex/plugins/
 /.codex/memories/
 /.codex/shell_snapshots/
 /.codex/installation_id

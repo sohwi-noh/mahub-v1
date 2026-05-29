@@ -756,12 +756,12 @@ defmodule SymphonyElixirWeb.DashboardLive do
 
   defp workflow_lane_key("all"), do: :all
   defp workflow_lane_key("harness"), do: :harness
-  defp workflow_lane_key("mahub"), do: :mahub
+  defp workflow_lane_key("product"), do: :product
   defp workflow_lane_key("demo"), do: :demo
   defp workflow_lane_key("other"), do: :other
   defp workflow_lane_key(:all), do: :all
   defp workflow_lane_key(:harness), do: :harness
-  defp workflow_lane_key(:mahub), do: :mahub
+  defp workflow_lane_key(:product), do: :product
   defp workflow_lane_key(:demo), do: :demo
   defp workflow_lane_key(:other), do: :other
   defp workflow_lane_key(_lane), do: :all
@@ -792,7 +792,7 @@ defmodule SymphonyElixirWeb.DashboardLive do
       case workflow_lane_key(lane_key) do
         :all -> "workflow-lane-tab workflow-lane-tab-all"
         :harness -> "workflow-lane-tab workflow-lane-tab-harness"
-        :mahub -> "workflow-lane-tab workflow-lane-tab-mahub"
+        :product -> "workflow-lane-tab workflow-lane-tab-product"
         :demo -> "workflow-lane-tab workflow-lane-tab-demo"
         :other -> "workflow-lane-tab workflow-lane-tab-other"
       end
@@ -806,7 +806,7 @@ defmodule SymphonyElixirWeb.DashboardLive do
 
   defp workflow_lane_panel_class(:all), do: "workflow-lane-panel workflow-lane-panel-all"
   defp workflow_lane_panel_class(:harness), do: "workflow-lane-panel workflow-lane-panel-harness"
-  defp workflow_lane_panel_class(:mahub), do: "workflow-lane-panel workflow-lane-panel-mahub"
+  defp workflow_lane_panel_class(:product), do: "workflow-lane-panel workflow-lane-panel-product"
   defp workflow_lane_panel_class(:demo), do: "workflow-lane-panel workflow-lane-panel-demo"
   defp workflow_lane_panel_class(_lane), do: "workflow-lane-panel workflow-lane-panel-other"
 

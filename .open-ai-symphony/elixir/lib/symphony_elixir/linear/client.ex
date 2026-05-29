@@ -928,16 +928,12 @@ defmodule SymphonyElixir.Linear.Client do
     Enum.filter(issues, &(project_issue_status_group(&1) == status_group))
   end
 
-  defp project_issue_status_group(%Issue{state_type: state_type, state: state}) do
-    normalized_type = normalize_issue_state_group_value(state_type)
+  defp project_issue_status_group(%Issue{state: state}) do
     normalized_state = normalize_issue_state_group_value(state)
 
     cond do
-      normalized_type in ["completed", "canceled"] -> :done
-      normalized_type in ["started"] -> :in_progress
-      normalized_type in ["backlog", "unstarted"] -> :todo
-      String.contains?(normalized_state, ["done", "closed", "complete", "완료"]) -> :done
-      String.contains?(normalized_state, ["progress", "started", "review", "확인", "진행"]) -> :in_progress
+      normalized_state == "done" -> :done
+      normalized_state == "in progress" -> :in_progress
       true -> :todo
     end
   end

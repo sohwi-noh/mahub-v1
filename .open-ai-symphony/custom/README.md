@@ -30,6 +30,13 @@ Symphony 작업공간의 target repo 위치는 `.env.local`에서 필요할 때�
 
 Linear 이슈 관리와 기본 GitHub PR/branch 운영은 project-local MCP 설정을 사용합니다. 실제 배포할 서비스의 토큰은 이 Symphony 실행 설정과 섞지 않고 서비스 배포용 env에 둡니다.
 
+## Runner 책임 경계
+
+- `WORKFLOW.md`의 `agent.max_concurrent_agents`는 동시에 처리할 Linear runner 수입니다.
+- 이 저장소의 기본값은 `3`입니다.
+- 한 Linear 이슈의 branch, commit, PR, Linear 댓글, Linear 상태 전환은 하나의 책임 Codex runner가 끝까지 맡습니다.
+- 책임 runner 내부의 Codex subagent 사용은 허용합니다. subagent는 보조자이며 최종 책임자가 아닙니다.
+
 ## 호출 흐름
 
 ```text

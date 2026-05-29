@@ -7,7 +7,7 @@ defmodule SymphonyElixirWeb.Presenter do
   alias SymphonyElixir.Linear.{Client, Issue, Project}
 
   @linear_state_groups [
-    %{key: :todo, label: "To-do"},
+    %{key: :todo, label: "확인필요"},
     %{key: :in_progress, label: "진행 중"},
     %{key: :done, label: "완료"}
   ]
@@ -209,8 +209,7 @@ defmodule SymphonyElixirWeb.Presenter do
       visible_status_group: selected_status_group,
       visible_status_label: project_status_label(selected_status_group),
       visible_title: project_visible_title(selected_status_group),
-      visible_issues: visible_issue_payloads,
-      issue_lanes: issue_lanes(visible_issue_payloads)
+      visible_issues: visible_issue_payloads
     }
   end
 
@@ -246,12 +245,12 @@ defmodule SymphonyElixirWeb.Presenter do
       List.first(projects)
   end
 
-  defp project_status_label(:todo), do: "To-do"
+  defp project_status_label(:todo), do: "확인필요"
   defp project_status_label(:in_progress), do: "진행 중"
   defp project_status_label(:done), do: "완료"
   defp project_status_label(_status_group), do: "진행 중"
 
-  defp project_visible_title(:todo), do: "To-do 이슈"
+  defp project_visible_title(:todo), do: "확인필요 이슈"
   defp project_visible_title(:in_progress), do: "진행 중 워크플로우"
   defp project_visible_title(:done), do: "완료/종료 이슈"
   defp project_visible_title(_status_group), do: "진행 중 워크플로우"
@@ -270,35 +269,6 @@ defmodule SymphonyElixirWeb.Presenter do
   end
 
   defp normalize_project_status_group(_status_group), do: :in_progress
-
-  defp issue_lanes(issues) when is_list(issues) do
-    grouped = Enum.group_by(issues, &issue_lane_key/1)
-
-    [
-      %{key: :harness, label: "하네스", description: "하네스/운영 계약 작업"},
-      %{key: :product, label: "제품", description: "제품 영역 작업"},
-      %{key: :demo, label: "시연", description: "Linear-to-PR 재현 검증"},
-      %{key: :other, label: "기타", description: "주관 라벨이 없거나 다른 영역"}
-    ]
-    |> Enum.map(fn lane ->
-      lane_issues = Map.get(grouped, lane.key, [])
-      Map.merge(lane, %{count: length(lane_issues), issues: lane_issues})
-    end)
-  end
-
-  defp issue_lane_key(%{labels: labels}) when is_list(labels) do
-    normalized_labels = Enum.map(labels, &normalize_linear_state/1)
-
-    cond do
-      "harness" in normalized_labels -> :harness
-      "product" in normalized_labels -> :product
-      "제품" in normalized_labels -> :product
-      "시연" in normalized_labels -> :demo
-      true -> :other
-    end
-  end
-
-  defp issue_lane_key(_issue), do: :other
 
   defp issue_payload_body(issue_identifier, running, retry) do
     %{
@@ -1060,16 +1030,12 @@ defmodule SymphonyElixirWeb.Presenter do
     end
   end
 
-  defp linear_state_group(%Issue{state_type: state_type, state: state}) do
-    normalized_type = normalize_linear_state(state_type)
+  defp linear_state_group(%Issue{state: state}) do
     normalized_state = normalize_linear_state(state)
 
     cond do
-      normalized_type in ["completed", "canceled"] -> :done
-      normalized_type in ["started"] -> :in_progress
-      normalized_type in ["backlog", "unstarted"] -> :todo
-      String.contains?(normalized_state, ["done", "closed", "complete", "완료"]) -> :done
-      String.contains?(normalized_state, ["progress", "started", "review", "확인", "진행"]) -> :in_progress
+      normalized_state == "done" -> :done
+      normalized_state == "in progress" -> :in_progress
       true -> :todo
     end
   end

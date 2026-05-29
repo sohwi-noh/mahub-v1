@@ -14,9 +14,6 @@ npm-debug.log*
 
 # Symphony 실행 로그와 로컬 환경 파일은 개인 실행 상태입니다.
 /.symphony-logs/
-/.omx/
-/symphony.env
-/symphony.shared.env
 
 # vendored Symphony runtime은 source/spec/license만 공유하고, upstream repo CI와 데모 미디어는 제외합니다.
 /.open-ai-symphony/.github/

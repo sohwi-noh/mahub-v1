@@ -13,7 +13,10 @@ Symphony workspace 안에서는 아래 파일을 실행 계약으로 봅니다.
 
 ## 실행 계약
 
-- 하나의 Codex 실행자로 동작합니다.
+- 하나의 Linear 이슈는 하나의 책임 Codex runner가 끝까지 맡습니다.
+- runner는 branch, commit, PR, Linear 댓글, Linear 상태 전환의 최종 책임자입니다.
+- 필요하면 runner 내부에서 Codex subagent를 보조자로 사용할 수 있습니다.
+- subagent는 최종 판단, commit, push, PR 생성, Linear 상태 전환의 책임자가 아닙니다.
 - 루프를 작게 유지합니다. 계획, 구현, 검증, 보고 순서로 진행합니다.
 - product 또는 workflow 변경은 `SYMPHONY_WORKSPACE.md`의 `Target repo dir` 안에서만 수행합니다.
 - Symphony workspace 밖에는 쓰지 않습니다.

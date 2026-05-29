@@ -20,6 +20,12 @@ Symphony는 이 하네스에서 Linear 이슈마다 격리된 작업공간을 �
 - Symphony가 실행하는 Codex도 루트 `.codex/` 하네스를 사용하되, `CODEX_WORKDIR`로 이슈별 작업공간만 바꿉니다.
 - 환경변수 스키마는 `.env.example`, 실제 값은 `.env.local`에 둡니다.
 
+## Runner 책임 경계
+
+- `agent.max_concurrent_agents`는 동시에 처리할 Linear runner 수입니다.
+- 한 Linear 이슈의 branch, commit, PR, Linear 댓글, Linear 상태 전환은 하나의 책임 Codex runner가 끝까지 맡습니다.
+- 책임 runner 내부의 Codex subagent 사용은 허용합니다. subagent는 보조자이며 최종 책임자가 아닙니다.
+
 ## Hook 구분
 
 - `.codex/hooks/**`: 실행 엔트리로 들어온 작업의 도구 실행 전후에 규칙을 검사하거나 차단합니다.

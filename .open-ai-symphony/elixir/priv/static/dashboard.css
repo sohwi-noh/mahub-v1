@@ -562,120 +562,13 @@ pre,
   font-weight: 650;
 }
 
-.workflow-lane-tabs {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.22rem;
-  width: 100%;
-  padding: 0.16rem;
-  border: 1px solid #d8dbe2;
-  border-radius: 8px;
-  background: #f3f4f6;
-}
-
-.workflow-lane-tab {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.26rem;
-  min-width: 0;
-  min-height: 1.56rem;
-  padding: 0.16rem 0.38rem;
-  border: 1px solid #d4d7de;
-  border-radius: 6px;
-  background: #f9fafb !important;
-  color: #4f5663 !important;
-  box-shadow: none !important;
-  font: inherit;
-  font-size: 0.74rem;
-  font-weight: 720;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.workflow-lane-tab:hover {
-  transform: none;
-  border-color: #c5c9d1;
-  background: #eef0f4 !important;
-  box-shadow: none !important;
-}
-
-.workflow-lane-tab:focus-visible {
-  outline: 2px solid rgba(92, 101, 117, 0.34);
-  outline-offset: 2px;
-}
-
-.workflow-lane-tab-selected {
-  border-color: #adb3bd;
-  background: #e3e6eb !important;
-  color: #23262d !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.72) !important;
-}
-
-.workflow-lane-tab-selected:hover {
-  background: #dde1e7 !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.72) !important;
-}
-
-.workflow-lane-tab-icon {
-  position: relative;
-  flex: 0 0 auto;
-  width: 0.44rem;
-  height: 0.44rem;
-  border-radius: 999px;
-  background: #8d94a1;
-}
-
-.workflow-lane-tab-selected .workflow-lane-tab-icon {
-  background: #4f5663;
-}
-
-.workflow-lane-tab-label {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.workflow-lane-tab-count {
-  flex: 0 0 auto;
-  color: var(--muted);
-  font-weight: 750;
-}
-
-.workflow-lane-panel {
+.workflow-issue-panel {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
   background:
     linear-gradient(90deg, rgba(35, 38, 45, 0.035), transparent 34%),
     rgba(255, 255, 255, 0.66);
-}
-
-.workflow-lane-panel-all {
-  border-left: 4px solid var(--ink);
-}
-
-.workflow-lane-panel-harness {
-  border-left: 4px solid #2d6cdf;
-}
-
-.workflow-lane-panel-product {
-  border-left: 4px solid #10a37f;
-}
-
-.workflow-lane-panel-demo {
-  border-left: 4px solid #7257d6;
-}
-
-.workflow-lane-panel-other {
-  border-left: 4px solid #a3a6ae;
-}
-
-.workflow-lane-empty {
-  margin: 0;
-  padding: 0.8rem 0.85rem;
-  color: var(--muted);
-  font-size: 0.82rem;
 }
 
 .workflow-table-wrap {
@@ -1067,9 +960,6 @@ pre,
     grid-template-columns: 1fr;
   }
 
-  .workflow-lane-tabs {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 560px) {
@@ -1082,10 +972,6 @@ pre,
   .error-card {
     border-radius: 20px;
     padding: 1rem;
-  }
-
-  .workflow-lane-tabs {
-    grid-template-columns: 1fr;
   }
 
   .status-guide-rule-list p {

@@ -23,7 +23,7 @@ hooks:
   before_run: |
     "__SYMPHONY_PROJECT_ROOT__/.open-ai-symphony/custom/hooks/workspace-setup.sh" before-run
 agent:
-  max_concurrent_agents: 1
+  max_concurrent_agents: 3
   max_turns: 3
   max_retry_attempts: 1
 codex:
@@ -37,7 +37,7 @@ codex:
       - "__SYMPHONY_WORKSPACE_ROOT__"
 ---
 
-당신은 Linear 이슈 `{{ issue.identifier }}`를 처리하는 ktds-sdd 단일 Codex 실행자입니다.
+당신은 Linear 이슈 `{{ issue.identifier }}`를 처리하는 ktds-sdd 책임 Codex runner입니다.
 
 Issue: `{{ issue.identifier }}` / `{{ issue.title }}` / `{{ issue.state }}` / `{{ issue.labels }}` / `{{ issue.url }}`
 
@@ -50,6 +50,9 @@ Issue: `{{ issue.identifier }}` / `{{ issue.title }}` / `{{ issue.state }}` / `{
 - Symphony 실행 중에는 `WORKFLOW.md`, `SYMPHONY_WORKSPACE.md`, workspace `AGENTS.md`를 실행 계약으로 우선한다.
 - 이슈별 작업 대상 repo는 workspace hook이 만든 `SYMPHONY_WORKSPACE.md`의 `Target repo dir`와 `Required origin`을 기준으로 한다.
 - 기본 작업 대상은 workspace 안의 `./__SYMPHONY_TARGET_REPO_DIR__` repo다.
+- 한 이슈의 branch, commit, PR, Linear 댓글, Linear 상태 전환은 이 runner 하나가 끝까지 책임진다.
+- 필요하면 Codex 내부 subagent를 보조자로 사용할 수 있다. 단, subagent는 최종 판단, commit, push, PR 생성, Linear 상태 전환의 책임자가 아니다.
+- `agent.max_concurrent_agents`는 동시에 처리할 Linear runner 수이며, runner 내부 subagent 사용 제한으로 해석하지 않는다.
 - 구현/검증/PR 완료를 주장하기 전에 반드시 `git -C <target-repo-dir> remote get-url origin`, `git -C <target-repo-dir> branch --show-current`, `git -C <target-repo-dir> status --short`, `git -C <target-repo-dir> diff --name-only` 또는 commit log로 실제 변경 위치를 확인한다.
 - destructive command 금지: `git reset --hard`, `git checkout --`, 원격 branch 삭제, 강제 push.
 - Linear 상태 변경은 가능한 경우 수행하고, 실패하면 Linear 댓글에 남긴다.
@@ -63,4 +66,4 @@ Issue: `{{ issue.identifier }}` / `{{ issue.title }}` / `{{ issue.state }}` / `{
 - 가장 가벼운 검증 명령을 실행하고 결과를 남긴다.
 - 변경이 있으면 commit, push, PR 생성 또는 PR 링크 확보까지 진행한다.
 - Linear에 한국어 작업 결과 댓글을 남긴다.
-- 이 실행은 단일 Codex 실행이다. 별도의 실행 체계나 보고서 구조를 만들지 않는다.
+- 이 실행은 한 이슈를 맡은 책임 Codex runner의 실행이다. 별도의 실행 체계나 보고서 구조를 만들지 않는다.

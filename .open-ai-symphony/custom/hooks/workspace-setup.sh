@@ -10,46 +10,7 @@ fail() {
   exit 1
 }
 
-is_github_https_url() {
-  case "$1" in
-    https://github.com/*) return 0 ;;
-    *) return 1 ;;
-  esac
-}
-
-require_harness_git_transport() {
-  if [ -z "${HARNESS_TARGET_REPO_URL:-}" ]; then
-    fail "HARNESS_TARGET_REPO_URL이 필요합니다. GitHub HTTPS URL을 .env.local에 설정하세요."
-  fi
-
-  if ! is_github_https_url "$HARNESS_TARGET_REPO_URL"; then
-    fail "HARNESS_TARGET_REPO_URL은 GitHub HTTPS URL이어야 합니다: https://github.com/OWNER/REPO.git"
-  fi
-
-  case "$HARNESS_TARGET_REPO_URL" in
-    *@*) fail "HARNESS_TARGET_REPO_URL에 토큰을 넣지 마세요. 토큰은 HARNESS_GITHUB_TOKEN에 둡니다." ;;
-  esac
-
-  if [ -z "${HARNESS_GITHUB_TOKEN:-}" ]; then
-    fail "HARNESS_GITHUB_TOKEN이 필요합니다. GitHub 토큰을 .env.local에 설정하세요."
-  fi
-
-  if [ ! -x "$ROOT/.open-ai-symphony/custom/lib/git-askpass-harness-token.sh" ]; then
-    fail "Git askpass helper를 실행할 수 없습니다: $ROOT/.open-ai-symphony/custom/lib/git-askpass-harness-token.sh"
-  fi
-
-  export GIT_TERMINAL_PROMPT=0
-  export GIT_ASKPASS="$ROOT/.open-ai-symphony/custom/lib/git-askpass-harness-token.sh"
-  export SSH_ASKPASS=/usr/bin/false
-  export GCM_INTERACTIVE=never
-  unset GIT_SSH_COMMAND
-
-  export GIT_CONFIG_COUNT=1
-  export GIT_CONFIG_KEY_0=credential.helper
-  export GIT_CONFIG_VALUE_0=
-}
-
-require_harness_git_transport
+export GIT_TERMINAL_PROMPT="${GIT_TERMINAL_PROMPT:-0}"
 
 issue_identifier() {
   basename "$(pwd -P)"
@@ -64,7 +25,18 @@ issue_branch() {
 }
 
 target_remote_url() {
-  printf '%s\n' "$HARNESS_TARGET_REPO_URL"
+  remote=""
+  if [ -n "${SYMPHONY_TARGET_REPO_URL:-}" ]; then
+    remote="$SYMPHONY_TARGET_REPO_URL"
+  else
+    remote="$(git -C "$ROOT" remote get-url origin 2>/dev/null || true)"
+  fi
+
+  if [ -z "$remote" ]; then
+    fail ".env.local에 SYMPHONY_TARGET_REPO_URL을 설정하거나 프로젝트 루트에 git origin을 설정하세요."
+  fi
+
+  printf '%s\n' "$remote"
 }
 
 link_if_missing() {
@@ -137,10 +109,9 @@ ensure_target_repo() {
   elif [ -e "$TARGET_REPO_DIR" ]; then
     fail "$TARGET_REPO_DIR 경로가 있지만 git 저장소가 아닙니다."
   else
-    git -c credential.helper= clone "$(target_remote_url)" "$TARGET_REPO_DIR"
+    git clone "$(target_remote_url)" "$TARGET_REPO_DIR"
   fi
 
-  git -C "$TARGET_REPO_DIR" config credential.helper ""
   ensure_issue_branch
 }
 

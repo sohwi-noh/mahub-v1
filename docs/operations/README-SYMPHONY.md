@@ -8,7 +8,7 @@ Symphony는 이 하네스에서 Linear 이슈마다 격리된 작업공간을 �
 
 ## 기준 위치
 
-- `.open-ai-symphony/custom/README.md`: Symphony custom entrypoint, 이슈별 작업공간 hook, 하네스 Git 인증의 파일 단위 설명.
+- `.open-ai-symphony/custom/README.md`: Symphony custom entrypoint와 이슈별 작업공간 hook의 파일 단위 설명.
 - `.open-ai-symphony/custom/WORKFLOW.md`: Linear tracker, Codex runner prompt, 완료 기준.
 - `.open-ai-symphony/custom/AGENTS.md`: Symphony가 만든 이슈별 작업공간에 연결되는 최소 runner 계약.
 

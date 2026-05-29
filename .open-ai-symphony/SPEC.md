@@ -351,8 +351,7 @@ Fields:
   - REQUIRED for dispatch.
   - Current supported value: `linear`
 - `endpoint` (string)
-  - REQUIRED for `tracker.kind == "linear"`.
-  - Canonical environment variable for `tracker.kind == "linear"`: `LINEAR_API_ENDPOINT`.
+  - Default for `tracker.kind == "linear"`: `https://api.linear.app/graphql`
 - `api_key` (string)
   - MAY be a literal token or `$VAR_NAME`.
   - Canonical environment variable for `tracker.kind == "linear"`: `LINEAR_API_KEY`.
@@ -572,7 +571,7 @@ Extension fields are documented in the extension section that defines them. Core
 not require recognizing or validating extension fields unless that extension is implemented.
 
 - `tracker.kind`: string, REQUIRED, currently `linear`
-- `tracker.endpoint`: string or `$VAR`, REQUIRED when `tracker.kind=linear`, canonical env `LINEAR_API_ENDPOINT`
+- `tracker.endpoint`: string, default `https://api.linear.app/graphql` when `tracker.kind=linear`
 - `tracker.api_key`: string or `$VAR`, canonical env `LINEAR_API_KEY` when `tracker.kind=linear`
 - `tracker.project_slug`: string, REQUIRED when `tracker.kind=linear`
 - `tracker.active_states`: list of strings, default `["Todo", "In Progress"]`
@@ -1151,7 +1150,7 @@ An implementation MUST support these tracker adapter operations:
 Linear-specific requirements for `tracker.kind == "linear"`:
 
 - `tracker.kind == "linear"`
-- GraphQL endpoint supplied by `tracker.endpoint` or canonical env `LINEAR_API_ENDPOINT`
+- GraphQL endpoint (default `https://api.linear.app/graphql`)
 - Auth token sent in `Authorization` header
 - `tracker.project_slug` maps to Linear project `slugId`
 - Candidate issue query filters project using `project: { slugId: { eq: $projectSlug } }`

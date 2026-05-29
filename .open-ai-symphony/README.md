@@ -1,52 +1,25 @@
-# Symphony
+# Symphony Harness
 
-Symphony turns project work into isolated, autonomous implementation runs, allowing teams to manage
-work instead of supervising coding agents.
+이 디렉터리는 `SPEC.md` 기준으로 다시 설치한 Symphony 하네스입니다.
 
-## Custom Entrypoints
+현재 기본 구현은 Elixir이며, issue tracker는 env로 선택합니다.
 
-This repository keeps the shared Symphony runtime and team custom entrypoints together.
+```bash
+SYMPHONY_TRACKER_KIND=linear
+SYMPHONY_TRACKER_KIND=github
+```
 
-- Runtime: `elixir/`
-- Custom entrypoints: `custom/`
-- Local runner: `custom/bin/tmux.sh`
-- Workflow config: `../WORKFLOW.md`
+## 구조
 
-See `custom/README.md` for the call flow and file index.
+- `SPEC.md`: upstream Symphony 서비스 스펙 원문입니다.
+- `elixir/`: SPEC의 핵심 레이어를 구현한 Elixir 기본 런타임입니다.
+- `custom/`: 팀별 workflow, hook, routing 확장 위치입니다.
 
-[![Symphony demo video preview](.github/media/symphony-demo-poster.jpg)](.github/media/symphony-demo.mp4)
+## Tracker 선택
 
-_In this [demo video](.github/media/symphony-demo.mp4), Symphony monitors a Linear board for work and spawns agents to handle the tasks. The agents complete the tasks and provide proof of work: CI status, PR review feedback, complexity analysis, and walkthrough videos. When accepted, the agents land the PR safely. Engineers do not need to supervise Codex; they can manage the work at a higher level._
+Linear와 GitHub Issues는 같은 `SymphonyElixir.Tracker` behaviour를 구현합니다.
 
-> [!WARNING]
-> Symphony is a low-key engineering preview for testing in trusted environments.
+- Linear: 상태 기반 workflow를 사용합니다.
+- GitHub Issues: label 기반 workflow를 사용합니다.
 
-## Running Symphony
-
-### Requirements
-
-Symphony works best in codebases that have adopted
-[harness engineering](https://openai.com/index/harness-engineering/). Symphony is the next step --
-moving from managing coding agents to managing work that needs to get done.
-
-### Option 1. Make your own
-
-Tell your favorite coding agent to build Symphony in a programming language of your choice:
-
-> Implement Symphony according to the following spec:
-> https://github.com/openai/symphony/blob/main/SPEC.md
-
-### Option 2. Use our experimental reference implementation
-
-Check out [elixir/README.md](elixir/README.md) for instructions on how to set up your environment
-and run the Elixir-based Symphony implementation. You can also ask your favorite coding agent to
-help with the setup:
-
-> Set up Symphony for my repository based on
-> https://github.com/openai/symphony/blob/main/elixir/README.md
-
----
-
-## License
-
-This project is licensed under the [Apache License 2.0](LICENSE).
+GitHub Projects v2 상태 필드는 아직 기본 설치 범위에 포함하지 않습니다.

@@ -4,6 +4,9 @@
 
 새 Linear 이슈는 agent worklog 계약 대상인지 반드시 본문에 명시합니다.
 
+일반 작업 이슈는 `docs/linear-templates/default-issue.md`를 기준으로 작성합니다.
+PR 기각, 재작업, replacement PR 이슈는 `docs/linear-templates/pr-rework-issue.md`를 기준으로 작성합니다.
+
 이슈 본문에는 아래 섹션을 넣습니다.
 
 ```md

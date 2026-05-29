@@ -20,6 +20,21 @@ When creating PRs:
 4. Include test plan with TODOs
 5. Push with `-u` flag if new branch
 
+## Pull Request Title Rule
+
+- PR titles MUST start with the Linear issue ID at the far left:
+  - Format: `<ISSUE-ID> <concise issue summary>`
+  - Example: `KTD-87 PR 제목 스타일을 ECC Git workflow 규칙에 고정`
+- Do not use conventional commit prefixes or scopes in PR titles:
+  - Wrong: `docs: add PR title rule`
+  - Wrong: `docs(KTD-87): add PR title rule`
+  - Wrong: `feat: KTD-87 PR title rule`
+  - Wrong: `Codex/ktd 87`
+- Commit messages still use conventional commit format. PR titles do not.
+- Before opening or updating a PR, verify the title together with the base/head branch pair.
+- If a tool creates a PR with the wrong title, edit the PR title immediately before moving the Linear issue to `In Review`.
+- Only deviate from this rule when the user explicitly approves an exception, and record the exception in the PR body or Linear comment.
+
 ## Issue Branch and PR Safety
 
 - One Linear issue maps to one active PR.

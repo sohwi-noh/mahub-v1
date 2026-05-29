@@ -2,13 +2,33 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
-MODE="${1:-local}"
-ENV_FILE="${2:-}"
 SYMPHONY_DIR="$ROOT_DIR/.open-ai-symphony/elixir"
-WORKFLOW_TEMPLATE="$ROOT_DIR/.open-ai-symphony/custom/WORKFLOW.md"
-RUNTIME_DIR="$ROOT_DIR/.symphony-logs"
-WORKFLOW_FILE="$RUNTIME_DIR/WORKFLOW.$MODE.generated.md"
-GUARDRAIL_FLAG="--i-understand-that-this-will-be-running-without-the-usual-guardrails"
+COMMAND="${1:-doctor}"
+WORKFLOW_FILE="${2:-$SYMPHONY_DIR/WORKFLOW.md}"
+
+PRESERVE_ENV_KEYS=(
+  LINEAR_API_ENDPOINT
+  LINEAR_API_KEY
+  LINEAR_ASSIGNEE
+  SYMPHONY_GITHUB_ASSIGNEE
+  SYMPHONY_GITHUB_DONE_LABEL
+  SYMPHONY_GITHUB_OWNER
+  SYMPHONY_GITHUB_READY_LABEL
+  SYMPHONY_GITHUB_REPO
+  SYMPHONY_GITHUB_REVIEW_LABEL
+  SYMPHONY_GITHUB_RUNNING_LABEL
+  SYMPHONY_GITHUB_TOKEN
+  SYMPHONY_TRACKER_KIND
+  SYMPHONY_WORKSPACE_ROOT
+)
+
+PRESET_ENV_RESTORE=()
+
+for key in "${PRESERVE_ENV_KEYS[@]}"; do
+  if [[ "${!key+x}" == "x" ]]; then
+    PRESET_ENV_RESTORE+=("$(printf 'export %s=%q' "$key" "${!key}")")
+  fi
+done
 
 load_env_file() {
   local file="$1"
@@ -21,78 +41,22 @@ load_env_file() {
   fi
 }
 
-escape_sed_replacement() {
-  printf '%s' "$1" | sed 's/[\/&|\\]/\\&/g'
+restore_preset_env() {
+  local assignment
+
+  for assignment in "${PRESET_ENV_RESTORE[@]}"; do
+    eval "$assignment"
+  done
 }
-
-render_workflow_file() {
-  local project_root workspace_root target_repo_dir
-
-  mkdir -p "$RUNTIME_DIR"
-  project_root="$(escape_sed_replacement "$ROOT_DIR")"
-  workspace_root="$(escape_sed_replacement "$SYMPHONY_WORKSPACE_ROOT")"
-  target_repo_dir="$(escape_sed_replacement "$SYMPHONY_TARGET_REPO_DIR")"
-
-  sed \
-    -e "s|__SYMPHONY_PROJECT_ROOT__|$project_root|g" \
-    -e "s|__SYMPHONY_WORKSPACE_ROOT__|$workspace_root|g" \
-    -e "s|__SYMPHONY_TARGET_REPO_DIR__|$target_repo_dir|g" \
-    "$WORKFLOW_TEMPLATE" > "$WORKFLOW_FILE"
-}
-
-case "$MODE" in
-  local|shared)
-    ;;
-  *)
-    echo "사용법: .open-ai-symphony/custom/bin/run.sh [local|shared] [env-file]" >&2
-    exit 64
-    ;;
-esac
 
 load_env_file "$ROOT_DIR/.env"
 load_env_file "$ROOT_DIR/.env.local"
-
-if [[ -n "$ENV_FILE" ]]; then
-  if [[ ! -f "$ENV_FILE" ]]; then
-    echo "env 파일을 찾을 수 없습니다: $ENV_FILE" >&2
-    exit 66
-  fi
-  load_env_file "$ENV_FILE"
-fi
-
-if [[ ! -x "$SYMPHONY_DIR/bin/symphony" ]]; then
-  echo "Symphony 런타임을 찾을 수 없습니다: $SYMPHONY_DIR/bin/symphony" >&2
-  echo "먼저 openai/symphony를 $ROOT_DIR/.open-ai-symphony 아래에 복사하거나 clone하세요." >&2
-  exit 66
-fi
-
-if [[ -z "${LINEAR_API_KEY:-}" ]]; then
-  echo "LINEAR_API_KEY가 필요합니다. .env.local에 넣거나 env 파일을 전달하세요." >&2
-  exit 78
-fi
-
-if [[ -z "${LINEAR_API_ENDPOINT:-}" ]]; then
-  echo "LINEAR_API_ENDPOINT가 필요합니다. .env.local에 넣거나 env 파일을 전달하세요." >&2
-  exit 78
-fi
-
-if [[ -z "${LINEAR_WEB_URL:-}" ]]; then
-  echo "LINEAR_WEB_URL이 필요합니다. .env.local에 넣거나 env 파일을 전달하세요." >&2
-  exit 78
-fi
-
-if [[ "$MODE" == "local" ]]; then
-  export LINEAR_ASSIGNEE="${LINEAR_ASSIGNEE:-me}"
-else
-  unset LINEAR_ASSIGNEE
-fi
-
-export SYMPHONY_WORKSPACE_ROOT="${SYMPHONY_WORKSPACE_ROOT:-$ROOT_DIR/.symphony-workspaces}"
-export SYMPHONY_PROJECT_ROOT="$ROOT_DIR"
-export SYMPHONY_TARGET_REPO_DIR="${SYMPHONY_TARGET_REPO_DIR:-target-repo}"
-export GIT_TERMINAL_PROMPT="${GIT_TERMINAL_PROMPT:-0}"
-SYMPHONY_PORT="${SYMPHONY_PORT:-4101}"
-render_workflow_file
+restore_preset_env
 
 cd "$SYMPHONY_DIR"
-exec mise exec -- ./bin/symphony "$WORKFLOW_FILE" --port "$SYMPHONY_PORT" "$GUARDRAIL_FLAG"
+
+if [[ ! -x "$SYMPHONY_DIR/bin/symphony" ]]; then
+  mise exec -- mix escript.build
+fi
+
+exec mise exec -- "$SYMPHONY_DIR/bin/symphony" "$COMMAND" "$WORKFLOW_FILE"

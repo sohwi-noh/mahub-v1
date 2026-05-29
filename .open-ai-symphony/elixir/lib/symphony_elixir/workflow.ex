@@ -1,123 +1,38 @@
 defmodule SymphonyElixir.Workflow do
   @moduledoc """
-  Loads workflow configuration and prompt from WORKFLOW.md.
+  Loads a SPEC-style WORKFLOW.md file with YAML front matter and Markdown prompt body.
   """
 
-  alias SymphonyElixir.WorkflowStore
+  defstruct [:path, config: %{}, prompt_template: ""]
 
-  @workflow_file_name "WORKFLOW.md"
+  @type t :: %__MODULE__{path: String.t(), config: map(), prompt_template: String.t()}
 
-  @spec workflow_file_path() :: Path.t()
-  def workflow_file_path do
-    Application.get_env(:symphony_elixir, :workflow_file_path) ||
-      Path.join(File.cwd!(), @workflow_file_name)
-  end
-
-  @spec set_workflow_file_path(Path.t()) :: :ok
-  def set_workflow_file_path(path) when is_binary(path) do
-    Application.put_env(:symphony_elixir, :workflow_file_path, path)
-    maybe_reload_store()
-    :ok
-  end
-
-  @spec clear_workflow_file_path() :: :ok
-  def clear_workflow_file_path do
-    Application.delete_env(:symphony_elixir, :workflow_file_path)
-    maybe_reload_store()
-    :ok
-  end
-
-  @type loaded_workflow :: %{
-          config: map(),
-          prompt: String.t(),
-          prompt_template: String.t()
-        }
-
-  @spec current() :: {:ok, loaded_workflow()} | {:error, term()}
-  def current do
-    case Process.whereis(WorkflowStore) do
-      pid when is_pid(pid) ->
-        WorkflowStore.current()
-
-      _ ->
-        load()
-    end
-  end
-
-  @spec load() :: {:ok, loaded_workflow()} | {:error, term()}
-  def load do
-    load(workflow_file_path())
-  end
-
-  @spec load(Path.t()) :: {:ok, loaded_workflow()} | {:error, term()}
+  @spec load(String.t()) :: {:ok, t()} | {:error, term()}
   def load(path) when is_binary(path) do
-    case File.read(path) do
-      {:ok, content} ->
-        parse(content)
-
-      {:error, reason} ->
-        {:error, {:missing_workflow_file, path, reason}}
+    with {:ok, body} <- File.read(path),
+         {:ok, config, prompt} <- parse(body) do
+      {:ok, %__MODULE__{path: path, config: config, prompt_template: String.trim(prompt)}}
     end
   end
 
-  defp parse(content) do
-    {front_matter_lines, prompt_lines} = split_front_matter(content)
-
-    case front_matter_yaml_to_map(front_matter_lines) do
-      {:ok, front_matter} ->
-        prompt = Enum.join(prompt_lines, "\n") |> String.trim()
-
-        {:ok,
-         %{
-           config: front_matter,
-           prompt: prompt,
-           prompt_template: prompt
-         }}
-
-      {:error, :workflow_front_matter_not_a_map} ->
-        {:error, :workflow_front_matter_not_a_map}
-
-      {:error, reason} ->
-        {:error, {:workflow_parse_error, reason}}
-    end
-  end
-
-  defp split_front_matter(content) do
-    lines = String.split(content, ["\r\n", "\n", "\r"], trim: false)
-
-    case lines do
-      ["---" | tail] ->
-        {front, rest} = Enum.split_while(tail, &(&1 != "---"))
-
-        case rest do
-          ["---" | prompt_lines] -> {front, prompt_lines}
-          _ -> {front, []}
-        end
+  @spec parse(String.t()) :: {:ok, map(), String.t()} | {:error, term()}
+  def parse("---\n" <> rest) do
+    case String.split(rest, "\n---\n", parts: 2) do
+      [yaml, prompt] ->
+        parse_yaml(yaml, prompt)
 
       _ ->
-        {[], lines}
+        {:error, :missing_front_matter_end}
     end
   end
 
-  defp front_matter_yaml_to_map(lines) do
-    yaml = Enum.join(lines, "\n")
+  def parse(_body), do: {:error, :missing_front_matter}
 
-    if String.trim(yaml) == "" do
-      {:ok, %{}}
-    else
-      case YamlElixir.read_from_string(yaml) do
-        {:ok, decoded} when is_map(decoded) -> {:ok, decoded}
-        {:ok, _} -> {:error, :workflow_front_matter_not_a_map}
-        {:error, reason} -> {:error, reason}
-      end
+  defp parse_yaml(yaml, prompt) do
+    case YamlElixir.read_from_string(yaml) do
+      {:ok, config} when is_map(config) -> {:ok, config, prompt}
+      {:ok, _other} -> {:error, :workflow_config_must_be_map}
+      {:error, reason} -> {:error, {:invalid_yaml, reason}}
     end
-  end
-
-  defp maybe_reload_store do
-    if Process.whereis(WorkflowStore) do
-      _ = WorkflowStore.force_reload()
-    end
-
-    :ok
   end
 end

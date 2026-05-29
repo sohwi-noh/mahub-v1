@@ -136,9 +136,9 @@ defmodule SymphonyElixirWeb.DashboardLive do
 
           <article class="metric-card">
             <p class="metric-label">전체 토큰</p>
-            <p class="metric-value numeric"><%= format_int(@payload.codex_totals.total_tokens) %></p>
+            <p class="metric-value numeric"><%= format_token_count(@payload.codex_totals, :total_tokens) %></p>
             <p class="metric-detail numeric">
-              입력 <%= format_int(@payload.codex_totals.input_tokens) %> / 출력 <%= format_int(@payload.codex_totals.output_tokens) %>
+              입력 <%= format_token_count(@payload.codex_totals, :input_tokens) %> / 출력 <%= format_token_count(@payload.codex_totals, :output_tokens) %>
             </p>
           </article>
 
@@ -152,16 +152,15 @@ defmodule SymphonyElixirWeb.DashboardLive do
         <.running_sessions_section payload={@payload} now={@now} />
 
         <section class="section-card status-guide-card">
-          <div class="section-header">
-            <div>
-              <h2 class="section-title">상태 읽는 법</h2>
-              <p class="section-copy">Linear 상태와 실제 Symphony 작업 진행은 서로 다른 신호입니다.</p>
-            </div>
-          </div>
-
           <div class="status-guide-layout">
             <article class="status-guide-item">
-              <h3 class="status-guide-title">Linear 상태</h3>
+              <h3 class="status-guide-title">
+                <%= if url = linear_web_url() do %>
+                  <a href={url} target="_blank" rel="noreferrer">Linear 상태</a>
+                <% else %>
+                  Linear 상태
+                <% end %>
+              </h3>
               <p class="status-guide-copy">
                 프로젝트별 확인필요, 진행 중, 완료 개수는 Linear API 기준입니다. 상태 카드를 누르면 최초 조회 결과에서 해당 상태의 이슈만 필터링합니다.
               </p>
@@ -181,10 +180,6 @@ defmodule SymphonyElixirWeb.DashboardLive do
                 <p>
                   <strong>확인 필요 기준</strong>
                   <span>산출물 누락은 작업 중단 gate가 아닙니다. 권한 부족, 해결 불가한 build 실패, PR 생성 실패, 사람 판단이 필요한 blocker일 때만 <span class={state_badge_class(tracker_retry_exhausted_state())}><%= tracker_retry_exhausted_state() %></span>로 멈춥니다.</span>
-                </p>
-                <p>
-                  <strong>실행 범위</strong>
-                  <span><%= runtime_mode_description() %></span>
                 </p>
               </div>
             </article>
@@ -353,6 +348,9 @@ defmodule SymphonyElixirWeb.DashboardLive do
           <h2 class="section-title">실행 중 세션</h2>
           <p class="section-copy">현재 처리 중인 이슈, 마지막 에이전트 활동, 토큰 사용량입니다.</p>
         </div>
+        <div class="section-actions">
+          <span class="section-meta"><%= runtime_mode_description() %></span>
+        </div>
       </div>
 
       <%= if @payload.running == [] do %>
@@ -425,8 +423,8 @@ defmodule SymphonyElixirWeb.DashboardLive do
                 </td>
                 <td>
                   <div class="token-stack numeric">
-                    <span>합계: <%= format_int(entry.tokens.total_tokens) %></span>
-                    <span class="muted">입력 <%= format_int(entry.tokens.input_tokens) %> / 출력 <%= format_int(entry.tokens.output_tokens) %></span>
+                    <span>합계: <%= format_token_count(entry.tokens, :total_tokens) %></span>
+                    <span class="muted">입력 <%= format_token_count(entry.tokens, :input_tokens) %> / 출력 <%= format_token_count(entry.tokens, :output_tokens) %></span>
                   </div>
                 </td>
               </tr>
@@ -618,6 +616,16 @@ defmodule SymphonyElixirWeb.DashboardLive do
 
   defp format_int(_value), do: "없음"
 
+  defp format_token_count(%{} = tokens, key) do
+    if Map.get(tokens, :usage_available, false) do
+      tokens |> Map.get(key) |> format_int()
+    else
+      "미수집"
+    end
+  end
+
+  defp format_token_count(_tokens, _key), do: "미수집"
+
   defp error_display_message(%{code: "snapshot_timeout"}), do: "스냅샷 응답 시간이 초과되었습니다."
   defp error_display_message(%{code: "snapshot_unavailable"}), do: "스냅샷을 사용할 수 없습니다."
   defp error_display_message(%{message: message}) when is_binary(message), do: message
@@ -662,6 +670,21 @@ defmodule SymphonyElixirWeb.DashboardLive do
       nil -> "개발/shared 환경은 담당자 필터 없이 active 상태의 공유 큐를 처리합니다."
       "me" -> "로컬 환경은 Linear viewer 기준으로 내 계정 담당 이슈만 처리합니다."
       _assignee -> "로컬 환경은 설정된 담당자 값과 일치하는 이슈만 처리합니다."
+    end
+  end
+
+  defp linear_web_url do
+    case System.get_env("LINEAR_WEB_URL") do
+      value when is_binary(value) ->
+        value
+        |> String.trim()
+        |> then(fn
+          "" -> nil
+          trimmed -> trimmed
+        end)
+
+      _ ->
+        nil
     end
   end
 

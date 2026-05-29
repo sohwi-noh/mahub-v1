@@ -321,7 +321,8 @@ defmodule SymphonyElixirWeb.Presenter do
       tokens: %{
         input_tokens: entry.codex_input_tokens,
         output_tokens: entry.codex_output_tokens,
-        total_tokens: entry.codex_total_tokens
+        total_tokens: entry.codex_total_tokens,
+        usage_available: Map.get(entry, :codex_token_usage_available, false)
       }
     }
   end
@@ -352,7 +353,8 @@ defmodule SymphonyElixirWeb.Presenter do
       tokens: %{
         input_tokens: running.codex_input_tokens,
         output_tokens: running.codex_output_tokens,
-        total_tokens: running.codex_total_tokens
+        total_tokens: running.codex_total_tokens,
+        usage_available: Map.get(running, :codex_token_usage_available, false)
       }
     }
   end
@@ -1051,6 +1053,8 @@ defmodule SymphonyElixirWeb.Presenter do
   end
 
   defp format_linear_error(:missing_linear_api_token), do: "Linear API 키가 설정되어 있지 않습니다."
+  defp format_linear_error(:missing_linear_api_endpoint), do: "Linear API endpoint가 설정되어 있지 않습니다."
+  defp format_linear_error({:linear_api_request, :missing_linear_api_endpoint}), do: "Linear API endpoint가 설정되어 있지 않습니다."
   defp format_linear_error({:linear_graphql_errors, _errors}), do: "Linear GraphQL 응답에 오류가 있습니다."
   defp format_linear_error({:linear_api_status, status}), do: "Linear API가 HTTP #{status}로 응답했습니다."
   defp format_linear_error({:linear_api_request, reason}), do: "Linear API 요청에 실패했습니다: #{inspect(reason)}"

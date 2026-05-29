@@ -7,7 +7,7 @@ defmodule SymphonyElixir.Orchestrator do
   require Logger
   import Bitwise, only: [<<<: 2]
 
-  alias SymphonyElixir.{AgentRunner, ArtifactGate, Config, StatusDashboard, Tracker, Workspace}
+  alias SymphonyElixir.{AgentRunner, ArtifactGate, Config, SessionUsageStore, StatusDashboard, Tracker, Workspace}
   alias SymphonyElixir.Linear.Issue
 
   @continuation_retry_delay_ms 1_000
@@ -18,7 +18,8 @@ defmodule SymphonyElixir.Orchestrator do
     input_tokens: 0,
     output_tokens: 0,
     total_tokens: 0,
-    seconds_running: 0
+    seconds_running: 0,
+    usage_available: false
   }
 
   defmodule State do
@@ -126,8 +127,10 @@ defmodule SymphonyElixir.Orchestrator do
 
       issue_id ->
         {running_entry, state} = pop_running_entry(state, issue_id)
-        state = record_session_completion_totals(state, running_entry)
+        completed_at = DateTime.utc_now()
+        state = record_session_completion_totals(state, running_entry, completed_at)
         session_id = running_entry_session_id(running_entry)
+        persist_session_usage(running_entry, reason, completed_at)
 
         state =
           case reason do
@@ -226,6 +229,10 @@ defmodule SymphonyElixir.Orchestrator do
     else
       {:error, :missing_linear_api_token} ->
         Logger.error("Linear API token missing in WORKFLOW.md")
+        state
+
+      {:error, :missing_linear_api_endpoint} ->
+        Logger.error("Linear API endpoint missing in WORKFLOW.md")
         state
 
       {:error, :missing_tracker_kind} ->
@@ -409,7 +416,9 @@ defmodule SymphonyElixir.Orchestrator do
         release_issue_claim(state, issue_id)
 
       %{pid: pid, ref: ref, identifier: identifier} = running_entry ->
-        state = record_session_completion_totals(state, running_entry)
+        completed_at = DateTime.utc_now()
+        state = record_session_completion_totals(state, running_entry, completed_at)
+        persist_session_usage(running_entry, :terminated, completed_at)
         worker_host = Map.get(running_entry, :worker_host)
 
         if cleanup_workspace do
@@ -708,6 +717,7 @@ defmodule SymphonyElixir.Orchestrator do
             codex_input_tokens: 0,
             codex_output_tokens: 0,
             codex_total_tokens: 0,
+            codex_token_usage_available: false,
             codex_last_reported_input_tokens: 0,
             codex_last_reported_output_tokens: 0,
             codex_last_reported_total_tokens: 0,
@@ -1578,6 +1588,7 @@ defmodule SymphonyElixir.Orchestrator do
           codex_input_tokens: metadata.codex_input_tokens,
           codex_output_tokens: metadata.codex_output_tokens,
           codex_total_tokens: metadata.codex_total_tokens,
+          codex_token_usage_available: Map.get(metadata, :codex_token_usage_available, false),
           turn_count: Map.get(metadata, :turn_count, 0),
           started_at: metadata.started_at,
           last_codex_timestamp: metadata.last_codex_timestamp,
@@ -1651,6 +1662,7 @@ defmodule SymphonyElixir.Orchestrator do
         codex_input_tokens: codex_input_tokens + token_delta.input_tokens,
         codex_output_tokens: codex_output_tokens + token_delta.output_tokens,
         codex_total_tokens: codex_total_tokens + token_delta.total_tokens,
+        codex_token_usage_available: Map.get(running_entry, :codex_token_usage_available, false) || token_delta.usage_available,
         codex_last_reported_input_tokens: max(last_reported_input, token_delta.input_reported),
         codex_last_reported_output_tokens: max(last_reported_output, token_delta.output_reported),
         codex_last_reported_total_tokens: max(last_reported_total, token_delta.total_reported),
@@ -1735,8 +1747,12 @@ defmodule SymphonyElixir.Orchestrator do
     {Map.get(state.running, issue_id), %{state | running: Map.delete(state.running, issue_id)}}
   end
 
-  defp record_session_completion_totals(state, running_entry) when is_map(running_entry) do
-    runtime_seconds = running_seconds(running_entry.started_at, DateTime.utc_now())
+  defp persist_session_usage(running_entry, reason, completed_at) do
+    SessionUsageStore.persist_completion(running_entry, reason, completed_at)
+  end
+
+  defp record_session_completion_totals(state, running_entry, completed_at) when is_map(running_entry) do
+    runtime_seconds = running_seconds(running_entry.started_at, completed_at)
 
     codex_totals =
       apply_token_delta(
@@ -1745,14 +1761,15 @@ defmodule SymphonyElixir.Orchestrator do
           input_tokens: 0,
           output_tokens: 0,
           total_tokens: 0,
-          seconds_running: runtime_seconds
+          seconds_running: runtime_seconds,
+          usage_available: false
         }
       )
 
     %{state | codex_totals: codex_totals}
   end
 
-  defp record_session_completion_totals(state, _running_entry), do: state
+  defp record_session_completion_totals(state, _running_entry, _completed_at), do: state
 
   defp refresh_runtime_config(%State{} = state) do
     config = Config.settings!()
@@ -1803,17 +1820,23 @@ defmodule SymphonyElixir.Orchestrator do
     seconds_running =
       Map.get(codex_totals, :seconds_running, 0) + Map.get(token_delta, :seconds_running, 0)
 
+    usage_available =
+      Map.get(codex_totals, :usage_available, false) ||
+        Map.get(token_delta, :usage_available, false)
+
     %{
       input_tokens: max(0, input_tokens),
       output_tokens: max(0, output_tokens),
       total_tokens: max(0, total_tokens),
-      seconds_running: max(0, seconds_running)
+      seconds_running: max(0, seconds_running),
+      usage_available: usage_available
     }
   end
 
   defp extract_token_delta(running_entry, %{event: _, timestamp: _} = update) do
     running_entry = running_entry || %{}
-    usage = extract_token_usage(update)
+    usage = update |> extract_token_usage() |> normalize_token_usage()
+    usage_available = map_size(usage) > 0
 
     {
       compute_token_delta(
@@ -1841,6 +1864,7 @@ defmodule SymphonyElixir.Orchestrator do
         input_tokens: input.delta,
         output_tokens: output.delta,
         total_tokens: total.delta,
+        usage_available: usage_available,
         input_reported: input.reported,
         output_reported: output.reported,
         total_reported: total.reported
@@ -1897,6 +1921,8 @@ defmodule SymphonyElixir.Orchestrator do
       [:params, :msg, :info, :total_token_usage],
       ["params", "tokenUsage", "total"],
       [:params, :tokenUsage, :total],
+      ["params", "turn", "tokenUsage", "total"],
+      [:params, :turn, :tokenUsage, :total],
       ["tokenUsage", "total"],
       [:tokenUsage, :total]
     ]
@@ -1910,11 +1936,21 @@ defmodule SymphonyElixir.Orchestrator do
     method = Map.get(payload, "method") || Map.get(payload, :method)
 
     if method in ["turn/completed", :turn_completed] do
+      direct_paths = [
+        ["params", "usage"],
+        [:params, :usage],
+        ["params", "turn", "usage"],
+        [:params, :turn, :usage],
+        ["params", "turn", "tokenUsage", "total"],
+        [:params, :turn, :tokenUsage, :total],
+        ["params", "tokenUsage", "total"],
+        [:params, :tokenUsage, :total]
+      ]
+
       direct =
         Map.get(payload, "usage") ||
           Map.get(payload, :usage) ||
-          map_at_path(payload, ["params", "usage"]) ||
-          map_at_path(payload, [:params, :usage])
+          explicit_map_at_paths(payload, direct_paths)
 
       if is_map(direct) and integer_token_map?(direct), do: direct
     end
@@ -2081,6 +2117,20 @@ defmodule SymphonyElixir.Orchestrator do
         "totalTokens",
         :totalTokens
       ])
+
+  defp normalize_token_usage(usage) when is_map(usage) do
+    input = get_token_usage(usage, :input)
+    output = get_token_usage(usage, :output)
+    total = get_token_usage(usage, :total)
+
+    if is_nil(total) and (is_integer(input) or is_integer(output)) do
+      Map.put(usage, :total_tokens, max(input || 0, 0) + max(output || 0, 0))
+    else
+      usage
+    end
+  end
+
+  defp normalize_token_usage(_usage), do: %{}
 
   defp payload_get(payload, fields) when is_list(fields) do
     Enum.find_value(fields, fn field -> map_integer_value(payload, field) end)

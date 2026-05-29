@@ -1,6 +1,7 @@
 ---
 tracker:
   kind: linear
+  endpoint: $LINEAR_API_ENDPOINT
   api_key: $LINEAR_API_KEY
   assignee: $LINEAR_ASSIGNEE
   active_states:

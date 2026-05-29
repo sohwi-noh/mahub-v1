@@ -36,6 +36,10 @@ defmodule SymphonyElixir.Linear.Client do
         assignee {
           id
         }
+        creator {
+          id
+          name
+        }
         labels {
           nodes {
             name
@@ -87,6 +91,10 @@ defmodule SymphonyElixir.Linear.Client do
         }
         assignee {
           id
+        }
+        creator {
+          id
+          name
         }
         labels {
           nodes {
@@ -156,6 +164,10 @@ defmodule SymphonyElixir.Linear.Client do
           url
         }
         assignee {
+          id
+          name
+        }
+        creator {
           id
           name
         }
@@ -789,11 +801,17 @@ defmodule SymphonyElixir.Linear.Client do
   end
 
   defp post_graphql_request(payload, headers) do
-    Req.post(Config.settings!().tracker.endpoint,
-      headers: headers,
-      json: payload,
-      connect_options: [timeout: 30_000]
-    )
+    case Config.settings!().tracker.endpoint do
+      endpoint when is_binary(endpoint) ->
+        Req.post(endpoint,
+          headers: headers,
+          json: payload,
+          connect_options: [timeout: 30_000]
+        )
+
+      _ ->
+        {:error, :missing_linear_api_endpoint}
+    end
   end
 
   defp decode_project_page_response(%{
@@ -880,6 +898,7 @@ defmodule SymphonyElixir.Linear.Client do
 
   defp normalize_issue(issue, assignee_filter) when is_map(issue) do
     assignee = issue["assignee"]
+    creator = issue["creator"]
 
     %Issue{
       id: issue["id"],
@@ -896,6 +915,8 @@ defmodule SymphonyElixir.Linear.Client do
       project_url: get_in(issue, ["project", "url"]),
       assignee_id: assignee_field(assignee, "id"),
       assignee_name: assignee_field(assignee, "name"),
+      creator_id: assignee_field(creator, "id"),
+      creator_name: assignee_field(creator, "name"),
       blocked_by: extract_blockers(issue),
       labels: extract_labels(issue),
       assigned_to_worker: assigned_to_worker?(assignee, assignee_filter),

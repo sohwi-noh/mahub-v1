@@ -10,42 +10,46 @@ fail() {
   exit 1
 }
 
-is_github_ssh_url() {
+is_github_https_url() {
   case "$1" in
-    git@github.com:*|ssh://git@github.com/*) return 0 ;;
+    https://github.com/*) return 0 ;;
     *) return 1 ;;
   esac
 }
 
-require_github_ssh_transport() {
-  if [ -z "${SYMPHONY_TARGET_REPO_URL:-}" ]; then
-    fail "SYMPHONY_TARGET_REPO_URL이 필요합니다. GitHub SSH URL을 .env.local에 설정하세요."
+require_harness_git_transport() {
+  if [ -z "${HARNESS_TARGET_REPO_URL:-}" ]; then
+    fail "HARNESS_TARGET_REPO_URL이 필요합니다. GitHub HTTPS URL을 .env.local에 설정하세요."
   fi
 
-  if ! is_github_ssh_url "$SYMPHONY_TARGET_REPO_URL"; then
-    fail "SYMPHONY_TARGET_REPO_URL은 GitHub SSH URL이어야 합니다: git@github.com:OWNER/REPO.git"
+  if ! is_github_https_url "$HARNESS_TARGET_REPO_URL"; then
+    fail "HARNESS_TARGET_REPO_URL은 GitHub HTTPS URL이어야 합니다: https://github.com/OWNER/REPO.git"
   fi
 
-  if [ -z "${SYMPHONY_GITHUB_SSH_KEY:-}" ]; then
-    fail "SYMPHONY_GITHUB_SSH_KEY가 필요합니다. GitHub SSH private key 경로를 .env.local에 설정하세요."
+  case "$HARNESS_TARGET_REPO_URL" in
+    *@*) fail "HARNESS_TARGET_REPO_URL에 토큰을 넣지 마세요. 토큰은 HARNESS_GITHUB_TOKEN에 둡니다." ;;
+  esac
+
+  if [ -z "${HARNESS_GITHUB_TOKEN:-}" ]; then
+    fail "HARNESS_GITHUB_TOKEN이 필요합니다. GitHub 토큰을 .env.local에 설정하세요."
   fi
 
-  if [ ! -f "$SYMPHONY_GITHUB_SSH_KEY" ]; then
-    fail "SYMPHONY_GITHUB_SSH_KEY 파일을 찾을 수 없습니다: $SYMPHONY_GITHUB_SSH_KEY"
+  if [ ! -x "$ROOT/.open-ai-symphony/custom/lib/git-askpass-harness-token.sh" ]; then
+    fail "Git askpass helper를 실행할 수 없습니다: $ROOT/.open-ai-symphony/custom/lib/git-askpass-harness-token.sh"
   fi
 
   export GIT_TERMINAL_PROMPT=0
-  export GIT_ASKPASS=/usr/bin/false
+  export GIT_ASKPASS="$ROOT/.open-ai-symphony/custom/lib/git-askpass-harness-token.sh"
   export SSH_ASKPASS=/usr/bin/false
   export GCM_INTERACTIVE=never
-  export GIT_SSH_COMMAND="ssh -i $SYMPHONY_GITHUB_SSH_KEY -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+  unset GIT_SSH_COMMAND
 
   export GIT_CONFIG_COUNT=1
   export GIT_CONFIG_KEY_0=credential.helper
   export GIT_CONFIG_VALUE_0=
 }
 
-require_github_ssh_transport
+require_harness_git_transport
 
 issue_identifier() {
   basename "$(pwd -P)"
@@ -60,7 +64,7 @@ issue_branch() {
 }
 
 target_remote_url() {
-  printf '%s\n' "$SYMPHONY_TARGET_REPO_URL"
+  printf '%s\n' "$HARNESS_TARGET_REPO_URL"
 }
 
 link_if_missing() {

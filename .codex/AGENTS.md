@@ -29,7 +29,7 @@ Codex에서 자동 호출되어도 되는 project-local skill surface는
 
 ## MCP Servers
 
-project-local `.codex/config.toml`을 ECC의 기본 Codex baseline으로 봅니다. 현재 ECC baseline은 Context7, Exa, Linear, Memory, Playwright, Sequential Thinking만 켭니다. 더 무거운 MCP는 실제 작업에 필요할 때만 `~/.codex/config.toml`에 둡니다. GitHub MCP는 project-local baseline에 넣지 않습니다. Symphony Git 작업은 connector credential이 아니라 SSH env 설정을 사용합니다.
+project-local `.codex/config.toml`을 ECC의 기본 Codex baseline으로 봅니다. 현재 ECC baseline은 Context7, Exa, Linear, Memory, Playwright, Sequential Thinking만 켭니다. 더 무거운 MCP는 실제 작업에 필요할 때만 `~/.codex/config.toml`에 둡니다. GitHub MCP는 project-local baseline에 넣지 않습니다. 하네스 Git 작업은 connector credential이 아니라 `HARNESS_TARGET_REPO_URL`과 `HARNESS_GITHUB_TOKEN`을 사용합니다.
 
 ECC's canonical Codex section name is `[mcp_servers.context7]`. The launcher package remains `@upstash/context7-mcp`; only the TOML section name is normalized for consistency with `codex mcp list` and the reference config.
 

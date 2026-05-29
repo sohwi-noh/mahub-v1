@@ -41,3 +41,4 @@ npm-debug.log*
 /.codex/history.jsonl
 /.codex/log/
 /.codex/sessions/
+/.codex/rules/

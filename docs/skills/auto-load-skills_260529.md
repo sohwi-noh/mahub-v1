@@ -2,7 +2,7 @@
 
 이 문서는 현재 Codex 세션에서 자동 호출 대상으로 보는 `.codex/skills/*/SKILL.md` 목록입니다.
 
-공식 GitHub 기준은 `https://github.com/affaan-m/ECC`입니다. 표의 자동 실행 적합도와 토큰 위험은 로컬 `SKILL.md` 설명을 기준으로 한 운영 판단입니다.
+공식 GitHub 기준은 `https://github.com/affaan-m/ECC`입니다. 표의 자동 실행 적합도와 토큰 위험은 로컬 `SKILL.md` 설명을 기준으로 한 개발서버 판단입니다.
 
 | 프로젝트 단계 | 스킬명 | 목적 | Symphony 자동 실행 적합 | 토큰 과다 위험 | 로컬 경로 | 공식 GitHub |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -20,11 +20,11 @@
 | 테스트 | eval-harness | 평가 기반 개발과 Claude Code 세션 평가 체계 | 조건부 | 높음 | `.codex/skills/eval-harness/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/eval-harness |
 | 테스트 | verification-loop | 단계별 검증 루프와 검증 리포트 | 적합 | 중간 | `.codex/skills/verification-loop/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/verification-loop |
 | 테스트 | windows-desktop-e2e | Windows 데스크톱 E2E 테스트 패턴 | 조건부 | 높음 | `.codex/skills/windows-desktop-e2e/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/windows-desktop-e2e |
-| 운영 | agent-introspection-debugging | 에이전트 실패 원인 캡처, 진단, 복구 리포트 작성 | 조건부 | 중간 | `.codex/skills/agent-introspection-debugging/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/agent-introspection-debugging |
-| 운영 | configure-ecc | ECC skills/rules 설치와 검증 안내 | 부적합 | 높음 | `.codex/skills/configure-ecc/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/configure-ecc |
-| 운영 | continuous-learning | v1 학습 추출. v2 사용 권장 | 부적합 | 중간 | `.codex/skills/continuous-learning/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/continuous-learning |
-| 운영 | continuous-learning-v2 | 세션 관찰 기반 project-scoped instinct 학습 | 조건부 | 높음 | `.codex/skills/continuous-learning-v2/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/continuous-learning-v2 |
-| 운영 | pr-cancel | PR 닫기, 브랜치 삭제, Linear 동기화 안내 | 조건부 | 낮음 | `.codex/skills/pr-cancel/SKILL.md` | 원본 확인 필요 |
-| 운영 | production-audit | 출시 전/후 production readiness 감사 | 조건부 | 높음 | `.codex/skills/production-audit/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/production-audit |
-| 운영 | skill-stocktake | skill/command 품질 감사와 stocktake | 조건부 | 높음 | `.codex/skills/skill-stocktake/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/skill-stocktake |
-| 운영 | strategic-compact | 긴 작업 중 수동 context compact 제안 | 조건부 | 낮음 | `.codex/skills/strategic-compact/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/strategic-compact |
+| 배포 | configure-ecc | ECC skills/rules 설치와 검증 안내 | 부적합 | 높음 | `.codex/skills/configure-ecc/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/configure-ecc |
+| 배포 | pr-cancel | PR 닫기, 브랜치 삭제, Linear 동기화 안내 | 조건부 | 낮음 | `.codex/skills/pr-cancel/SKILL.md` | 원본 확인 필요 |
+| 배포 | production-audit | 출시 전/후 production readiness 감사 | 조건부 | 높음 | `.codex/skills/production-audit/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/production-audit |
+| 모니터링 | agent-introspection-debugging | 에이전트 실패 원인 캡처, 진단, 복구 리포트 작성 | 조건부 | 중간 | `.codex/skills/agent-introspection-debugging/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/agent-introspection-debugging |
+| 모니터링 | continuous-learning | v1 학습 추출. v2 사용 권장 | 부적합 | 중간 | `.codex/skills/continuous-learning/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/continuous-learning |
+| 모니터링 | continuous-learning-v2 | 세션 관찰 기반 project-scoped instinct 학습 | 조건부 | 높음 | `.codex/skills/continuous-learning-v2/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/continuous-learning-v2 |
+| 모니터링 | skill-stocktake | skill/command 품질 감사와 stocktake | 조건부 | 높음 | `.codex/skills/skill-stocktake/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/skill-stocktake |
+| 모니터링 | strategic-compact | 긴 작업 중 수동 context compact 제안 | 조건부 | 낮음 | `.codex/skills/strategic-compact/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/strategic-compact |

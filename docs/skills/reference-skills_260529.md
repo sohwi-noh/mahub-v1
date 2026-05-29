@@ -25,10 +25,10 @@
 | 테스트 | eval-harness | 평가 기반 개발과 Claude Code 세션 평가 체계 | 조건부 | 높음 | `.codex/.agents/skills/eval-harness/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/eval-harness |
 | 테스트 | tdd-workflow | 기능/버그/리팩터링 TDD 흐름과 커버리지 기준 | 조건부 | 높음 | `.codex/.agents/skills/tdd-workflow/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/tdd-workflow |
 | 테스트 | verification-loop | 단계별 검증 루프와 검증 리포트 | 적합 | 중간 | `.codex/.agents/skills/verification-loop/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/verification-loop |
-| 운영 | agent-introspection-debugging | 에이전트 실패 원인 캡처, 진단, 복구 리포트 작성 | 조건부 | 중간 | `.codex/.agents/skills/agent-introspection-debugging/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/agent-introspection-debugging |
-| 운영 | dmux-workflows | dmux/tmux 기반 다중 에이전트 오케스트레이션 | 조건부 | 높음 | `.codex/.agents/skills/dmux-workflows/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/dmux-workflows |
-| 운영 | everything-claude-code | ECC 저장소 자체 개발 컨벤션 | 부적합 | 중간 | `.codex/.agents/skills/everything-claude-code/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/everything-claude-code |
-| 운영 | strategic-compact | 긴 작업 중 수동 context compact 제안 | 조건부 | 낮음 | `.codex/.agents/skills/strategic-compact/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/strategic-compact |
+| 배포 | dmux-workflows | dmux/tmux 기반 다중 에이전트 오케스트레이션 | 조건부 | 높음 | `.codex/.agents/skills/dmux-workflows/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/dmux-workflows |
+| 배포 | everything-claude-code | ECC 저장소 자체 개발 컨벤션 | 부적합 | 중간 | `.codex/.agents/skills/everything-claude-code/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/everything-claude-code |
+| 모니터링 | agent-introspection-debugging | 에이전트 실패 원인 캡처, 진단, 복구 리포트 작성 | 조건부 | 중간 | `.codex/.agents/skills/agent-introspection-debugging/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/agent-introspection-debugging |
+| 모니터링 | strategic-compact | 긴 작업 중 수동 context compact 제안 | 조건부 | 낮음 | `.codex/.agents/skills/strategic-compact/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/strategic-compact |
 | 문서화 | article-writing | 글, 가이드, 블로그, 뉴스레터 장문 작성 | 조건부 | 높음 | `.codex/.agents/skills/article-writing/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/article-writing |
 | 문서화 | brand-voice | 실제 글/문서에서 브랜드 보이스 프로필 추출 | 조건부 | 높음 | `.codex/.agents/skills/brand-voice/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/brand-voice |
 | 문서화 | content-engine | X, LinkedIn, TikTok, YouTube 등 플랫폼별 콘텐츠 시스템 | 조건부 | 높음 | `.codex/.agents/skills/content-engine/SKILL.md` | https://github.com/affaan-m/ECC/tree/main/skills/content-engine |

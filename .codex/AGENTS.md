@@ -13,34 +13,19 @@ This supplements the root `AGENTS.md` with Codex-specific guidance.
 
 ## Skills Discovery
 
-Skills are auto-loaded from `.agents/skills/`. Each skill contains:
-- `SKILL.md` — Detailed instructions and workflow
-- `agents/openai.yaml` — Codex interface metadata
+Codex에서 자동 호출되어도 되는 project-local skill surface는
+`.codex/skills/`입니다.
 
-Available skills:
-- tdd-workflow — Test-driven development with 80%+ coverage
-- security-review — Comprehensive security checklist
-- coding-standards — Universal coding standards
-- frontend-patterns — React/Next.js patterns
-- frontend-slides — Viewport-safe HTML presentations and PPTX-to-web conversion
-- article-writing — Long-form writing from notes and voice references
-- content-engine — Platform-native social content and repurposing
-- market-research — Source-attributed market and competitor research
-- investor-materials — Decks, memos, models, and one-pagers
-- investor-outreach — Personalized investor outreach and follow-ups
-- backend-patterns — API design, database, caching
-- e2e-testing — Playwright E2E tests
-- eval-harness — Eval-driven development
-- strategic-compact — Context management
-- api-design — REST API design patterns
-- verification-loop — Build, test, lint, typecheck, security
-- deep-research — Multi-source research with firecrawl and exa MCPs
-- exa-search — Neural search via Exa MCP for web, code, and companies
-- claude-api — Anthropic Claude API patterns and SDKs
-- x-api — X/Twitter API integration for posting, threads, and analytics
-- crosspost — Multi-platform content distribution
-- fal-ai-media — AI image/video/audio generation via fal.ai
-- dmux-workflows — Multi-agent orchestration with dmux
+- `.codex/skills/<skill-name>/SKILL.md`: 현재 프로젝트에서 자동 호출 가능한
+  선별 skill입니다.
+- `.codex/.agents/skills/<skill-name>/SKILL.md`: ECC가 들고 온 원본/reference
+  surface입니다. 자동 호출 대상으로 보지 않습니다.
+- `.codex/skills/`에 없는 skill은 먼저 사람 판단으로 필요성을 확인한 뒤,
+  필요한 경우에만 `.codex/.agents/skills/`에서 참조하거나 승격합니다.
+- `.codex/.agents/skills/` 전체를 자동 로드 대상으로 설명하거나 대량
+  승격하지 않습니다.
+- 자동 호출 가능한 skill 목록은 파일 시스템의 `.codex/skills/*/SKILL.md`를
+  기준으로 확인합니다.
 
 ## MCP Servers
 
@@ -86,7 +71,7 @@ Sample role configs in this repo:
 |---------|------------|-----------|
 | Hooks | 8+ event types | Project-local hooks via `.codex/hooks.json` |
 | Context file | CLAUDE.md + AGENTS.md | AGENTS.md only |
-| Skills | Skills loaded via plugin | `.agents/skills/` directory |
+| Skills | Skills loaded via plugin | `.codex/skills/` only; `.codex/.agents/skills/` is reference-only |
 | Commands | `/slash` commands | Instruction-based |
 | Agents | Subagent Task tool | Multi-agent via `/agent` and `[agents.<name>]` roles |
 | Security | Hook-based enforcement | Instruction + sandbox + project-local hooks |

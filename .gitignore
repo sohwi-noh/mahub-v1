@@ -23,6 +23,18 @@ npm-debug.log*
 
 # .codex 디렉터리 자체는 하네스라 공유하지만, 개인 인증/세션/로그 상태는 제외합니다.
 /.codex/ecc-install-state.json
+/.codex/.personality_migration
+/.codex/.tmp/
+/.codex/tmp/
+/.codex/cache/
+/.codex/memories/
+/.codex/shell_snapshots/
+/.codex/installation_id
+/.codex/models_cache.json
+/.codex/version.json
+/.codex/logs_*.sqlite*
+/.codex/state_*.sqlite*
+/.codex/skills/.system/
 /.codex/state/
 /.codex/auth.json
 /.codex/history.jsonl

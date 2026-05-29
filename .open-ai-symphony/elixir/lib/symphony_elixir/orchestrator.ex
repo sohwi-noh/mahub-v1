@@ -7,7 +7,7 @@ defmodule SymphonyElixir.Orchestrator do
   require Logger
   import Bitwise, only: [<<<: 2]
 
-  alias SymphonyElixir.{AgentRunner, ArtifactGate, Config, StatusDashboard, Tracker, Workspace}
+  alias SymphonyElixir.{AgentRunner, ArtifactGate, Config, SessionUsageStore, StatusDashboard, Tracker, Workspace}
   alias SymphonyElixir.Linear.Issue
 
   @continuation_retry_delay_ms 1_000
@@ -126,8 +126,10 @@ defmodule SymphonyElixir.Orchestrator do
 
       issue_id ->
         {running_entry, state} = pop_running_entry(state, issue_id)
-        state = record_session_completion_totals(state, running_entry)
+        completed_at = DateTime.utc_now()
+        state = record_session_completion_totals(state, running_entry, completed_at)
         session_id = running_entry_session_id(running_entry)
+        persist_session_usage(running_entry, reason, completed_at)
 
         state =
           case reason do
@@ -413,7 +415,9 @@ defmodule SymphonyElixir.Orchestrator do
         release_issue_claim(state, issue_id)
 
       %{pid: pid, ref: ref, identifier: identifier} = running_entry ->
-        state = record_session_completion_totals(state, running_entry)
+        completed_at = DateTime.utc_now()
+        state = record_session_completion_totals(state, running_entry, completed_at)
+        persist_session_usage(running_entry, :terminated, completed_at)
         worker_host = Map.get(running_entry, :worker_host)
 
         if cleanup_workspace do
@@ -1739,8 +1743,12 @@ defmodule SymphonyElixir.Orchestrator do
     {Map.get(state.running, issue_id), %{state | running: Map.delete(state.running, issue_id)}}
   end
 
-  defp record_session_completion_totals(state, running_entry) when is_map(running_entry) do
-    runtime_seconds = running_seconds(running_entry.started_at, DateTime.utc_now())
+  defp persist_session_usage(running_entry, reason, completed_at) do
+    SessionUsageStore.persist_completion(running_entry, reason, completed_at)
+  end
+
+  defp record_session_completion_totals(state, running_entry, completed_at) when is_map(running_entry) do
+    runtime_seconds = running_seconds(running_entry.started_at, completed_at)
 
     codex_totals =
       apply_token_delta(
@@ -1756,7 +1764,7 @@ defmodule SymphonyElixir.Orchestrator do
     %{state | codex_totals: codex_totals}
   end
 
-  defp record_session_completion_totals(state, _running_entry), do: state
+  defp record_session_completion_totals(state, _running_entry, _completed_at), do: state
 
   defp refresh_runtime_config(%State{} = state) do
     config = Config.settings!()

@@ -238,7 +238,8 @@ async function fetchIssue(issueId, includeComments) {
   }
 
   const token = process.env.LINEAR_API_KEY;
-  if (!token) {
+  const endpoint = process.env.LINEAR_API_ENDPOINT;
+  if (!token || !endpoint) {
     return null;
   }
 
@@ -266,7 +267,7 @@ async function fetchIssue(issueId, includeComments) {
         }
       }`;
 
-  const response = await fetch("https://api.linear.app/graphql", {
+  const response = await fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

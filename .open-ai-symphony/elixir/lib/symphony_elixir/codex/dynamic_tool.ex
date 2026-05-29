@@ -176,6 +176,14 @@ defmodule SymphonyElixir.Codex.DynamicTool do
     }
   end
 
+  defp tool_error_payload(:missing_linear_api_endpoint) do
+    %{
+      "error" => %{
+        "message" => "Symphony is missing Linear API endpoint. Set `linear.endpoint` in `WORKFLOW.md` or export `LINEAR_API_ENDPOINT`."
+      }
+    }
+  end
+
   defp tool_error_payload({:linear_api_status, status}) do
     %{
       "error" => %{

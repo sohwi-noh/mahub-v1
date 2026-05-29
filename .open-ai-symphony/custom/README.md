@@ -25,6 +25,8 @@ upstream 런타임은 `.open-ai-symphony/elixir`에 둡니다. 이 폴더의 파
 
 Symphony 작업공간의 target repo 위치는 `.env.local`에서 필요할 때만 지정합니다.
 
+- `LINEAR_API_ENDPOINT`: Linear GraphQL API endpoint입니다.
+- `LINEAR_WEB_URL`: 대시보드에서 연결할 Linear workspace URL입니다.
 - `SYMPHONY_TARGET_REPO_URL`: 이슈별 작업공간 안 repo의 remote URL입니다. 비우면 프로젝트 루트의 `origin`을 사용합니다.
 - `SYMPHONY_BRANCH_PREFIX`: 이슈 작업 branch prefix입니다. 기본값은 `codex/`입니다.
 

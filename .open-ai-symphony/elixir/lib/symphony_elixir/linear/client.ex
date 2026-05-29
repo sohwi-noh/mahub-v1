@@ -789,11 +789,17 @@ defmodule SymphonyElixir.Linear.Client do
   end
 
   defp post_graphql_request(payload, headers) do
-    Req.post(Config.settings!().tracker.endpoint,
-      headers: headers,
-      json: payload,
-      connect_options: [timeout: 30_000]
-    )
+    case Config.settings!().tracker.endpoint do
+      endpoint when is_binary(endpoint) ->
+        Req.post(endpoint,
+          headers: headers,
+          json: payload,
+          connect_options: [timeout: 30_000]
+        )
+
+      _ ->
+        {:error, :missing_linear_api_endpoint}
+    end
   end
 
   defp decode_project_page_response(%{

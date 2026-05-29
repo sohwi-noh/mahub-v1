@@ -323,7 +323,7 @@ pre,
   width: 100%;
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
   gap: 0.85rem;
-  margin-top: 1rem;
+  margin-top: 0;
 }
 
 .status-guide-item {
@@ -338,6 +338,13 @@ pre,
   margin: 0;
   font-size: 0.9rem;
   line-height: 1.25;
+}
+
+.status-guide-title a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 .status-guide-copy {

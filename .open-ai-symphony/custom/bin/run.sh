@@ -71,6 +71,16 @@ if [[ -z "${LINEAR_API_KEY:-}" ]]; then
   exit 78
 fi
 
+if [[ -z "${LINEAR_API_ENDPOINT:-}" ]]; then
+  echo "LINEAR_API_ENDPOINT가 필요합니다. .env.local에 넣거나 env 파일을 전달하세요." >&2
+  exit 78
+fi
+
+if [[ -z "${LINEAR_WEB_URL:-}" ]]; then
+  echo "LINEAR_WEB_URL이 필요합니다. .env.local에 넣거나 env 파일을 전달하세요." >&2
+  exit 78
+fi
+
 if [[ "$MODE" == "local" ]]; then
   export LINEAR_ASSIGNEE="${LINEAR_ASSIGNEE:-me}"
 else
